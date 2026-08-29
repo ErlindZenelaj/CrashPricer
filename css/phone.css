@@ -102,14 +102,41 @@
   width: 390px;
   height: 844px;
   transform-origin: top left;
-  transform: scale(var(--k)) translateY(2.2%);
-  opacity: 0;
-  transition: opacity .5s var(--e-soft), transform .7s var(--e-soft);
+  transform: scale(var(--k));
   pointer-events: none;
+
+  /* Screens never cross-fade. Two dense interfaces at half opacity read as a
+     rendering fault, so the incoming screen is fully opaque and wipes down over
+     the outgoing one, which holds at full strength underneath until it is
+     covered and then vanishes behind it. */
+  z-index: 1;
+  clip-path: inset(0 0 100% 0);
+  transition: clip-path 0s linear .45s;
 }
 .scr.is-on {
-  opacity: 1;
-  transform: scale(var(--k));
+  z-index: 2;
+  clip-path: inset(0 0 0 0);
+  transition: clip-path .45s var(--e-soft);
+}
+
+/* The wipe edge is a scan pass — the one gesture this whole product is about. */
+#screens .scr.is-on::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 0;
+  height: 3px;
+  z-index: 40;
+  background: linear-gradient(90deg, rgba(34,197,94,0), #22C55E 22%, #86EFAC 50%, #22C55E 78%, rgba(34,197,94,0));
+  box-shadow: 0 0 20px 4px rgba(34,197,94,.5);
+  animation: scanpass .45s var(--e-soft) forwards;
+  pointer-events: none;
+}
+/* The line rides the last 3px of the revealed band, so it sits just inside the
+   clip edge rather than one pixel past it, where it would be clipped away. */
+@keyframes scanpass {
+  from { transform: translateY(-3px);  opacity: 1; }
+  85%  {                               opacity: 1; }
+  to   { transform: translateY(841px); opacity: 0; }
 }
 
 /* the canvas rendered these as ordinary blocks; keep them inert here */

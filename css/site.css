@@ -713,6 +713,4 @@
   .step { position: relative; inset: auto; opacity: 1; transform: none; }
   .step__l { display: flex; }
   .orbs, .rail { display: none; }
-  .scr { opacity: 0; }
-  .scr.is-on { opacity: 1; }
 }

@@ -91,6 +91,16 @@ moving but never spins. Pointer position adds a shallow parallax on top; deeper
 fragments (higher `--z`) move further. It all runs in a single
 `requestAnimationFrame` loop that stops when the section leaves the viewport.
 
+## Screen transitions
+
+Screens never cross-fade. Two dense interfaces at half opacity read as a
+rendering fault rather than a transition, so the incoming screen is fully opaque
+and wipes down over the outgoing one, which holds at full strength underneath
+until it is covered and then vanishes behind it. A green line rides the wipe
+edge, which turns the seam into the one gesture this product is about — a scan
+pass. Both the clip and the line run 450ms on the same easing, so the line stays
+locked to the edge.
+
 ## Content honesty
 
 - Damage vocabulary, prices, shop names, ratings, dates and the product figures
