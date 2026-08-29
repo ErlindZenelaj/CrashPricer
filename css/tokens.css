@@ -1,74 +1,84 @@
 /* ============================================================
    SnapPrice — design tokens
-   Synthesis of two references:
-   · "Hims App" — calm monochrome canvas, one chromatic voice,
-     long-spread soft shadows, 30–52px radii, spacious rhythm.
-   · "Slush" — oversized crushed display type, pill nav,
-     hairline outlines, alternating section grounds.
-   Colour comes from the SnapPrice app itself (shared/theme/tokens.ts).
+
+   Every value below is lifted from the SnapPrice mockup set
+   (SnapPrice- light.dc.html) so the site and the app are one
+   system: same typeface, same ink, same green, same warm ground.
+
+   Composition takes its cues from two reference systems —
+   "Hims App" (calm canvas, one chromatic voice, long-spread
+   shadows, generous radii) and "Slush" (sculptural display
+   type, pill navigation, hairline rules, alternating grounds).
    ============================================================ */
 :root {
-  /* — ink & canvas — */
-  --ink:        #0E1A2B;
-  --ink-soft:   #13233A;
+  /* — ink — */
+  --ink:        #0E1A2B;  /* primary text, dark surfaces */
+  --ink-soft:   #16263C;
   --ink-deep:   #0A1320;
-  --paper:      #FFFFFF;
-  --canvas:     #F4F5F7;
-  --mist:       #EDEFF3;
-  --raised:     #E7E9ED;
+  --device:     #0A0A0B;  /* the device body in every mockup */
 
   /* — the single chromatic voice — */
-  --green:        #16A34A;
-  --green-bright: #22C55E;
-  --green-deep:   #15803D;
+  --green:        #16A34A;  /* logo mark, icons */
+  --green-bright: #22C55E;  /* primary action fill */
+  --green-deep:   #15803D;  /* green on light, eyebrows */
   --green-pale:   #E7F7EC;
-  --green-line:   #BFE9CC;
+  --green-line:   #D1F0DB;
 
-  /* — supporting semantics (used sparingly, as in the app) — */
-  --amber:      #C2660A;
+  /* — supporting semantics, used exactly as the app uses them — */
+  --amber:      #B45309;
+  --amber-mid:  #F59E0B;
   --amber-pale: #FEF3C7;
-  --amber-line: #FBE3C7;
+
+  /* — surfaces — */
+  --paper:   #FFFFFF;
+  --canvas:  #E7E5DF;  /* the warm ground the mockups are pinned to */
+  --canvas-2:#EFEDE7;
+  --app-bg:  #F4F5F7;  /* the app's own canvas */
+  --mist:    #F1F3F6;
+  --mist-2:  #EFF1F4;
 
   /* — text — */
-  --text:       #0E1A2B;
-  --text-2:     #5B6573;
-  --text-3:     #8A94A3;
-  --text-4:     #9AA4B2;
+  --text:    #0E1A2B;
+  --text-2:  #5B6573;
+  --text-3:  #6B7684;
+  --text-4:  #7C8696;
+  --text-5:  #8A94A2;
 
   /* — lines — */
-  --line:       #E7EAEF;
-  --line-soft:  #F1F3F6;
-  --line-firm:  #D5DAE2;
+  --line:      #D6D3CB;  /* on the warm ground */
+  --line-soft: #E3E8ED;  /* on white */
+  --line-firm: #C9D2DC;
 
-  /* — type — */
-  --sans: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, sans-serif;
-  --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  /* — type — one family, as in the mockups — */
+  --sans: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
 
+  --t-micro:    0.6875rem;   /* 11 — uppercase labels */
   --t-caption:  0.8125rem;   /* 13 */
   --t-body-sm:  0.9375rem;   /* 15 */
-  --t-body:     1.0625rem;   /* 17 */
-  --t-lede:     1.25rem;     /* 20 */
-  --t-h4:       1.375rem;    /* 22 */
+  --t-body:     1rem;        /* 16 — the mockups' body size */
+  --t-lede:     1.1875rem;   /* 19 */
+  --t-h4:       1.375rem;
   --t-h3:       clamp(1.5rem, 1.1rem + 1.1vw, 2rem);
-  --t-h2:       clamp(2.25rem, 1.2rem + 3vw, 3.75rem);
-  --t-h1:       clamp(2.75rem, 1rem + 5.4vw, 6rem);
-  --t-display:  clamp(3.2rem, 0.9rem + 8vw, 8.5rem);
+  --t-h2:       clamp(2rem, 1.2rem + 2.6vw, 3.5rem);
+  --t-h1:       clamp(2.6rem, 1rem + 4vw, 4.5rem);
+  --t-display:  clamp(3rem, 0.8rem + 7.4vw, 8rem);
 
-  /* — shape — */
+  /* — shape — the mockups run 14 / 16 / 22 / 28, pill for actions — */
   --r-sm:   14px;
-  --r-md:   20px;
-  --r-lg:   28px;
-  --r-xl:   40px;
-  --r-2xl:  52px;
+  --r-md:   16px;
+  --r-lg:   22px;
+  --r-xl:   28px;
+  --r-2xl:  40px;
   --r-pill: 999px;
 
-  /* — long-spread elevation (Hims signature) — */
-  --sh-sm:    0 4px 18px -6px rgba(14,26,43,.10);
-  --sh-card:  0 18px 60px -24px rgba(14,26,43,.20);
-  --sh-float: 0 27px 104px -30px rgba(14,26,43,.26);
-  --sh-lift:  0 34px 96px -32px rgba(14,26,43,.30);
-  --sh-phone: 0 80px 160px -50px rgba(10,19,32,.55), 0 30px 70px -30px rgba(10,19,32,.35);
-  --sh-glow:  0 20px 50px -18px rgba(22,163,74,.45);
+  /* — elevation — the app's own shadow ramp, extended for the page — */
+  --sh-xs:    0 4px 12px -6px rgba(13,24,41,.20);
+  --sh-sm:    0 8px 20px -10px rgba(13,24,41,.34);
+  --sh-card:  0 18px 48px -24px rgba(13,24,41,.30);
+  --sh-float: 0 34px 70px -24px rgba(13,24,41,.43);
+  --sh-lift:  0 34px 96px -32px rgba(13,24,41,.42);
+  --sh-phone: 0 70px 140px -46px rgba(13,24,41,.60), 0 34px 70px -24px rgba(13,24,41,.43);
+  --sh-glow:  0 18px 44px -16px rgba(34,197,94,.55);
 
   /* — layout — */
   --wrap:   1280px;

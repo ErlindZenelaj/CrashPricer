@@ -66,24 +66,24 @@
   }, { threshold: 0.6 });
   counters.forEach((el) => cio.observe(el));
 
-  /* ── the in-device price ticks up each time the estimate
-        screen becomes live ─────────────────────────────────── */
-  const estimate = document.querySelector('.scr--est');
-  if (estimate && !reduced.matches) {
-    const odos = [...estimate.querySelectorAll('[data-odo]')];
-    new MutationObserver(() => {
-      if (!estimate.classList.contains('is-on')) return;
-      odos.forEach((el, i) => {
-        const to = Number(el.dataset.odo);
-        const t0 = performance.now() + i * 120;
+  /* ── the estimate fragment re-counts each time it floats in ─ */
+  if (!reduced.matches) {
+    for (const el of document.querySelectorAll('[data-odo]')) {
+      const host = el.closest('.orb');
+      if (!host) continue;
+      const to = Number(el.dataset.odo);
+      const run = () => {
+        const t0 = performance.now();
         const step = (t) => {
-          const k = Math.min(1, Math.max(0, (t - t0) / 1100));
+          const k = Math.min(1, (t - t0) / 1100);
           el.textContent = String(Math.round(to * (1 - Math.pow(1 - k, 4))));
           if (k < 1) requestAnimationFrame(step);
         };
         requestAnimationFrame(step);
-      });
-    }).observe(estimate, { attributes: true, attributeFilter: ['class'] });
+      };
+      new MutationObserver(() => { if (host.classList.contains('is-on')) run(); })
+        .observe(host, { attributes: true, attributeFilter: ['class'] });
+    }
   }
 
   /* ── magnetic buttons ────────────────────────────────────── */

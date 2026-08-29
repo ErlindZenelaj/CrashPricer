@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>SnapPrice — Scan the damage. Know the price.</title>
+<meta name="description" content="Photograph a damaged panel and SnapPrice returns an estimated repair range in euros, then brings repair shops to you with real offers. Scan, estimate, compare, book — from your phone." />
+<meta name="theme-color" content="#E7E5DF" />
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="assets/logo/appicon-256.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/tokens.css" />
+<link rel="stylesheet" href="css/base.css" />
+<link rel="stylesheet" href="css/phone.css" />
+<link rel="stylesheet" href="css/site.css" />
+</head>
+<body>
+
+<a class="skip" href="#how">Skip to content</a>
+
+<!-- ══════════════════ NAV ══════════════════ -->
+<header class="nav" id="nav">
+  <div class="nav__inner">
+    <a class="brand" href="#top" aria-label="SnapPrice home">
+      <span class="brand__mark" aria-hidden="true">
+        <svg viewBox="0 0 96 96" fill="none">
+          <g stroke="#16A34A" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" fill="none">
+            <path d="M12 28 L12 12 L28 12"/><path d="M68 12 L84 12 L84 28"/>
+            <path d="M12 68 L12 84 L28 84"/><path d="M68 84 L84 84 L84 68"/>
+          </g>
+          <line x1="22" y1="48" x2="74" y2="48" stroke="#16A34A" stroke-width="3" stroke-linecap="round" opacity=".4"/>
+          <g transform="translate(19,19) scale(0.91)" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none">
+            <path d="M6 42h-.3c-1.4 0-2.4-1.3-2-2.6l1.6-5c.5-1.6 1.8-2.8 3.5-3.1l4-.7c4.3-4.6 8.8-7 13.8-7.6 5.2-.6 9.8.8 14 4.2l5.4 1c3.4.5 6 1.4 7.8 2.8 1.1.9 1.7 2.2 1.7 3.6v3c0 1.3-1 2.4-2.4 2.4H51"/>
+            <circle cx="18.5" cy="42" r="5.6"/><circle cx="45.5" cy="42" r="5.6"/>
+          </g>
+        </svg>
+      </span>
+      <span class="brand__word">SnapPrice</span>
+    </a>
+
+    <nav class="nav__links" aria-label="Primary">
+      <a href="#how">How it works</a>
+      <a href="#why">For drivers</a>
+      <a href="#shops">For repair shops</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+
+    <div class="nav__actions">
+      <a class="btn btn--ink btn--sm magnetic" href="#get">
+        <span>Get SnapPrice</span>
+        <svg class="arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h9m0 0-3.5-3.5M12 8l-3.5 3.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <button class="nav__burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="mobilemenu">
+        <span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="mobilemenu" id="mobilemenu" hidden>
+  <a href="#how">How it works</a>
+  <a href="#why">For drivers</a>
+  <a href="#shops">For repair shops</a>
+  <a href="#faq">FAQ</a>
+  <a class="btn btn--ink" href="#get"><span>Get SnapPrice</span></a>
+</div>
+
+<main id="top">
+
+<!-- ══════════════════ THE EXPERIENCE ══════════════════ -->
+<section class="experience" id="experience" aria-label="How SnapPrice works">
+  <div class="experience__bg" aria-hidden="true">
+    <span class="aurora aurora--a"></span>
+    <span class="aurora aurora--b"></span>
+    <span class="grid"></span>
+  </div>
+
+  <div class="stage" id="stage">
+
+    <!-- Hero copy -->
+    <div class="hero" id="hero">
+      <p class="eyebrow"><span class="eyebrow__dot"></span>Vehicle body damage, handled from your phone</p>
+      <h1 class="hero__title">
+        <span class="line">Scan the damage.</span>
+        <span class="line line--accent">Know the price.</span>
+      </h1>
+      <p class="hero__sub">
+        Photograph the damaged panel and SnapPrice returns an estimated repair range
+        in euros — then puts your request in front of repair shops nearby.
+      </p>
+      <div class="hero__cta">
+        <a class="btn btn--green magnetic" href="#get">
+          <span>Start a scan</span>
+          <svg class="arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h9m0 0-3.5-3.5M12 8l-3.5 3.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a class="btn btn--ghost magnetic" href="#how">
+          <span class="btn__play" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none"><path d="M4 3l5 3-5 3V3z" fill="currentColor"/></svg></span>
+          <span>See how it works</span>
+        </a>
+      </div>
+      <ul class="herostats">
+        <li><b>~2 min</b><span>per scan</span></li>
+        <li><b>3 photos</b><span>needed</span></li>
+        <li><b>±12%</b><span>accuracy</span></li>
+      </ul>
+      <p class="scrollhint" aria-hidden="true"><span class="scrollhint__bar"></span>Scroll to see it work</p>
+    </div>
+
+    <!-- The device — one instance, five real screens -->
+    <div class="phonestage" id="phonestage">
+      <div class="phone" id="phone">
+        <div class="phone__aura" aria-hidden="true"></div>
+        <div class="phone__body">
+          <span class="phone__side phone__side--power" aria-hidden="true"></span>
+          <span class="phone__side phone__side--up" aria-hidden="true"></span>
+          <span class="phone__side phone__side--down" aria-hidden="true"></span>
+          <div class="phone__bezel">
+            <div class="phone__screen" id="screens">
+              <div class="scr is-on" data-scr="0"><!--SCREEN home-scan-first--></div>
+              <div class="scr" data-scr="1"><!--SCREEN damage-photos--></div>
+              <div class="scr" data-scr="2"><!--SCREEN estimate-result--></div>
+              <div class="scr" data-scr="3"><!--SCREEN offers-list--></div>
+              <div class="scr" data-scr="4"><!--SCREEN offer-accepted--></div>
+            </div>
+            <span class="phone__glare" aria-hidden="true"></span>
+          </div>
+        </div>
+        <span class="phone__floor" aria-hidden="true"></span>
+      </div>
+
+      <!-- Interface fragments lifted out of the device -->
+      <div class="orbs" id="orbs" aria-hidden="true">
+        <div class="orb" data-ch="0" style="--x:-40%;--y:-24%;--z:90px">
+          <span class="orb__ping"></span>
+          <div><p class="orb__k">Last scan</p><p class="orb__v">VW Golf · Front bumper</p></div>
+        </div>
+        <div class="orb" data-ch="0" style="--x:34%;--y:20%;--z:130px">
+          <p class="orb__k">Typical accuracy</p><p class="orb__big orb__big--sm">±12%</p>
+        </div>
+
+        <div class="orb" data-ch="1" style="--x:-42%;--y:-26%;--z:120px">
+          <p class="orb__k">Guided capture</p><p class="orb__v">Step 2 of 4 · Photos</p>
+        </div>
+        <div class="orb" data-ch="1" style="--x:34%;--y:22%;--z:80px">
+          <p class="orb__k">Photo tips</p><p class="orb__v">Keep the damage fully visible</p>
+        </div>
+        <div class="orb" data-ch="1" style="--x:36%;--y:-30%;--z:60px">
+          <p class="orb__v orb__v--green">1 photo is enough to continue</p>
+        </div>
+
+        <div class="orb" data-ch="2" style="--x:-44%;--y:-14%;--z:140px">
+          <p class="orb__k">Estimated repair cost</p>
+          <p class="orb__big">€<span data-odo="195">195</span> – €<span data-odo="391">391</span></p>
+        </div>
+        <div class="orb" data-ch="2" style="--x:34%;--y:24%;--z:80px">
+          <p class="orb__k">Detected damage</p><p class="orb__v">Rear bumper · Crack</p>
+        </div>
+        <div class="orb" data-ch="2" style="--x:36%;--y:-30%;--z:105px">
+          <p class="orb__v">Replace panel + Paint match</p>
+        </div>
+
+        <div class="orb" data-ch="3" style="--x:-47%;--y:-30%;--z:120px">
+          <span class="orb__av orb__av--g">TE</span>
+          <div><p class="orb__v">Test Repair Shop</p><p class="orb__k">★ 4.8 · Prishtina · €385</p></div>
+        </div>
+        <div class="orb" data-ch="3" style="--x:-45%;--y:4%;--z:65px">
+          <span class="orb__av">AU</span>
+          <div><p class="orb__v">Auto Ngjyra</p><p class="orb__k">★ 4.6 · 2 days · €410</p></div>
+        </div>
+        <div class="orb" data-ch="3" style="--x:34%;--y:24%;--z:95px">
+          <span class="orb__av">PR</span>
+          <div><p class="orb__v">Prime Auto</p><p class="orb__k">★ 4.9 · 4 days · €455</p></div>
+        </div>
+
+        <div class="orb" data-ch="4" style="--x:-44%;--y:-20%;--z:125px">
+          <p class="orb__k">Drop off → pick up</p><p class="orb__big orb__big--sm">Thu 20 → Mon 24</p>
+        </div>
+        <div class="orb" data-ch="4" style="--x:34%;--y:14%;--z:85px">
+          <p class="orb__k">Other offers</p><p class="orb__v orb__v--green">Declined automatically</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chapter copy -->
+    <div class="steps" id="steps">
+      <article class="step" data-ch="1">
+        <p class="step__n">01 — Scan</p>
+        <h2 class="step__h">Three photos. That's the whole ask.</h2>
+        <p class="step__p">A guided four-step flow: the vehicle, the photos, the review, the estimate. One clear shot of the damaged panel is enough to continue — three makes the estimate stronger.</p>
+        <ul class="step__l"><li>Vehicle, photos, AI review, estimate</li><li>Tips for the shots that actually matter</li><li>No appointment, no phone calls</li></ul>
+      </article>
+      <article class="step" data-ch="2">
+        <p class="step__n">02 — Estimate</p>
+        <h2 class="step__h">A real number, before you go.</h2>
+        <p class="step__p">An estimated repair range in euros with the detected part, the damage type and severity, whether it needs repair or replacement — and an evidence score that says how much to trust it.</p>
+        <ul class="step__l"><li>Priced against local body and paint rates</li><li>Repair vs. replace, paint match included</li><li>Says so when a shop needs to look</li></ul>
+      </article>
+      <article class="step" data-ch="3">
+        <p class="step__n">03 — Offers</p>
+        <h2 class="step__h">Shops come to you.</h2>
+        <p class="step__p">Publish the request and repair shops nearby reply with real prices, timelines and ratings — grouped per vehicle, cheapest flagged, with the ones still replying shown as they land.</p>
+        <ul class="step__l"><li>Real offers, not lead forms</li><li>Price, rating, city and repair time</li><li>Nothing is committed until you accept</li></ul>
+      </article>
+      <article class="step" data-ch="4">
+        <p class="step__n">04 — Book</p>
+        <h2 class="step__h">Accept one. The rest close themselves.</h2>
+        <p class="step__p">Accepting notifies the shop, declines the other offers automatically, and hands you the drop-off and pick-up dates plus a direct line to the person doing the work.</p>
+        <ul class="step__l"><li>Drop-off and pick-up dates agreed up front</li><li>Call the shop from inside the booking</li><li>A free window to withdraw if plans change</li></ul>
+      </article>
+    </div>
+
+    <ol class="rail" id="rail" aria-hidden="true">
+      <li data-ch="1"><span></span>Scan</li>
+      <li data-ch="2"><span></span>Estimate</li>
+      <li data-ch="3"><span></span>Offers</li>
+      <li data-ch="4"><span></span>Book</li>
+    </ol>
+
+  </div>
+</section>
+
+<!-- ══════════════════ HOW IT WORKS ══════════════════ -->
+<section class="sec sec--paper" id="how">
+  <div class="wrap">
+    <header class="sechead reveal">
+      <p class="kicker">How SnapPrice works</p>
+      <h2 class="sech">Four steps between damage<br />and a booked repair.</h2>
+    </header>
+    <ol class="hows">
+      <li class="how reveal">
+        <p class="how__n">01</p>
+        <h3 class="how__h">Add the vehicle</h3>
+        <p class="how__p">Make, model and year, so the estimate is priced against the right car.</p>
+      </li>
+      <li class="how reveal">
+        <p class="how__n">02</p>
+        <h3 class="how__h">Photograph the damage</h3>
+        <p class="how__p">One clear photo of the panel to continue. Three for a stronger estimate.</p>
+      </li>
+      <li class="how reveal">
+        <p class="how__n">03</p>
+        <h3 class="how__h">Review the estimate</h3>
+        <p class="how__p">Detected part, damage type and severity, with a repair range in euros.</p>
+      </li>
+      <li class="how reveal">
+        <p class="how__n">04</p>
+        <h3 class="how__h">Choose an offer</h3>
+        <p class="how__p">Compare replies from repair shops, accept one, and book the drop-off.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ══════════════════ WHY SNAPPRICE ══════════════════ -->
+<section class="sec" id="why">
+  <div class="wrap">
+    <header class="sechead reveal">
+      <p class="kicker">For drivers</p>
+      <h2 class="sech">Damage is stressful.<br />The <em>process</em> doesn't have to be.</h2>
+    </header>
+
+    <div class="bento">
+      <article class="card card--wide reveal">
+        <div class="card__body">
+          <h3 class="card__h">Know what a repair could cost before you visit a shop.</h3>
+          <p class="card__p">An estimated range in euros, generated from your own photos and priced against local body and paint rates — with an evidence score that tells you how much to trust it.</p>
+        </div>
+        <div class="card__viz card__viz--price" aria-hidden="true">
+          <p class="lbl">Estimated repair cost</p>
+          <p class="vizprice">€<span data-count="195">0</span> <em>– €<span data-count="391">0</span></em></p>
+          <span class="vizbar"><i></i></span>
+          <p class="vizfoot">Rear bumper · Crack · Medium</p>
+        </div>
+      </article>
+
+      <article class="card reveal">
+        <span class="card__ico" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h11M4 12h7M4 17h13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="19" cy="7" r="2" stroke="currentColor" stroke-width="1.8"/></svg>
+        </span>
+        <h3 class="card__h card__h--sm">Compare offers side by side</h3>
+        <p class="card__p">Price, rating, city and repair time in one list, grouped per vehicle with the cheapest flagged.</p>
+      </article>
+
+      <article class="card reveal">
+        <span class="card__ico" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.8"/><path d="M12 7.5V12l3 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <h3 class="card__h card__h--sm">About two minutes of your time</h3>
+        <p class="card__p">One request, sent once. Shops answer you — you don't drive around town collecting quotes.</p>
+      </article>
+
+      <article class="card card--dark reveal">
+        <span class="card__ico" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 3.5 19.5 7v5.2c0 4.2-3 7-7.5 8.3-4.5-1.3-7.5-4.1-7.5-8.3V7L12 3.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 12.2l2.2 2.2L15.4 10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <h3 class="card__h card__h--sm">No more uncertainty</h3>
+        <p class="card__p">You walk in already knowing the part, the damage type, the severity and a fair range.</p>
+      </article>
+
+      <article class="card reveal">
+        <span class="card__ico" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><rect x="7" y="2.5" width="10" height="19" rx="3" stroke="currentColor" stroke-width="1.8"/><path d="M10.8 18.4h2.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </span>
+        <h3 class="card__h card__h--sm">Everything on your phone</h3>
+        <p class="card__p">Scan, estimate, offers, booking, drop-off and pick-up — one thread from start to finish.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ FOR REPAIR SHOPS ══════════════════ -->
+<section class="sec sec--ink" id="shops">
+  <div class="wrap">
+    <div class="shops">
+      <div class="shops__copy reveal">
+        <p class="kicker kicker--light">For repair shops</p>
+        <h2 class="sech sech--light">Damage requests,<br />already qualified.</h2>
+        <p class="lede">Shops on SnapPrice see damage cases from drivers in their coverage area — photos, detected part and severity attached — and reply with a single offer: price, repair time, drop-off. No cold leads, no scoping over the phone.</p>
+        <ul class="ticks">
+          <li>Set your coverage area and get only relevant requests</li>
+          <li>See the photos, the detected part and the severity up front</li>
+          <li>Send one clear offer and track it through to pick-up</li>
+          <li>Accepted work arrives with the owner's contact attached</li>
+        </ul>
+        <a class="btn btn--green magnetic" href="#get">
+          <span>Join as a repair shop</span>
+          <svg class="arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h9m0 0-3.5-3.5M12 8l-3.5 3.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+
+      <div class="shops__viz reveal" aria-hidden="true">
+        <div class="phone phone--shop">
+          <div class="phone__aura"></div>
+          <div class="phone__body">
+            <div class="phone__bezel">
+              <div class="phone__screen">
+                <div class="scr is-on"><!--SCREEN make-an-offer--></div>
+              </div>
+              <span class="phone__glare"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ COVERAGE ══════════════════ -->
+<section class="sec sec--paper" id="proof">
+  <div class="wrap">
+    <header class="sechead reveal">
+      <p class="kicker">Coverage</p>
+      <h2 class="sech">Built for Kosovo first.</h2>
+    </header>
+
+    <div class="stats reveal">
+      <div class="stat"><p class="stat__v">~<span data-count="2">0</span> min</p><p class="stat__k">A scan, start to estimate</p></div>
+      <div class="stat"><p class="stat__v"><span data-count="3">0</span> photos</p><p class="stat__k">All the app asks you for</p></div>
+      <div class="stat"><p class="stat__v">±<span data-count="12">0</span>%</p><p class="stat__k">Typical estimate accuracy</p></div>
+      <div class="stat stat--accent"><p class="stat__v"><span data-count="22">0</span></p><p class="stat__k">Municipalities supported</p></div>
+    </div>
+    <p class="stats__note reveal">Scan volume, partner counts and review scores publish once the numbers are real.</p>
+
+    <div class="marquee reveal" aria-label="Supported municipalities">
+      <div class="marquee__track">
+        <span>Deçan</span><span>Dragash</span><span>Ferizaj</span><span>Fushë Kosovë</span><span>Gjakovë</span><span>Gjilan</span><span>Graçanicë</span><span>Istog</span><span>Kaçanik</span><span>Klinë</span><span>Lipjan</span><span>Malishevë</span><span>Mitrovicë</span><span>Pejë</span><span>Podujevë</span><span>Prishtinë</span><span>Prizren</span><span>Rahovec</span><span>Skenderaj</span><span>Suharekë</span><span>Viti</span><span>Vushtrri</span>
+        <span aria-hidden="true">Deçan</span><span aria-hidden="true">Dragash</span><span aria-hidden="true">Ferizaj</span><span aria-hidden="true">Fushë Kosovë</span><span aria-hidden="true">Gjakovë</span><span aria-hidden="true">Gjilan</span><span aria-hidden="true">Graçanicë</span><span aria-hidden="true">Istog</span><span aria-hidden="true">Kaçanik</span><span aria-hidden="true">Klinë</span><span aria-hidden="true">Lipjan</span><span aria-hidden="true">Malishevë</span><span aria-hidden="true">Mitrovicë</span><span aria-hidden="true">Pejë</span><span aria-hidden="true">Podujevë</span><span aria-hidden="true">Prishtinë</span><span aria-hidden="true">Prizren</span><span aria-hidden="true">Rahovec</span><span aria-hidden="true">Skenderaj</span><span aria-hidden="true">Suharekë</span><span aria-hidden="true">Viti</span><span aria-hidden="true">Vushtrri</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ FAQ ══════════════════ -->
+<section class="sec" id="faq">
+  <div class="wrap wrap--narrow">
+    <header class="sechead reveal">
+      <p class="kicker">FAQ</p>
+      <h2 class="sech">Questions, answered.</h2>
+    </header>
+    <div class="faq">
+      <details class="qa reveal" open>
+        <summary>What exactly does SnapPrice estimate?<span class="qa__x" aria-hidden="true"></span></summary>
+        <p>Visible bodywork damage. From your photos it identifies the affected panel, the damage type and the severity, then returns an estimated repair range in euros — including whether the panel is likely to be repaired or replaced, and whether paint needs matching.</p>
+      </details>
+      <details class="qa reveal">
+        <summary>Where do the prices come from?<span class="qa__x" aria-hidden="true"></span></summary>
+        <p>Rates from local auto body and paint shops, not a generic table. The estimate screen names the pricing source it used so you can see what the range is based on.</p>
+      </details>
+      <details class="qa reveal">
+        <summary>Is the estimate a final price?<span class="qa__x" aria-hidden="true"></span></summary>
+        <p>No. It is a range with an evidence score attached, and it can change after clearer photos or a shop inspection. The binding numbers are the offers repair shops send you afterwards.</p>
+      </details>
+      <details class="qa reveal">
+        <summary>How do repair shops see my request?<span class="qa__x" aria-hidden="true"></span></summary>
+        <p>Only when you publish it. Shops whose coverage area includes your location receive the case with the photos and the detected damage, and can reply with an offer. Most reply within a few hours.</p>
+      </details>
+      <details class="qa reveal">
+        <summary>What happens to the offers I don't take?<span class="qa__x" aria-hidden="true"></span></summary>
+        <p>Accepting one offer notifies that shop and declines the others automatically — you don't have to turn anyone down yourself. Until you accept, nothing is committed, and there is a free window to withdraw a booking afterwards.</p>
+      </details>
+      <details class="qa reveal">
+        <summary>Where does SnapPrice work?<span class="qa__x" aria-hidden="true"></span></summary>
+        <p>Across all 22 municipalities in Kosovo at launch, with estimates priced in euros. More regions follow.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ FINAL CTA ══════════════════ -->
+<section class="sec sec--final" id="get">
+  <div class="finalbg" aria-hidden="true"><span class="aurora aurora--c"></span><span class="grid grid--dark"></span></div>
+  <div class="wrap final">
+    <h2 class="final__h reveal"><span>Your repair</span><span>starts with a <em>scan</em>.</span></h2>
+    <p class="final__p reveal">Download SnapPrice, photograph the damage, and know what you're dealing with before anyone quotes you a number.</p>
+    <div class="final__cta reveal">
+      <a class="btn btn--green btn--lg magnetic" href="#top">
+        <span>Get started</span>
+        <svg class="arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h9m0 0-3.5-3.5M12 8l-3.5 3.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a class="btn btn--glass btn--lg magnetic" href="#how"><span>See how it works</span></a>
+    </div>
+    <div class="stores stores--light reveal">
+      <a class="store" href="#get">
+        <svg class="store__ico" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
+        <span><small>Download on the</small>App Store</span>
+      </a>
+      <a class="store" href="#get">
+        <svg class="store__ico" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 3.2v17.6c0 .6.65.98 1.17.68l14.2-8.8a.8.8 0 0 0 0-1.36L5.17 2.52A.8.8 0 0 0 4 3.2Z" fill="currentColor"/></svg>
+        <span><small>Get it on</small>Google Play</span>
+      </a>
+    </div>
+
+    <div class="final__phone reveal" aria-hidden="true">
+      <div class="phone phone--static">
+        <div class="phone__body">
+          <div class="phone__bezel">
+            <div class="phone__screen">
+              <div class="scr is-on"><!--SCREEN home-scan-first--></div>
+            </div>
+            <span class="phone__glare"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap foot__inner">
+    <div class="foot__brand">
+      <a class="brand brand--foot" href="#top">
+        <span class="brand__mark" aria-hidden="true">
+          <svg viewBox="0 0 96 96" fill="none">
+            <g stroke="#22C55E" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" fill="none">
+              <path d="M12 28 L12 12 L28 12"/><path d="M68 12 L84 12 L84 28"/>
+              <path d="M12 68 L12 84 L28 84"/><path d="M68 84 L84 84 L84 68"/>
+            </g>
+            <line x1="22" y1="48" x2="74" y2="48" stroke="#22C55E" stroke-width="3" stroke-linecap="round" opacity=".4"/>
+            <g transform="translate(19,19) scale(0.91)" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none">
+              <path d="M6 42h-.3c-1.4 0-2.4-1.3-2-2.6l1.6-5c.5-1.6 1.8-2.8 3.5-3.1l4-.7c4.3-4.6 8.8-7 13.8-7.6 5.2-.6 9.8.8 14 4.2l5.4 1c3.4.5 6 1.4 7.8 2.8 1.1.9 1.7 2.2 1.7 3.6v3c0 1.3-1 2.4-2.4 2.4H51"/>
+              <circle cx="18.5" cy="42" r="5.6"/><circle cx="45.5" cy="42" r="5.6"/>
+            </g>
+          </svg>
+        </span>
+        <span class="brand__word">SnapPrice</span>
+      </a>
+      <p class="foot__tag">Point. Scan. Get the price.</p>
+    </div>
+    <nav class="foot__cols" aria-label="Footer">
+      <div><p class="foot__k">Product</p><a href="#how">How it works</a><a href="#why">For drivers</a><a href="#get">Download</a></div>
+      <div><p class="foot__k">Business</p><a href="#shops">For repair shops</a><a href="#proof">Coverage</a></div>
+      <div><p class="foot__k">Company</p><a href="#faq">FAQ</a><a href="#top">Privacy</a><a href="#top">Terms</a></div>
+    </nav>
+  </div>
+  <div class="wrap foot__bar">
+    <p>© <span id="yr">2026</span> SnapPrice</p>
+    <p>Prishtinë, Kosovo</p>
+  </div>
+</footer>
+
+<script src="js/experience.js" defer></script>
+<script src="js/site.js" defer></script>
+</body>
+</html>
