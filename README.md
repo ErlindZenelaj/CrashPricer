@@ -89,6 +89,19 @@ js/site.js            nav, reveals, counters, magnetic buttons, FAQ
 assets/logo/          the SnapPrice mark and app icon
 ```
 
+## How it works
+
+That section is built out of the app's parts rather than described in prose.
+The four steps sit on the same 7px progress rail the scan flow draws across its
+own screens — it fills left to right as the section reveals, with a node at each
+step — and each card carries the component that step actually produces: the city
+field, the photo tray with its three ticks, the dark cost card, an offer row.
+The tokens are the mockups' own, so it reads as the product rather than as
+marketing furniture.
+
+The rail and its nodes drop away below 1180px, where two columns and two rows
+make a single left-to-right line meaningless.
+
 ## Design system
 
 The page uses the app's own system rather than a parallel one:

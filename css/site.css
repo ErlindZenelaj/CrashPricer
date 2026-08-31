@@ -354,19 +354,183 @@
   box-shadow: 0 0 0 4px rgba(34,197,94,.18);
 }
 
-/* ══════════ HOW IT WORKS ══════════ */
-.hows { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--line-soft); }
-.how { padding: 34px 28px 44px 0; border-right: 1px solid var(--line-soft); position: relative; }
-.how:last-child { border-right: 0; }
-.how::before {
-  content: ""; position: absolute; top: -1px; left: 0;
-  width: 0; height: 2px; background: var(--green);
-  transition: width .8s var(--e-out);
+/* ══════════ HOW IT WORKS ══════════
+   Built out of the app's own parts rather than described in prose: the four
+   steps sit on the same progress rail the app draws across its scan flow, and
+   each carries the component that step actually produces — the city field, the
+   photo tray, the cost card, an offer row. Same tokens as the mockups.        */
+.flow {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(14px, 1.6vw, 24px);
+  padding-top: 44px;
 }
-.how.is-in::before { width: calc(100% - 28px); }
-.how__n { font-size: .75rem; font-weight: 800; letter-spacing: .12em; color: var(--green-deep); }
-.how__h { margin-top: 20px; font-size: var(--t-h4); letter-spacing: -0.03em; }
-.how__p { margin-top: 10px; font-size: var(--t-body-sm); color: var(--text-3); max-width: 30ch; }
+/* the rail — the app's 7px progress bar, run across the section */
+.flow::before,
+.flow::after {
+  content: "";
+  position: absolute;
+  top: 8px;
+  left: 0;
+  height: 7px;
+  border-radius: var(--r-pill);
+}
+.flow::before { right: 0; background: var(--mist-2); }
+.flow::after {
+  width: 0;
+  background: var(--green-bright);
+  transition: width 1.7s .25s var(--e-out);
+}
+.flow:has(.flowstep.is-in)::after { width: 100%; }
+
+.flowstep { position: relative; }
+.flowstep__node {
+  position: absolute;
+  top: -44px;
+  left: 0;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: var(--paper);
+  box-shadow: 0 0 0 4px var(--paper), inset 0 0 0 4px var(--line-firm);
+  transition: box-shadow .6s var(--e-out);
+  transition-delay: calc(var(--d, 0ms) + 400ms);
+}
+.flowstep.is-in .flowstep__node { box-shadow: 0 0 0 4px var(--paper), inset 0 0 0 4px var(--green-bright); }
+
+/* the component this step produces */
+.flowstep__viz {
+  height: 158px;
+  padding: 18px;
+  border-radius: var(--r-lg);
+  background: var(--app-bg);
+  border: 1px solid var(--line-soft);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  overflow: hidden;
+  transition: transform .55s var(--e-out), box-shadow .55s var(--e-out);
+}
+.flowstep:hover .flowstep__viz { transform: translateY(-5px); box-shadow: var(--sh-card); }
+
+.flowstep__n {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 22px;
+  font-size: .75rem;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--text-4);
+}
+.flowstep__n b { color: var(--green-deep); }
+.flowstep__h { margin-top: 12px; font-size: var(--t-h4); letter-spacing: -0.03em; }
+.flowstep__p { margin-top: 10px; font-size: var(--t-body-sm); color: var(--text-3); max-width: 30ch; }
+
+/* ── the fragments, styled exactly as the app draws them ── */
+.fg { font-size: 13px; }
+
+.fg--form { display: flex; flex-direction: column; gap: 10px; }
+.fg__field {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 46px; padding: 0 13px;
+  border-radius: 12px;
+  background: var(--paper);
+  border: 1px solid var(--mist-2);
+  box-shadow: 0 4px 14px -12px rgba(13,24,41,.26);
+  font-weight: 700; color: var(--ink);
+}
+.fg__field--empty { color: #9AA4B2; font-weight: 600; }
+.fg__city { display: inline-flex; align-items: center; gap: 9px; }
+.fg__flag {
+  display: grid; place-items: center;
+  width: 24px; height: 24px; border-radius: 50%;
+  background: #DC2626; color: #fff;
+  font-size: 9.5px; font-weight: 800; font-style: normal;
+}
+.fg__chev {
+  width: 8px; height: 8px; flex: none;
+  border-right: 2px solid var(--text-4);
+  border-bottom: 2px solid var(--text-4);
+  transform: rotate(45deg) translate(-2px, -2px);
+}
+
+.fg--thumbs { display: flex; align-items: center; gap: 10px; }
+.fg__thumb {
+  position: relative;
+  width: 52px; height: 52px;
+  border-radius: 11px;
+  background: linear-gradient(150deg, #D8DEE6, #B9C3CE);
+}
+.fg__thumb::after {
+  content: "";
+  position: absolute; top: -5px; right: -5px;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--green-bright);
+  border: 2px solid var(--app-bg);
+  background-image:
+    linear-gradient(45deg, transparent 45%, #fff 45% 55%, transparent 55%),
+    linear-gradient(-45deg, transparent 45%, #fff 45% 55%, transparent 55%);
+  background-size: 4px 2px, 7px 2px;
+  background-position: 4px 10px, 7px 9px;
+  background-repeat: no-repeat;
+}
+.fg__count { margin-left: 2px; font-size: 15px; font-weight: 800; letter-spacing: -.01em; }
+
+.fg--cost {
+  margin: -4px 0;
+  padding: 16px;
+  border-radius: 16px;
+  background: linear-gradient(150deg, #13233A, #0C1626);
+  color: #fff;
+}
+.fg__lbl {
+  font-size: 9.5px; font-weight: 700; letter-spacing: .13em;
+  text-transform: uppercase; color: var(--text-3);
+}
+.fg__price { margin-top: 5px; font-size: 27px; font-weight: 800; letter-spacing: -.03em; line-height: 1; }
+.fg__price em { font-size: 15px; font-weight: 700; color: var(--text-3); margin-left: 5px; }
+.fg__bar {
+  display: block; height: 5px; margin-top: 14px;
+  border-radius: var(--r-pill);
+  background: rgba(255,255,255,.12);
+  overflow: hidden;
+}
+.fg__bar i {
+  display: block; height: 100%; width: 0;
+  border-radius: inherit; background: var(--green-bright);
+  transition: width 1.5s .5s var(--e-out);
+}
+.flowstep.is-in .fg__bar i { width: 90%; }
+.fg__evidence {
+  display: flex; justify-content: space-between;
+  margin-top: 9px; font-size: 11px; font-weight: 700; color: var(--text-3);
+}
+.fg__evidence b { color: #4ADE80; }
+
+.fg--offer {
+  display: flex; align-items: center; gap: 10px;
+  padding: 11px 13px;
+  border-radius: 16px;
+  background: var(--paper);
+  box-shadow: 0 8px 22px -18px rgba(13,24,41,.28);
+}
+.fg--offer2 { opacity: .55; }
+.fg__av {
+  display: grid; place-items: center; flex: none;
+  width: 34px; height: 34px; border-radius: 11px;
+  background: var(--mist); color: var(--text-3);
+  font-size: 11px; font-weight: 800;
+}
+.fg__who { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.fg__who b { font-size: 13px; font-weight: 700; letter-spacing: -.01em; }
+.fg__who small { font-size: 10.5px; color: var(--text-3); }
+.fg__amt { font-size: 15px; font-weight: 800; letter-spacing: -.025em; }
+/* a disclosure arrow, not a select — it points into the offer */
+.fg--offer .fg__chev { transform: rotate(-45deg) translate(-2px, 2px); }
 
 /* ══════════ BENTO ══════════ */
 .bento { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(14px, 1.4vw, 20px); }
@@ -616,9 +780,10 @@
 @media (max-width: 1180px) {
   .orbs, .rail { display: none; }
   .stage { grid-template-columns: minmax(0, 50fr) minmax(0, 50fr); }
-  .hows { grid-template-columns: repeat(2, minmax(0,1fr)); }
-  .how:nth-child(2) { border-right: 0; }
-  .how:nth-child(3), .how:nth-child(4) { border-top: 1px solid var(--line-soft); }
+  .flow { grid-template-columns: repeat(2, minmax(0,1fr)); row-gap: 44px; }
+  .flow::before, .flow::after { display: none; }
+  .flowstep__node { display: none; }
+  .flow { padding-top: 0; }
 }
 
 @media (max-width: 1024px) {
@@ -673,10 +838,8 @@
   .step__p { font-size: var(--t-body-sm); max-width: 46ch; }
   .step__l { display: none; }
 
-  .hows { grid-template-columns: minmax(0,1fr); }
-  .how { padding-right: 0; border-right: 0; border-top: 1px solid var(--line-soft); }
-  .how:first-child { border-top: 0; }
-  .how.is-in::before { width: 100%; }
+  .flow { grid-template-columns: minmax(0,1fr); row-gap: 36px; }
+  .flowstep__viz { height: 138px; }
 
   .bento { grid-template-columns: minmax(0,1fr); }
   .card--wide { grid-column: span 1; }
