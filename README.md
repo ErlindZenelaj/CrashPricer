@@ -174,7 +174,10 @@ locked to the edge.
 - Damage vocabulary, prices, shop names, ratings, dates and the product figures
   (`~2 min`, `3 photos`, `±12%`) all come from the mockups and the app's own
   constants. Nothing on the page is invented.
-- The 22 supported municipalities are the real list from `constants/kosovoCities.ts`.
+- The coverage figures come from the app's own constants: `15` body panels the
+  estimator prices, from `constants/damageParts.ts`, and the municipality list
+  from `constants/kosovoCities.ts`. Re-count them there before changing the
+  number — the parts list grows (Roof was added after the first pass).
 - Scan volume, partner counts and review scores are deliberately absent, with a
   line saying they publish when the numbers are real. Add them then — don't
   invent them now.
