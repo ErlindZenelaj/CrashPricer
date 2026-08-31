@@ -40,6 +40,19 @@ SCREENS = {
     "make-an-offer":   "Make an offer",
 }
 
+# The offers artboard ships with one test account repeated for every offer, so
+# the page would advertise a person three times over. Substituted here rather
+# than in index.html so the change survives regeneration. Each needle is
+# replaced occurrence by occurrence, in order. Delete an entry once the canvas
+# itself carries real partner names.
+CONTENT_OVERRIDES = {
+    "offers-list": [
+        ("Erlind Zenelaj", ["Auto Ngjyra", "Prime Auto", "Naseri Auto"]),
+        (">EZ<", [">AN<", ">PA<", ">NA<"]),
+        ("3 offers from 1 shop", ["3 offers from 3 shops"]),
+    ],
+}
+
 ASSET_DIR = os.path.join(ROOT, "assets", "screens")
 DIV = re.compile(r"<(/?)div\b", re.I)
 IMG = re.compile(r"<img\b[^>]*?>(?:\s*</img>)?", re.I)
@@ -140,6 +153,22 @@ def clean(html, font, canvas_dir):
     return html
 
 
+def apply_overrides(name, html):
+    """Swap canvas test data for something presentable, one occurrence at a
+    time. A count mismatch means the artboard changed — say so rather than
+    silently leaving the old content in place."""
+    for needle, replacements in CONTENT_OVERRIDES.get(name, []):
+        found = html.count(needle)
+        if found != len(replacements):
+            print("  ! %s: expected %d x %r, found %d — check the override"
+                  % (name, len(replacements), needle, found))
+        for value in replacements:
+            if needle not in html:
+                break
+            html = html.replace(needle, value, 1)
+    return html
+
+
 def main():
     paths = sys.argv[1:] or CANVASES
     canvases = []
@@ -165,6 +194,7 @@ def main():
             found = artboard(canvas, label)
             if found:
                 html, font = found
+                html = apply_overrides(name, html)
                 page = page.replace(marker, clean(html, font, os.path.dirname(path)))
                 print("  %-16s %-26s %6d bytes  %s%s"
                       % (name, label, len(html), os.path.basename(path),

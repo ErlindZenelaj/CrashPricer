@@ -33,6 +33,20 @@ the matching artboard, and writes `index.html`. **Edit the template, never the
 generated screen markup in `index.html`.** Pass canvas paths as arguments to read
 different files.
 
+### Canvas test data
+
+The offers artboard ships with one test account (`Erlind Zenelaj`) repeated for
+every offer, which would put a person's name on the page three times. The
+embedder substitutes three shop names and their avatar initials, and corrects
+the "from 1 shop" subtitle to match. That lives in `CONTENT_OVERRIDES` in
+`tools/embed-screens.py` rather than in `index.html`, so it survives
+regeneration; each needle is replaced occurrence by occurrence and a count
+mismatch is reported rather than silently ignored. Delete an entry once the
+canvas itself carries real partner names.
+
+The two `No offers yet` empty states on that screen are left as designed — they
+are honest about how the list behaves while shops are still replying.
+
 ### Missing canvas assets
 
 The core-flow canvas references five images that live in the design tool's asset
