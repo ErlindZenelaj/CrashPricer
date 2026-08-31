@@ -432,7 +432,7 @@
   background: linear-gradient(90deg, var(--green), var(--green-bright));
   transition: width 1.6s .3s var(--e-out);
 }
-.reveal.is-in .vizbar i { width: 78%; }
+.reveal.is-in .vizbar i { width: 90%; }
 .vizfoot { margin-top: 12px; font-size: .75rem; color: rgba(255,255,255,.55); }
 
 /* ══════════ FOR REPAIR SHOPS ══════════ */

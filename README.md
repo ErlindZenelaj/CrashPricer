@@ -10,24 +10,44 @@ booked. One continuous story rather than a stack of sections.
 
 ## The screens are the real screens
 
-Everything shown inside the device is lifted from the SnapPrice design canvas
-(`SnapPrice- light.dc.html`), embedded at its native 390 × 844 and scaled by
-CSS. It is not a re-drawing of the app — it *is* the app's artboards, with the
-canvas's own conditional markup stripped out.
+Everything shown inside the device is lifted from the SnapPrice design canvases,
+embedded at its native 390 × 844 and scaled by CSS. It is not a re-drawing of the
+app — it *is* the artboards, with the canvas's own conditional markup stripped out.
+
+Two canvases are read, in order. A screen is taken from the first one that has
+it, so the focused core-flow set wins over the older full set:
+
+1. `SnapPrice - Core Flow.dc.html` — Home, Vehicle details, Damage photos,
+   Estimate result, Offers list. These are the current screens.
+2. `SnapPrice- light.dc.html` — Make an offer, for the repair-shop section.
+   Nothing else is taken from here.
 
 Regenerate after the mockups change:
 
 ```bash
-python3 tools/embed-screens.py "~/Downloads/SnapPrice- light.dc.html"
+python3 tools/embed-screens.py
 ```
 
 That reads `index.template.html`, replaces each `<!--SCREEN name-->` marker with
 the matching artboard, and writes `index.html`. **Edit the template, never the
-generated screen markup in `index.html`.**
+generated screen markup in `index.html`.** Pass canvas paths as arguments to read
+different files.
 
-Screens in use: `Home scan first`, `Damage photos`, `Estimate result`,
-`Offers list`, `Offer accepted` (the story) and `Make an offer` (the repair-shop
-section).
+### Missing canvas assets
+
+The core-flow canvas references five images that live in the design tool's asset
+store rather than next to the file:
+
+```
+assets/tabbar-home.png     assets/damage-1.png
+assets/tabbar-offers.png   assets/damage-2.png
+                           assets/damage-3.png
+```
+
+Until they are supplied the embedder stands in for them: the glass tab bars are
+dropped, and the damage thumbnails become neutral fills at the same size, so no
+screen renders with a broken-image box. Drop the real files beside the
+`.dc.html` and re-run to pick them up — no other change needed.
 
 ## Running it
 
@@ -84,8 +104,8 @@ Neither is copied: the palette and components come from SnapPrice.
 scroll position → p (0…1) → chapter index + device attitude
 ```
 
-Chapter 0 is the app home, shown while the hero copy is up. Chapters 1–4 are the
-journey. Device rotation is keyframed per screen and interpolated between
+Chapter 0 is the app home, shown while the hero copy is up. Chapters 1–4 follow
+the app's own request order: vehicle, photos, estimate, offers. Device rotation is keyframed per screen and interpolated between
 anchors placed at each screen's midpoint in the scroll, so the device is always
 moving but never spins. Pointer position adds a shallow parallax on top; deeper
 fragments (higher `--z`) move further. It all runs in a single

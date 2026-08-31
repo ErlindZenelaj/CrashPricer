@@ -10,7 +10,7 @@
 <link rel="apple-touch-icon" href="assets/logo/appicon-256.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="css/tokens.css" />
 <link rel="stylesheet" href="css/base.css" />
 <link rel="stylesheet" href="css/phone.css" />
@@ -102,7 +102,7 @@
       </div>
       <ul class="herostats">
         <li><b>~2 min</b><span>per scan</span></li>
-        <li><b>3 photos</b><span>needed</span></li>
+        <li><b>2–3 photos</b><span>needed</span></li>
         <li><b>±12%</b><span>accuracy</span></li>
       </ul>
       <p class="scrollhint" aria-hidden="true"><span class="scrollhint__bar"></span>Scroll to see it work</p>
@@ -119,10 +119,10 @@
           <div class="phone__bezel">
             <div class="phone__screen" id="screens">
               <div class="scr is-on" data-scr="0"><!--SCREEN home-scan-first--></div>
-              <div class="scr" data-scr="1"><!--SCREEN damage-photos--></div>
-              <div class="scr" data-scr="2"><!--SCREEN estimate-result--></div>
-              <div class="scr" data-scr="3"><!--SCREEN offers-list--></div>
-              <div class="scr" data-scr="4"><!--SCREEN offer-accepted--></div>
+              <div class="scr" data-scr="1"><!--SCREEN vehicle-details--></div>
+              <div class="scr" data-scr="2"><!--SCREEN damage-photos--></div>
+              <div class="scr" data-scr="3"><!--SCREEN estimate-result--></div>
+              <div class="scr" data-scr="4"><!--SCREEN offers-list--></div>
             </div>
             <span class="phone__glare" aria-hidden="true"></span>
           </div>
@@ -141,44 +141,44 @@
         </div>
 
         <div class="orb" data-ch="1" style="--x:-42%;--y:-26%;--z:120px">
-          <p class="orb__k">Guided capture</p><p class="orb__v">Step 2 of 4 · Photos</p>
+          <p class="orb__k">Guided flow</p><p class="orb__v">Step 1 of 4 · Vehicle</p>
         </div>
         <div class="orb" data-ch="1" style="--x:34%;--y:22%;--z:80px">
-          <p class="orb__k">Photo tips</p><p class="orb__v">Keep the damage fully visible</p>
+          <p class="orb__k">City</p><p class="orb__v">Prishtinë</p>
         </div>
         <div class="orb" data-ch="1" style="--x:36%;--y:-30%;--z:60px">
-          <p class="orb__v orb__v--green">1 photo is enough to continue</p>
+          <p class="orb__v">Priced against local rates</p>
         </div>
 
-        <div class="orb" data-ch="2" style="--x:-44%;--y:-14%;--z:140px">
+        <div class="orb" data-ch="2" style="--x:-42%;--y:-26%;--z:120px">
+          <p class="orb__k">Guided capture</p><p class="orb__v">Step 2 of 4 · Photos</p>
+        </div>
+        <div class="orb" data-ch="2" style="--x:34%;--y:22%;--z:80px">
+          <p class="orb__k">Photos added</p><p class="orb__v orb__v--green">3 of 3 · All set</p>
+        </div>
+        <div class="orb" data-ch="2" style="--x:36%;--y:-30%;--z:60px">
+          <p class="orb__v">Camera or library</p>
+        </div>
+
+        <div class="orb" data-ch="3" style="--x:-44%;--y:-14%;--z:140px">
           <p class="orb__k">Estimated repair cost</p>
           <p class="orb__big">€<span data-odo="195">195</span> – €<span data-odo="391">391</span></p>
         </div>
-        <div class="orb" data-ch="2" style="--x:34%;--y:24%;--z:80px">
-          <p class="orb__k">Detected damage</p><p class="orb__v">Rear bumper · Crack</p>
+        <div class="orb" data-ch="3" style="--x:34%;--y:24%;--z:80px">
+          <p class="orb__k">Evidence</p><p class="orb__v orb__v--green">90% · Strong photos</p>
         </div>
-        <div class="orb" data-ch="2" style="--x:36%;--y:-30%;--z:105px">
+        <div class="orb" data-ch="3" style="--x:36%;--y:-30%;--z:105px">
           <p class="orb__v">Replace panel + Paint match</p>
         </div>
 
-        <div class="orb" data-ch="3" style="--x:-47%;--y:-30%;--z:120px">
-          <span class="orb__av orb__av--g">TE</span>
-          <div><p class="orb__v">Test Repair Shop</p><p class="orb__k">★ 4.8 · Prishtina · €385</p></div>
+        <div class="orb" data-ch="4" style="--x:-44%;--y:-28%;--z:120px">
+          <p class="orb__k">Your offers</p><p class="orb__v">3 offers from 1 shop</p>
         </div>
-        <div class="orb" data-ch="3" style="--x:-45%;--y:4%;--z:65px">
-          <span class="orb__av">AU</span>
-          <div><p class="orb__v">Auto Ngjyra</p><p class="orb__k">★ 4.6 · 2 days · €410</p></div>
+        <div class="orb" data-ch="4" style="--x:-42%;--y:6%;--z:65px">
+          <p class="orb__k">Audi A4 · Rear bumper</p><p class="orb__big orb__big--sm">€100</p>
         </div>
-        <div class="orb" data-ch="3" style="--x:34%;--y:24%;--z:95px">
-          <span class="orb__av">PR</span>
-          <div><p class="orb__v">Prime Auto</p><p class="orb__k">★ 4.9 · 4 days · €455</p></div>
-        </div>
-
-        <div class="orb" data-ch="4" style="--x:-44%;--y:-20%;--z:125px">
-          <p class="orb__k">Drop off → pick up</p><p class="orb__big orb__big--sm">Thu 20 → Mon 24</p>
-        </div>
-        <div class="orb" data-ch="4" style="--x:34%;--y:14%;--z:85px">
-          <p class="orb__k">Other offers</p><p class="orb__v orb__v--green">Declined automatically</p>
+        <div class="orb" data-ch="4" style="--x:34%;--y:22%;--z:95px">
+          <p class="orb__k">Prishtina</p><p class="orb__v">Ready in 2 days</p>
         </div>
       </div>
     </div>
@@ -186,36 +186,36 @@
     <!-- Chapter copy -->
     <div class="steps" id="steps">
       <article class="step" data-ch="1">
-        <p class="step__n">01 — Scan</p>
-        <h2 class="step__h">Three photos. That's the whole ask.</h2>
-        <p class="step__p">A guided four-step flow: the vehicle, the photos, the review, the estimate. One clear shot of the damaged panel is enough to continue — three makes the estimate stronger.</p>
-        <ul class="step__l"><li>Vehicle, photos, AI review, estimate</li><li>Tips for the shots that actually matter</li><li>No appointment, no phone calls</li></ul>
+        <p class="step__n">01 — Vehicle</p>
+        <h2 class="step__h">Start with the car.</h2>
+        <p class="step__p">Brand, model, year and city. It takes a minute, and it is what lets the estimate be priced against the right vehicle at the right local rates.</p>
+        <ul class="step__l"><li>Four guided steps, no forms to hunt through</li><li>Priced against local body and paint rates</li><li>Nothing to install, nothing to book</li></ul>
       </article>
       <article class="step" data-ch="2">
-        <p class="step__n">02 — Estimate</p>
-        <h2 class="step__h">A real number, before you go.</h2>
-        <p class="step__p">An estimated repair range in euros with the detected part, the damage type and severity, whether it needs repair or replacement — and an evidence score that says how much to trust it.</p>
-        <ul class="step__l"><li>Priced against local body and paint rates</li><li>Repair vs. replace, paint match included</li><li>Says so when a shop needs to look</li></ul>
+        <p class="step__n">02 — Photos</p>
+        <h2 class="step__h">Two photos. Three is better.</h2>
+        <p class="step__p">Add at least two clear shots of the damaged panel — camera or library, your call. Three makes the estimate stronger, and you can drop any of them before continuing.</p>
+        <ul class="step__l"><li>Two to continue, three recommended</li><li>Camera or photo library</li><li>Review and remove before you send</li></ul>
       </article>
       <article class="step" data-ch="3">
-        <p class="step__n">03 — Offers</p>
-        <h2 class="step__h">Shops come to you.</h2>
-        <p class="step__p">Publish the request and repair shops nearby reply with real prices, timelines and ratings — grouped per vehicle, cheapest flagged, with the ones still replying shown as they land.</p>
-        <ul class="step__l"><li>Real offers, not lead forms</li><li>Price, rating, city and repair time</li><li>Nothing is committed until you accept</li></ul>
+        <p class="step__n">03 — Estimate</p>
+        <h2 class="step__h">A real number, before you go.</h2>
+        <p class="step__p">An estimated repair range in euros with the detected panel, the damage type and severity, whether it needs repair or replacement — and an evidence score saying how much to trust it.</p>
+        <ul class="step__l"><li>Evidence score on every estimate</li><li>Repair vs. replace, paint match included</li><li>Says so when a shop needs to look</li></ul>
       </article>
       <article class="step" data-ch="4">
-        <p class="step__n">04 — Book</p>
-        <h2 class="step__h">Accept one. The rest close themselves.</h2>
-        <p class="step__p">Accepting notifies the shop, declines the other offers automatically, and hands you the drop-off and pick-up dates plus a direct line to the person doing the work.</p>
-        <ul class="step__l"><li>Drop-off and pick-up dates agreed up front</li><li>Call the shop from inside the booking</li><li>A free window to withdraw if plans change</li></ul>
+        <p class="step__n">04 — Offers</p>
+        <h2 class="step__h">Shops come to you.</h2>
+        <p class="step__p">Every request sits in one list, grouped by vehicle. Shops reply with a price and a timeline, and the ones still waiting stay visible until they do.</p>
+        <ul class="step__l"><li>Real offers, not lead forms</li><li>Price, city and repair time</li><li>Nothing is committed until you accept</li></ul>
       </article>
     </div>
 
     <ol class="rail" id="rail" aria-hidden="true">
-      <li data-ch="1"><span></span>Scan</li>
-      <li data-ch="2"><span></span>Estimate</li>
-      <li data-ch="3"><span></span>Offers</li>
-      <li data-ch="4"><span></span>Book</li>
+      <li data-ch="1"><span></span>Vehicle</li>
+      <li data-ch="2"><span></span>Photos</li>
+      <li data-ch="3"><span></span>Estimate</li>
+      <li data-ch="4"><span></span>Offers</li>
     </ol>
 
   </div>
@@ -237,7 +237,7 @@
       <li class="how reveal">
         <p class="how__n">02</p>
         <h3 class="how__h">Photograph the damage</h3>
-        <p class="how__p">One clear photo of the panel to continue. Three for a stronger estimate.</p>
+        <p class="how__p">At least two clear photos of the panel. Three for a stronger estimate.</p>
       </li>
       <li class="how reveal">
         <p class="how__n">03</p>
@@ -271,7 +271,7 @@
           <p class="lbl">Estimated repair cost</p>
           <p class="vizprice">€<span data-count="195">0</span> <em>– €<span data-count="391">0</span></em></p>
           <span class="vizbar"><i></i></span>
-          <p class="vizfoot">Rear bumper · Crack · Medium</p>
+          <p class="vizfoot">Evidence 90% · Strong photos</p>
         </div>
       </article>
 
@@ -357,7 +357,7 @@
 
     <div class="stats reveal">
       <div class="stat"><p class="stat__v">~<span data-count="2">0</span> min</p><p class="stat__k">A scan, start to estimate</p></div>
-      <div class="stat"><p class="stat__v"><span data-count="3">0</span> photos</p><p class="stat__k">All the app asks you for</p></div>
+      <div class="stat"><p class="stat__v"><span data-count="2">0</span>–<span data-count="3">0</span></p><p class="stat__k">Photos per scan</p></div>
       <div class="stat"><p class="stat__v">±<span data-count="12">0</span>%</p><p class="stat__k">Typical estimate accuracy</p></div>
       <div class="stat stat--accent"><p class="stat__v"><span data-count="22">0</span></p><p class="stat__k">Municipalities supported</p></div>
     </div>
