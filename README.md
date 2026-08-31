@@ -74,6 +74,27 @@ python3 -m http.server 4321
 Then open <http://localhost:4321>. `.claude/launch.json` wires the same command
 up to the editor's preview pane.
 
+## Sharing it
+
+`tools/build-artifact.py` flattens the site into one self-contained file at
+`dist/snapprice.html` — every stylesheet, script and image inlined, and the
+document skeleton stripped because the artifact host supplies its own.
+
+```bash
+python3 tools/build-artifact.py
+```
+
+Two things that file has to get right. It cannot carry a `<meta charset>`,
+since it has no `<head>`, so the build emits **pure ASCII**: body text becomes
+numeric entities, which decode under any encoding, and the decorative
+characters in CSS and JS comments are folded down. Without that the em dashes,
+`±12%` and the Albanian place names arrive as mojibake. And the scripts stay at
+the end of the body — they are `defer`red on the real site, but inline scripts
+ignore `defer`, so their position is what guarantees the DOM exists.
+
+The build asserts the output is ASCII and reports any surviving local
+reference, so a missed asset fails loudly rather than shipping broken.
+
 ## Structure
 
 ```
