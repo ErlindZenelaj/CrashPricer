@@ -112,6 +112,59 @@ assets/logo/          the SnapPrice mark and app icon
 
 ## How it works
 
+Four wide rows on hairlines rather than four cards in a line. Cards forced every
+step into the same 250px box, which left the components too small to read and
+two of them looking like empty grey placeholders. Rows give each step the width
+to show what it actually produces — the brand and city fields, the photo
+dropzone, the dark cost card, an offer row — each carried by its own shadow on
+the section ground rather than parked in a filled box.
+
+The only accent is a 2px spine down the number column that fills as the section
+passes: the app's progress bar turned on its side and kept quiet. The earlier
+version ran a saturated 7px bar the full width of the section, which shouted
+over the headline and read as generic template furniture.
+
+The spine drops away on mobile, where the rows stack and the numbers sit inline
+with their labels.
+
+## Sharing it
+
+`tools/build-artifact.py` flattens the site into one self-contained file at
+`dist/snapprice.html` — every stylesheet, script and image inlined, and the
+document skeleton stripped because the artifact host supplies its own.
+
+```bash
+python3 tools/build-artifact.py
+```
+
+Two things that file has to get right. It cannot carry a `<meta charset>`,
+since it has no `<head>`, so the build emits **pure ASCII**: body text becomes
+numeric entities, which decode under any encoding, and the decorative
+characters in CSS and JS comments are folded down. Without that the em dashes,
+`±12%` and the Albanian place names arrive as mojibake. And the scripts stay at
+the end of the body — they are `defer`red on the real site, but inline scripts
+ignore `defer`, so their position is what guarantees the DOM exists.
+
+The build asserts the output is ASCII and reports any surviving local
+reference, so a missed asset fails loudly rather than shipping broken.
+
+## Structure
+
+```
+index.template.html   the page — screens appear as <!--SCREEN name--> markers
+index.html            generated; do not hand-edit the screen markup
+tools/embed-screens.py  lifts artboards out of the design canvas
+css/tokens.css        design tokens, all traced to the mockups
+css/base.css          reset, typography, buttons, shared primitives
+css/phone.css         the device shell and the 390x844 screen viewport
+css/site.css          navigation, the scroll experience, sections, responsive
+js/experience.js      the scroll engine — progress → chapter, rotation, parallax
+js/site.js            nav, reveals, counters, magnetic buttons, FAQ
+assets/logo/          the SnapPrice mark and app icon
+```
+
+## How it works
+
 That section is built out of the app's parts rather than described in prose.
 The four steps sit on the same 7px progress rail the scan flow draws across its
 own screens — it fills left to right as the section reveals, with a node at each

@@ -368,101 +368,80 @@
 }
 
 /* ══════════ HOW IT WORKS ══════════
-   Built out of the app's own parts rather than described in prose: the four
-   steps sit on the same progress rail the app draws across its scan flow, and
-   each carries the component that step actually produces — the city field, the
-   photo tray, the cost card, an offer row. Same tokens as the mockups.        */
-.flow {
-  position: relative;
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: clamp(14px, 1.6vw, 24px);
-  padding-top: 44px;
-}
-/* the rail — the app's 7px progress bar, run across the section */
-.flow::before,
-.flow::after {
+   Four wide rows on hairlines rather than four cards in a line: each step gets
+   the width to show the component it actually produces at a readable size, and
+   the copy stops wrapping raggedly. The only accent is a 2px spine down the
+   number column that fills as the section passes — the app's progress bar,
+   turned on its side and kept quiet.                                        */
+.ladder { position: relative; }
+.ladder::before,
+.ladder::after {
   content: "";
   position: absolute;
-  top: 8px;
   left: 0;
-  height: 7px;
-  border-radius: var(--r-pill);
+  top: 0;
+  width: 2px;
+  border-radius: 2px;
 }
-.flow::before { right: 0; background: var(--mist-2); }
-.flow::after {
-  width: 0;
+.ladder::before { bottom: 0; background: var(--line-soft); }
+.ladder::after {
+  height: calc(var(--s, 0) * 100%);
   background: var(--green-bright);
-  transition: width 1.7s .25s var(--e-out);
 }
-.flow:has(.flowstep.is-in)::after { width: 100%; }
 
-.flowstep { position: relative; }
-.flowstep__node {
-  position: absolute;
-  top: -44px;
-  left: 0;
-  width: 15px;
-  height: 15px;
-  border-radius: 50%;
-  background: var(--paper);
-  box-shadow: 0 0 0 4px var(--paper), inset 0 0 0 4px var(--line-firm);
-  transition: box-shadow .6s var(--e-out);
-  transition-delay: calc(var(--d, 0ms) + 400ms);
-}
-.flowstep.is-in .flowstep__node { box-shadow: 0 0 0 4px var(--paper), inset 0 0 0 4px var(--green-bright); }
-
-/* the component this step produces */
-.flowstep__viz {
-  height: 158px;
-  padding: 18px;
-  border-radius: var(--r-lg);
-  background: var(--app-bg);
-  border: 1px solid var(--line-soft);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 10px;
-  overflow: hidden;
-  transition: transform .55s var(--e-out), box-shadow .55s var(--e-out);
-}
-.flowstep:hover .flowstep__viz { transform: translateY(-5px); box-shadow: var(--sh-card); }
-
-.flowstep__n {
-  display: flex;
+.stepr {
+  display: grid;
+  grid-template-columns: 128px minmax(0, 1fr) minmax(0, 300px);
+  gap: clamp(20px, 3vw, 56px);
   align-items: center;
-  gap: 9px;
-  margin-top: 22px;
-  font-size: .75rem;
-  font-weight: 800;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  color: var(--text-4);
+  padding: clamp(28px, 3.2vw, 44px) 0 clamp(28px, 3.2vw, 44px) 30px;
+  border-top: 1px solid var(--line-soft);
 }
-.flowstep__n b { color: var(--green-deep); }
-.flowstep__h { margin-top: 12px; font-size: var(--t-h4); letter-spacing: -0.03em; }
-.flowstep__p { margin-top: 10px; font-size: var(--t-body-sm); color: var(--text-3); max-width: 30ch; }
+.stepr:last-child { border-bottom: 1px solid var(--line-soft); }
+
+.stepr__n { display: flex; flex-direction: column; gap: 4px; }
+.stepr__n b {
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: var(--ink);
+}
+.stepr__n span {
+  font-size: .6875rem;
+  font-weight: 800;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--green-deep);
+}
+
+.stepr__h { font-size: var(--t-h4); letter-spacing: -0.03em; }
+.stepr__p { margin-top: 10px; font-size: var(--t-body-sm); color: var(--text-3); max-width: 46ch; }
+
+/* the component sits on the section ground, carried by its own shadow rather
+   than parked in a grey box */
+.stepr__viz { display: flex; flex-direction: column; gap: 9px; }
 
 /* ── the fragments, styled exactly as the app draws them ── */
 .fg { font-size: 13px; }
 
-.fg--form { display: flex; flex-direction: column; gap: 10px; }
+.fg--form { display: flex; flex-direction: column; gap: 9px; }
 .fg__field {
   display: flex; align-items: center; justify-content: space-between;
-  height: 46px; padding: 0 13px;
-  border-radius: 12px;
+  height: 48px; padding: 0 14px;
+  border-radius: 13px;
   background: var(--paper);
   border: 1px solid var(--mist-2);
-  box-shadow: 0 4px 14px -12px rgba(13,24,41,.26);
+  box-shadow: 0 10px 26px -20px rgba(13,24,41,.5);
   font-weight: 700; color: var(--ink);
 }
 .fg__field--empty { color: #9AA4B2; font-weight: 600; }
 .fg__city { display: inline-flex; align-items: center; gap: 9px; }
 .fg__flag {
   display: grid; place-items: center;
-  width: 24px; height: 24px; border-radius: 50%;
+  width: 25px; height: 25px; border-radius: 50%;
   background: #DC2626; color: #fff;
-  font-size: 9.5px; font-weight: 800; font-style: normal;
+  font-size: 10px; font-weight: 800; font-style: normal;
 }
 .fg__chev {
   width: 8px; height: 8px; flex: none;
@@ -471,43 +450,42 @@
   transform: rotate(45deg) translate(-2px, -2px);
 }
 
-.fg--thumbs { display: flex; align-items: center; gap: 10px; }
-.fg__thumb {
-  position: relative;
-  width: 52px; height: 52px;
-  border-radius: 11px;
-  background: linear-gradient(150deg, #D8DEE6, #B9C3CE);
+/* the app's dropzone — no photographs needed to read it */
+.fg--drop {
+  display: flex; flex-direction: column; align-items: center; gap: 9px;
+  padding: 20px 18px;
+  border-radius: 20px;
+  border: 2px dashed #B7E3C6;
+  background: #EAF7EE;
+  text-align: center;
 }
-.fg__thumb::after {
-  content: "";
-  position: absolute; top: -5px; right: -5px;
-  width: 18px; height: 18px; border-radius: 50%;
-  background: var(--green-bright);
-  border: 2px solid var(--app-bg);
-  background-image:
-    linear-gradient(45deg, transparent 45%, #fff 45% 55%, transparent 55%),
-    linear-gradient(-45deg, transparent 45%, #fff 45% 55%, transparent 55%);
-  background-size: 4px 2px, 7px 2px;
-  background-position: 4px 10px, 7px 9px;
-  background-repeat: no-repeat;
+.fg__dropicon {
+  display: grid; place-items: center;
+  width: 50px; height: 50px;
+  border-radius: 15px;
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: 0 8px 20px -12px rgba(13,24,41,.4);
 }
-.fg__count { margin-left: 2px; font-size: 15px; font-weight: 800; letter-spacing: -.01em; }
+.fg__dropicon svg { width: 24px; height: 24px; }
+.fg__dropt { font-size: 16px; font-weight: 800; letter-spacing: -.02em; }
+.fg__drops { font-size: 12.5px; color: #5F6B7A; }
 
 .fg--cost {
-  margin: -4px 0;
-  padding: 16px;
-  border-radius: 16px;
+  padding: 18px;
+  border-radius: 18px;
   background: linear-gradient(150deg, #13233A, #0C1626);
   color: #fff;
+  box-shadow: 0 20px 44px -26px rgba(13,24,41,.7);
 }
 .fg__lbl {
   font-size: 9.5px; font-weight: 700; letter-spacing: .13em;
   text-transform: uppercase; color: var(--text-3);
 }
-.fg__price { margin-top: 5px; font-size: 27px; font-weight: 800; letter-spacing: -.03em; line-height: 1; }
-.fg__price em { font-size: 15px; font-weight: 700; color: var(--text-3); margin-left: 5px; }
+.fg__price { margin-top: 5px; font-size: 29px; font-weight: 800; letter-spacing: -.03em; line-height: 1; }
+.fg__price em { font-size: 16px; font-weight: 700; color: var(--text-3); margin-left: 5px; }
 .fg__bar {
-  display: block; height: 5px; margin-top: 14px;
+  display: block; height: 5px; margin-top: 15px;
   border-radius: var(--r-pill);
   background: rgba(255,255,255,.12);
   overflow: hidden;
@@ -515,23 +493,23 @@
 .fg__bar i {
   display: block; height: 100%; width: 0;
   border-radius: inherit; background: var(--green-bright);
-  transition: width 1.5s .5s var(--e-out);
+  transition: width 1.5s .4s var(--e-out);
 }
-.flowstep.is-in .fg__bar i { width: 90%; }
+.stepr.is-in .fg__bar i { width: 90%; }
 .fg__evidence {
   display: flex; justify-content: space-between;
-  margin-top: 9px; font-size: 11px; font-weight: 700; color: var(--text-3);
+  margin-top: 10px; font-size: 11px; font-weight: 700; color: var(--text-3);
 }
 .fg__evidence b { color: #4ADE80; }
 
 .fg--offer {
-  display: flex; align-items: center; gap: 10px;
-  padding: 11px 13px;
-  border-radius: 16px;
+  display: flex; align-items: center; gap: 11px;
+  padding: 12px 14px;
+  border-radius: 17px;
   background: var(--paper);
-  box-shadow: 0 8px 22px -18px rgba(13,24,41,.28);
+  box-shadow: 0 12px 30px -22px rgba(13,24,41,.55);
 }
-.fg--offer2 { opacity: .55; }
+.fg--offer2 { opacity: .5; }
 .fg__av {
   display: grid; place-items: center; flex: none;
   width: 34px; height: 34px; border-radius: 11px;
@@ -890,10 +868,7 @@
 @media (max-width: 1180px) {
   .orbs, .rail { display: none; }
   .stage { grid-template-columns: minmax(0, 50fr) minmax(0, 50fr); }
-  .flow { grid-template-columns: repeat(2, minmax(0,1fr)); row-gap: 44px; }
-  .flow::before, .flow::after { display: none; }
-  .flowstep__node { display: none; }
-  .flow { padding-top: 0; }
+  .stepr { grid-template-columns: 92px minmax(0, 1fr) minmax(0, 250px); gap: 24px; }
 }
 
 @media (max-width: 1024px) {
@@ -956,8 +931,14 @@
   .step__p { font-size: var(--t-body-sm); max-width: 46ch; }
   .step__l { display: none; }
 
-  .flow { grid-template-columns: minmax(0,1fr); row-gap: 36px; }
-  .flowstep__viz { height: 138px; }
+  .ladder::before, .ladder::after { display: none; }
+  .stepr {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+    padding-left: 0;
+  }
+  .stepr__n { flex-direction: row; align-items: baseline; gap: 10px; }
+  .stepr__viz { max-width: 340px; }
 
   .bento { grid-template-columns: minmax(0,1fr); }
   .card--wide { grid-column: span 1; }
