@@ -55,6 +55,28 @@
 
 .nav__actions { display: flex; align-items: center; gap: 10px; margin-left: auto; }
 
+/* ── language switch ─────────────────────────────────────── */
+.langtoggle {
+  display: flex;
+  padding: 3px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.55);
+}
+.langtoggle button {
+  padding: 6px 11px;
+  border-radius: var(--r-pill);
+  font-size: .6875rem;
+  font-weight: 800;
+  letter-spacing: .06em;
+  color: var(--text-3);
+  transition: color .25s, background-color .25s;
+}
+.langtoggle button:hover { color: var(--ink); }
+.langtoggle button.is-on { background: var(--ink); color: #fff; }
+.langtoggle--menu { margin-top: 10px; align-self: flex-start; }
+@media (max-width: 560px) { .nav .langtoggle { display: none; } }
+
 .nav__burger {
   display: none;
   width: 42px; height: 42px;

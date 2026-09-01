@@ -33,9 +33,18 @@ FOLD = {
 
 
 def ascii_fold(text):
+    """For CSS, where the only non-ASCII is decoration inside comments."""
     for bad, good in FOLD.items():
         text = text.replace(bad, good)
     return text.encode("ascii", "ignore").decode("ascii")
+
+
+def js_escape(text):
+    """For JS, where non-ASCII is live data — the Albanian dictionary. Folding
+    it away would quietly strip every e-diaeresis and c-cedilla out of the
+    translations, so escape instead: \\uXXXX is exact inside a string literal
+    and harmless inside a comment."""
+    return "".join(c if ord(c) < 128 else "\\u%04x" % ord(c) for c in text)
 
 
 def entities(text):
@@ -63,7 +72,7 @@ def main():
 
     # ── collect the scripts, in load order ────────────────────────────────
     scripts = re.findall(r'<script src="(js/[^"]+)" defer></script>', page)
-    js = ascii_fold("\n".join(
+    js = js_escape("\n".join(
         "<script>\n/* ===== %s ===== */\n%s\n</script>" % (s, read(s)) for s in scripts
     ))
 

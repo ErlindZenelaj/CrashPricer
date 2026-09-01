@@ -74,6 +74,39 @@ python3 -m http.server 4321
 Then open <http://localhost:4321>. `.claude/launch.json` wires the same command
 up to the editor's preview pane.
 
+## English and Albanian
+
+The page ships in English and Albanian, switched from the EN / SQ control in the
+nav (in the menu on small screens). The choice is remembered in `localStorage`,
+and a first-time visitor whose browser is set to Albanian gets Albanian.
+
+`js/i18n.js` holds the dictionary and applies Albanian over the English markup
+at runtime, matching text nodes on their English content. That means there are
+no keys to keep in sync with the template — but it also means **editing an
+English string silently drops its translation**, so:
+
+```bash
+python3 tools/check-i18n.py
+```
+
+lists any page copy with no Albanian entry. Run it after any copy change. Curly
+and straight quotes are normalised on both sides, since a mismatched apostrophe
+looks exactly like a missing translation.
+
+Three headlines carry inline markup (`<em>`, `<br>`) and so translate whole, by
+id, from `SQ_HTML` — the checker verifies those separately.
+
+**What is deliberately not translated:** the screens inside the device and the
+app component fragments in the step rows. That is product interface lifted from
+the design canvas, and the app carries its own localisation; half-translating it
+would look broken. An Albanian visitor sees an Albanian page around an English
+app screen. Translating those too is a follow-up — the mechanism would be the
+same `CONTENT_OVERRIDES` pass in the embedder, emitting one screen set per
+language.
+
+The Albanian is mine and reads naturally, but it has not been reviewed by a
+native speaker — worth one pass before launch.
+
 ## Sharing it
 
 `tools/build-artifact.py` flattens the site into one self-contained file at

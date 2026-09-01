@@ -17,10 +17,12 @@
   const menu = document.getElementById('mobilemenu');
   const setMenu = (open) => {
     burger.setAttribute('aria-expanded', String(open));
-    burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    const label = open ? 'Close menu' : 'Open menu';
+    burger.setAttribute('aria-label', window.snapT ? window.snapT(label) : label);
     menu.hidden = !open;
   };
   burger.addEventListener('click', () => setMenu(menu.hidden));
+  addEventListener('snapprice:lang', () => setMenu(!menu.hidden));
   menu.addEventListener('click', (e) => { if (e.target.closest('a')) setMenu(false); });
   addEventListener('keydown', (e) => { if (e.key === 'Escape') setMenu(false); });
   addEventListener('resize', () => { if (innerWidth > 1024) setMenu(false); });

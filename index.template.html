@@ -48,6 +48,10 @@
     </nav>
 
     <div class="nav__actions">
+      <div class="langtoggle" role="group" aria-label="Language">
+        <button type="button" data-lang="en" class="is-on" aria-pressed="true">EN</button>
+        <button type="button" data-lang="sq" aria-pressed="false">SQ</button>
+      </div>
       <a class="btn btn--ink btn--sm magnetic" href="#get">
         <span>Get SnapPrice</span>
         <svg class="arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h9m0 0-3.5-3.5M12 8l-3.5 3.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -65,6 +69,10 @@
   <a href="#shops">For repair shops</a>
   <a href="#faq">FAQ</a>
   <a class="btn btn--ink" href="#get"><span>Get SnapPrice</span></a>
+  <div class="langtoggle langtoggle--menu" role="group" aria-label="Language">
+    <button type="button" data-lang="en" class="is-on" aria-pressed="true">EN</button>
+    <button type="button" data-lang="sq" aria-pressed="false">SQ</button>
+  </div>
 </div>
 
 <main id="top">
@@ -310,7 +318,7 @@
     <p class="kicker kicker--light reveal">The point</p>
     <h2 class="thesis__h">
       <span class="thesis__line reveal"><span>Nobody should have to</span></span>
-      <span class="thesis__line reveal"><span><em>guess</em> what a repair</span></span>
+      <span class="thesis__line reveal"><span data-i18n="thesis-2"><em>guess</em> what a repair</span></span>
       <span class="thesis__line reveal"><span>is going to cost.</span></span>
     </h2>
     <p class="thesis__p reveal">The panel, the damage type, the severity and a range in euros — before you speak to anyone, and before anyone quotes you a number.</p>
@@ -322,7 +330,7 @@
   <div class="wrap">
     <header class="sechead reveal">
       <p class="kicker">For drivers</p>
-      <h2 class="sech">Damage is stressful.<br />The <em>process</em> doesn't have to be.</h2>
+      <h2 class="sech" data-i18n="why-h">Damage is stressful.<br />The <em>process</em> doesn't have to be.</h2>
     </header>
 
     <div class="bento">
@@ -488,7 +496,7 @@
 <section class="sec sec--final" id="get">
   <div class="finalbg" aria-hidden="true"><span class="aurora aurora--c"></span><span class="grid grid--dark"></span></div>
   <div class="wrap final">
-    <h2 class="final__h reveal"><span>Your repair</span><span>starts with a <em>scan</em>.</span></h2>
+    <h2 class="final__h reveal"><span>Your repair</span><span data-i18n="final-2">starts with a <em>scan</em>.</span></h2>
     <p class="final__p reveal">Download SnapPrice, photograph the damage, and know what you're dealing with before anyone quotes you a number.</p>
     <div class="final__cta reveal">
       <a class="btn btn--green btn--lg magnetic" href="#top">
@@ -560,5 +568,6 @@
 
 <script src="js/experience.js" defer></script>
 <script src="js/site.js" defer></script>
+<script src="js/i18n.js" defer></script>
 </body>
 </html>
