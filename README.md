@@ -123,6 +123,29 @@ marketing furniture.
 The rail and its nodes drop away below 1180px, where two columns and two rows
 make a single left-to-right line meaningless.
 
+## Below the fold
+
+The scroll story is the loud part of the page, so the sections under it are
+composed to carry the same energy rather than settling into card grids:
+
+- **The point** — one sculptural statement on the ink ground, the only type on
+  the page at that scale. The lines are clipped and pushed up rather than faded,
+  so the sentence assembles itself as it arrives. Each line is its own overflow
+  window, which is why it still works when a line wraps on a narrow screen.
+- **For repair shops** — the hero's floating fragments return, on a dark glass
+  variant, drifting against the scroll at their own depths. They sit over the
+  device's edge, never over its content.
+- **FAQ** — a two-column editorial spread with the heading sticky beside the
+  answers, instead of a centred column.
+- **Coverage** — the place names drift with the scroll rather than on a timer,
+  so the band is still when the reader is.
+
+`data-scrub` drives the scroll-linked pieces. One `requestAnimationFrame` loop
+in `js/site.js` gives every opted-in element `--s` — 0 as it enters the
+viewport, 1 as it leaves — and the CSS decides what to do with it. Only
+elements actually on screen are measured, and the loop stops when none are.
+Under `prefers-reduced-motion` it never starts and everything sits at rest.
+
 ## Design system
 
 The page uses the app's own system rather than a parallel one:

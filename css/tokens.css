@@ -59,7 +59,8 @@
   --t-lede:     1.1875rem;   /* 19 */
   --t-h4:       1.375rem;
   --t-h3:       clamp(1.5rem, 1.1rem + 1.1vw, 2rem);
-  --t-h2:       clamp(2rem, 1.2rem + 2.6vw, 3.5rem);
+  --t-h2:       clamp(2rem, 1.2rem + 2.8vw, 3.85rem);
+  --t-thesis:   clamp(2.5rem, 0.9rem + 5.2vw, 5.75rem);
   --t-h1:       clamp(2.6rem, 1rem + 4vw, 4.5rem);
   --t-display:  clamp(3rem, 0.8rem + 7.4vw, 8rem);
 

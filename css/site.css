@@ -117,6 +117,11 @@
   from { transform: translate3d(0,0,0) scale(1); }
   to   { transform: translate3d(4vw, 5vh, 0) scale(1.14); }
 }
+.aurora--d {
+  bottom: -30%; right: -10%; width: 55vw; height: 55vw;
+  background: radial-gradient(circle, rgba(34,197,94,.26), transparent 66%);
+  animation: drift 34s ease-in-out infinite alternate;
+}
 .grid {
   position: absolute; inset: 0;
   background:
@@ -621,8 +626,8 @@
 
 .shops {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 420px);
-  gap: clamp(40px, 6vw, 96px);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 520px);
+  gap: clamp(40px, 6vw, 86px);
   align-items: center;
 }
 .shops .lede { color: rgba(255,255,255,.62); margin-top: 22px; max-width: 52ch; }
@@ -646,13 +651,72 @@
   background-repeat: no-repeat;
 }
 
-.shops__viz { display: flex; justify-content: center; perspective: 1400px; }
+.shops__viz { position: relative; display: flex; justify-content: center; perspective: 1400px; }
+
+/* the same floating fragments as the hero, drifting against the scroll */
+.shops__viz .orb {
+  position: absolute;
+  max-width: 200px;
+  left: calc(50% + var(--x));
+  top: calc(50% + var(--y));
+  opacity: 1;
+  z-index: 3;
+  background: rgba(255,255,255,.09);
+  border-color: rgba(255,255,255,.16);
+  box-shadow: 0 24px 60px -28px rgba(0,0,0,.7);
+  color: #fff;
+  transform: translate3d(-50%, calc(-50% + var(--p, 0px) * (var(--s, .5) - .5) * 2), var(--z));
+  transition: none;
+}
+.shops__viz .orb__k { color: rgba(255,255,255,.55); }
+.shops__viz .orb__v--green { color: var(--green-bright); }
+@media (max-width: 1024px) { .shops__viz .orb { display: none; } }
 .shops__viz .phone {
   transform: rotateX(6deg) rotateY(-13deg) rotateZ(1.5deg);
   transform-style: preserve-3d;
   transition: transform .9s var(--e-out);
 }
 .shops__viz:hover .phone { transform: rotateX(2deg) rotateY(-5deg); }
+
+/* ══════════ THE POINT ══════════
+   One sculptural moment between the flow and the benefits. The lines are
+   clipped and pushed up rather than faded, so the sentence assembles itself
+   as it arrives — the page's only piece of type at this scale.             */
+.thesis {
+  position: relative;
+  padding-block: clamp(100px, 13vw, 190px);
+  background: var(--ink);
+  color: #fff;
+  overflow: hidden;
+}
+.thesisbg { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.thesis > .wrap { position: relative; }
+
+.thesis__h {
+  margin-top: 26px;
+  font-size: var(--t-thesis);
+  line-height: .96;
+  letter-spacing: -0.05em;
+}
+.thesis__h em { color: var(--green-bright); }
+
+/* each line is its own window; the reveal moves the text inside it */
+.thesis__line { display: block; overflow: hidden; padding-bottom: .06em; }
+.thesis__line.reveal { opacity: 1; transform: none; }
+.thesis__line > span {
+  display: block;
+  transform: translateY(108%);
+  transition: transform 1s var(--e-out);
+  transition-delay: var(--d, 0ms);
+}
+.thesis__line.reveal.is-in > span { transform: none; }
+
+.thesis__p {
+  max-width: 54ch;
+  margin-top: clamp(28px, 3vw, 44px);
+  font-size: var(--t-lede);
+  color: rgba(255,255,255,.6);
+}
 
 /* ══════════ COVERAGE ══════════ */
 .stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(14px, 1.4vw, 20px); }
@@ -695,9 +759,10 @@
   overflow: hidden;
   mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
 }
-.marquee__track { display: flex; gap: 14px; width: max-content; animation: marq 46s linear infinite; }
-.marquee:hover .marquee__track { animation-play-state: paused; }
-@keyframes marq { to { transform: translateX(-50%); } }
+.marquee__track {
+  display: flex; gap: 14px; width: max-content;
+  transform: translate3d(calc(var(--s, 0) * -50%), 0, 0);
+}
 .marquee__track span {
   padding: 11px 22px;
   border-radius: var(--r-pill);
@@ -708,6 +773,25 @@
 }
 
 /* ══════════ FAQ ══════════ */
+.faqgrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.55fr);
+  gap: clamp(32px, 5vw, 90px);
+  align-items: start;
+}
+.faqgrid__head { position: sticky; top: 120px; }
+.faqgrid__head .sech { margin-top: 16px; }
+.faqgrid__note {
+  max-width: 30ch;
+  margin-top: 22px;
+  font-size: var(--t-body-sm);
+  color: var(--text-3);
+}
+@media (max-width: 900px) {
+  .faqgrid { grid-template-columns: minmax(0, 1fr); }
+  .faqgrid__head { position: static; margin-bottom: 40px; }
+}
+
 .faq { border-top: 1px solid var(--line); }
 .qa { border-bottom: 1px solid var(--line); }
 .qa summary {

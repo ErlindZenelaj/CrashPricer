@@ -107,6 +107,38 @@
     }
   }
 
+  /* ── scroll-linked motion below the fold ─────────────────────
+        One loop for everything that opts in with data-scrub. Each element
+        gets --s: 0 as it enters the viewport, 1 as it leaves. The CSS decides
+        what to do with it — the place names drift, the fragments beside the
+        shop screen sit at their own depths. Only elements actually on screen
+        are measured, and the loop stops when none are. */
+  if (!reduced.matches) {
+    const scrubs = [...document.querySelectorAll('[data-scrub]')];
+    const live = new Set();
+    let raf = 0;
+
+    function tick() {
+      for (const el of live) {
+        const r = el.getBoundingClientRect();
+        const p = (innerHeight - r.top) / (innerHeight + r.height);
+        el.style.setProperty('--s', Math.min(1, Math.max(0, p)).toFixed(4));
+      }
+      raf = live.size ? requestAnimationFrame(tick) : 0;
+    }
+
+    if (scrubs.length) {
+      const sio = new IntersectionObserver((entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) live.add(e.target);
+          else live.delete(e.target);
+        }
+        if (live.size && !raf) raf = requestAnimationFrame(tick);
+      }, { rootMargin: '20% 0px' });
+      scrubs.forEach((el) => sio.observe(el));
+    }
+  }
+
   /* ── one FAQ answer open at a time ───────────────────────── */
   const qas = [...document.querySelectorAll('.qa')];
   qas.forEach((qa) => qa.addEventListener('toggle', () => {
