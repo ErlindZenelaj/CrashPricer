@@ -22,7 +22,7 @@
     menu.hidden = !open;
   };
   burger.addEventListener('click', () => setMenu(menu.hidden));
-  addEventListener('snapprice:lang', () => setMenu(!menu.hidden));
+  addEventListener('crashpricer:lang', () => setMenu(!menu.hidden));
   menu.addEventListener('click', (e) => { if (e.target.closest('a')) setMenu(false); });
   addEventListener('keydown', (e) => { if (e.key === 'Escape') setMenu(false); });
   addEventListener('resize', () => { if (innerWidth > 1024) setMenu(false); });
@@ -188,7 +188,7 @@
       dial.classList.add('is-done');
       input.disabled = true;
     });
-    addEventListener('snapprice:lang', () => { if (!result.hidden) render(); });
+    addEventListener('crashpricer:lang', () => { if (!result.hidden) render(); });
   }
 
   /* ── footer year ─────────────────────────────────────────── */

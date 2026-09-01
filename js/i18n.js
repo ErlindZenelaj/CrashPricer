@@ -20,7 +20,7 @@
   const SQ = {
     /* — chrome — */
     'Skip to content': 'Kalo te përmbajtja',
-    'SnapPrice home': 'SnapPrice, faqja kryesore',
+    'CrashPricer home': 'CrashPricer, faqja kryesore',
     'Primary': 'Kryesore',
     'Footer': 'Fundi i faqes',
     'Open menu': 'Hap menynë',
@@ -30,14 +30,14 @@
     'For drivers': 'Për shoferët',
     'For repair shops': 'Për punëtoritë',
     'FAQ': 'Pyetje',
-    'Get SnapPrice': 'Merr SnapPrice',
+    'Get CrashPricer': 'Merr CrashPricer',
 
     /* — hero — */
     'Vehicle body damage, handled from your phone': 'Dëmtimet e karrocerisë, të zgjidhura nga telefoni',
     'Scan the damage.': 'Skano dëmtimin.',
     'Know the price.': 'Mëso çmimin.',
-    'Photograph the damaged panel and SnapPrice returns an estimated repair range in euros — then puts your request in front of repair shops nearby.':
-      'Fotografo panelin e dëmtuar dhe SnapPrice të kthen një interval të vlerësuar riparimi në euro — pastaj ia dërgon kërkesën punëtorive afër teje.',
+    'Photograph the damaged panel and CrashPricer returns an estimated repair range in euros — then puts your request in front of repair shops nearby.':
+      'Fotografo panelin e dëmtuar dhe CrashPricer të kthen një interval të vlerësuar riparimi në euro — pastaj ia dërgon kërkesën punëtorive afër teje.',
     'Start a scan': 'Fillo një skanim',
     'See how it works': 'Shiko si funksionon',
     'per scan': 'për skanim',
@@ -111,7 +111,7 @@
     'Offers': 'Ofertat',
 
     /* — how it works — */
-    'How SnapPrice works': 'Si funksionon SnapPrice',
+    'How CrashPricer works': 'Si funksionon CrashPricer',
     'Four steps between damage': 'Katër hapa mes dëmtimit',
     'and a booked repair.': 'dhe një riparimi të rezervuar.',
     'Add the vehicle': 'Shto automjetin',
@@ -160,8 +160,8 @@
     /* — for repair shops — */
     'Damage requests,': 'Kërkesa për dëmtime,',
     'already qualified.': 'tashmë të kualifikuara.',
-    'Shops on SnapPrice see damage cases from drivers in their coverage area — photos, detected part and severity attached — and reply with a single offer: price, repair time, drop-off. No cold leads, no scoping over the phone.':
-      'Punëtoritë në SnapPrice shohin rastet e dëmtimeve nga shoferët në zonën e tyre të mbulimit — me foto, pjesën e identifikuar dhe ashpërsinë — dhe përgjigjen me një ofertë të vetme: çmimi, koha e riparimit, dorëzimi. Pa kontakte të ftohta, pa vlerësime në telefon.',
+    'Shops on CrashPricer see damage cases from drivers in their coverage area — photos, detected part and severity attached — and reply with a single offer: price, repair time, drop-off. No cold leads, no scoping over the phone.':
+      'Punëtoritë në CrashPricer shohin rastet e dëmtimeve nga shoferët në zonën e tyre të mbulimit — me foto, pjesën e identifikuar dhe ashpërsinë — dhe përgjigjen me një ofertë të vetme: çmimi, koha e riparimit, dorëzimi. Pa kontakte të ftohta, pa vlerësime në telefon.',
     'Set your coverage area and get only relevant requests': 'Cakto zonën e mbulimit dhe merr vetëm kërkesa relevante',
     'See the photos, the detected part and the severity up front': 'Shiko fotot, pjesën e identifikuar dhe ashpërsinë që në fillim',
     'Send one clear offer and track it through to pick-up': 'Dërgo një ofertë të qartë dhe ndiqe deri te marrja',
@@ -178,14 +178,14 @@
     'Scan volume, partner counts and review scores publish once the numbers are real.':
       'Numri i skanimeve, i partnerëve dhe vlerësimet publikohen kur shifrat të jenë reale.',
     'Live across Kosovo': 'Aktiv në tërë Kosovën',
-    'Municipalities SnapPrice covers': 'Komunat që mbulon SnapPrice',
+    'Municipalities CrashPricer covers': 'Komunat që mbulon CrashPricer',
 
     /* — faq — */
     'Questions,': 'Pyetje,',
     'answered.': 'përgjigje.',
     'The estimate says so itself when a case needs a shop to look at it in person.':
       'Vlerësimi e thotë vetë kur një rast duhet parë nga një punëtori.',
-    'What exactly does SnapPrice estimate?': 'Çfarë vlerëson saktësisht SnapPrice?',
+    'What exactly does CrashPricer estimate?': 'Çfarë vlerëson saktësisht CrashPricer?',
     'Visible bodywork damage. From your photos it identifies the affected panel, the damage type and the severity, then returns an estimated repair range in euros — including whether the panel is likely to be repaired or replaced, and whether paint needs matching.':
       'Dëmtimet e dukshme të karrocerisë. Nga fotot e tua identifikon panelin e prekur, llojin e dëmtimit dhe ashpërsinë, pastaj kthen një interval të vlerësuar riparimi në euro — përfshirë nëse paneli ka gjasa të riparohet apo të ndërrohet, dhe nëse ngjyra duhet përputhur.',
     'Where do the prices come from?': 'Nga vijnë çmimet?',
@@ -200,14 +200,14 @@
     'What happens to the offers I don’t take?': 'Çfarë ndodh me ofertat që nuk i pranoj?',
     'Accepting one offer notifies that shop and declines the others automatically — you don’t have to turn anyone down yourself. Until you accept, nothing is committed, and there is a free window to withdraw a booking afterwards.':
       'Pranimi i një oferte njofton atë punëtori dhe i refuzon të tjerat automatikisht — nuk duhet t’i refuzosh vetë. Derisa të pranosh, asgjë nuk është e detyrueshme, dhe ka një afat pa pagesë për ta tërhequr rezervimin më pas.',
-    'Where does SnapPrice work?': 'Ku funksionon SnapPrice?',
+    'Where does CrashPricer work?': 'Ku funksionon CrashPricer?',
     'Across all 22 municipalities in Kosovo at launch, with estimates priced in euros. More regions follow.':
       'Në të 22 komunat e Kosovës në nisje, me vlerësime në euro. Rajone të tjera vijnë më pas.',
 
     /* — closing — */
     'Your repair': 'Riparimi yt',
-    'Download SnapPrice, photograph the damage, and know what you’re dealing with before anyone quotes you a number.':
-      'Shkarko SnapPrice, fotografo dëmtimin dhe mëso me çfarë ke të bësh para se dikush të të japë një shifër.',
+    'Download CrashPricer, photograph the damage, and know what you’re dealing with before anyone quotes you a number.':
+      'Shkarko CrashPricer, fotografo dëmtimin dhe mëso me çfarë ke të bësh para se dikush të të japë një shifër.',
     'Get started': 'Fillo tani',
     'Download on the': 'Shkarkoje në',
     'Get it on': 'Merre në',
@@ -238,7 +238,7 @@
 
   const SKIP = /(^|\s)(phone__screen|scr|fg|i18n-skip)(\s|$)/;
   const LETTER = /[A-Za-z]/;
-  const STORE = 'snapprice-lang';
+  const STORE = 'crashpricer-lang';
 
   const original = new Map();      // text node  -> English
   const originalHtml = new Map();  // element    -> English innerHTML
@@ -295,7 +295,7 @@
     /* Labels that other scripts write themselves — the menu button's, which
        depends on whether the menu is open — cannot be restored from the
        snapshot taken here. Let them re-apply their own. */
-    dispatchEvent(new CustomEvent('snapprice:lang', { detail: next }));
+    dispatchEvent(new CustomEvent('crashpricer:lang', { detail: next }));
   }
 
   /* site.js writes the burger label itself, so it needs the dictionary too */

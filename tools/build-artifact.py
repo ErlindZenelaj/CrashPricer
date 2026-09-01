@@ -6,7 +6,7 @@ Artifact hosting blocks every external host except Google Fonts, so the page
 has to carry its own CSS, JS and images. This inlines all of them and strips the
 document skeleton, because the host supplies its own.
 
-    python3 tools/build-artifact.py   ->   dist/snapprice.html
+    python3 tools/build-artifact.py   ->   dist/crashpricer.html
 """
 import base64
 import mimetypes
@@ -14,11 +14,11 @@ import os
 import re
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-OUT = os.path.join(ROOT, "dist", "snapprice.html")
+OUT = os.path.join(ROOT, "dist", "crashpricer.html")
 
 # The gallery shows this as the page's name, so it is the product, not the
 # tagline. The tagline stays on the deployed site, where it earns its keep.
-TITLE = "SnapPrice"
+TITLE = "CrashPricer"
 
 
 # The host supplies the document skeleton, so this file cannot carry its own

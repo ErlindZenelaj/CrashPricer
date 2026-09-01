@@ -1,6 +1,6 @@
-# SnapPrice — landing page
+# CrashPricer — landing page
 
-A product-launch site for SnapPrice, built around one idea:
+A product-launch site for CrashPricer, built around one idea:
 **scan the damage, know the price.**
 
 The centrepiece is a single 3D device that persists across the whole first
@@ -10,7 +10,7 @@ booked. One continuous story rather than a stack of sections.
 
 ## The screens are the real screens
 
-Everything shown inside the device is lifted from the SnapPrice design canvases,
+Everything shown inside the device is lifted from the CrashPricer design canvases,
 embedded at its native 390 × 844 and scaled by CSS. It is not a re-drawing of the
 app — it *is* the artboards, with the canvas's own conditional markup stripped out.
 
@@ -32,6 +32,15 @@ That reads `index.template.html`, replaces each `<!--SCREEN name-->` marker with
 the matching artboard, and writes `index.html`. **Edit the template, never the
 generated screen markup in `index.html`.** Pass canvas paths as arguments to read
 different files.
+
+### The product name
+
+The design canvases still carry the old product name in the app's wordmark, so
+`CONTENT_OVERRIDES` renames it to CrashPricer on the way in. Delete that entry
+once the artboards say CrashPricer themselves.
+
+The canvas *filenames* keep the old name because that is what is on disk — do
+not rename those strings in `CANVASES` unless the files are renamed too.
 
 ### Canvas test data
 
@@ -110,7 +119,7 @@ native speaker — worth one pass before launch.
 ## Sharing it
 
 `tools/build-artifact.py` flattens the site into one self-contained file at
-`dist/snapprice.html` — every stylesheet, script and image inlined, and the
+`dist/crashpricer.html` — every stylesheet, script and image inlined, and the
 document skeleton stripped because the artifact host supplies its own.
 
 ```bash
@@ -140,7 +149,7 @@ css/phone.css         the device shell and the 390x844 screen viewport
 css/site.css          navigation, the scroll experience, sections, responsive
 js/experience.js      the scroll engine — progress → chapter, rotation, parallax
 js/site.js            nav, reveals, counters, magnetic buttons, FAQ
-assets/logo/          the SnapPrice mark and app icon
+assets/logo/          the CrashPricer mark and app icon
 ```
 
 ## How it works
@@ -163,7 +172,7 @@ with their labels.
 ## Sharing it
 
 `tools/build-artifact.py` flattens the site into one self-contained file at
-`dist/snapprice.html` — every stylesheet, script and image inlined, and the
+`dist/crashpricer.html` — every stylesheet, script and image inlined, and the
 document skeleton stripped because the artifact host supplies its own.
 
 ```bash
@@ -193,7 +202,7 @@ css/phone.css         the device shell and the 390x844 screen viewport
 css/site.css          navigation, the scroll experience, sections, responsive
 js/experience.js      the scroll engine — progress → chapter, rotation, parallax
 js/site.js            nav, reveals, counters, magnetic buttons, FAQ
-assets/logo/          the SnapPrice mark and app icon
+assets/logo/          the CrashPricer mark and app icon
 ```
 
 ## How it works
@@ -254,7 +263,7 @@ The page uses the app's own system rather than a parallel one:
 Composition takes its cues from the two reference systems that briefed the work
 — *Hims App* for the calm single-accent canvas, long-spread shadows and generous
 radii; *Slush* for sculptural display type, pill navigation and hairline rules.
-Neither is copied: the palette and components come from SnapPrice.
+Neither is copied: the palette and components come from CrashPricer.
 
 ## The scroll engine
 
@@ -298,8 +307,8 @@ locked to the edge.
 
 `Optic White Logo/svg/optic-white-lockup.svg` sets the wordmark as **AutoSnap —
 “Snap it. Price it.”**, while the app, the mockups and `shared/brand.ts` all say
-**SnapPrice**. This site uses the logo *mark* and sets the wordmark in Plus
-Jakarta Sans as SnapPrice. Worth reconciling in the asset pack.
+**CrashPricer**. This site uses the logo *mark* and sets the wordmark in Plus
+Jakarta Sans as CrashPricer. Worth reconciling in the asset pack.
 
 ## Responsive
 

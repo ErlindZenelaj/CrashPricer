@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-Embed SnapPrice app screens into the landing page.
+Embed CrashPricer app screens into the landing page.
 
 The screens shown inside the device on this site are not re-drawings — they are
-the actual artboards from the SnapPrice design canvases, lifted out at their
+the actual artboards from the CrashPricer design canvases, lifted out at their
 native 390x844 and scaled by CSS. This script does the lifting.
 
     python3 tools/embed-screens.py [canvas.dc.html ...]
@@ -46,6 +46,12 @@ SCREENS = {
 # replaced occurrence by occurrence, in order. Delete an entry once the canvas
 # itself carries real partner names.
 CONTENT_OVERRIDES = {
+    # The canvas still carries the old product name in the app's wordmark.
+    # Renamed here so the device does not contradict the page around it;
+    # delete this once the artboards themselves say CrashPricer.
+    "home-scan-first": [
+        ("SnapPrice", ["CrashPricer"]),
+    ],
     "offers-list": [
         ("Erlind Zenelaj", ["Auto Ngjyra", "Prime Auto", "Naseri Auto"]),
         (">EZ<", [">AN<", ">PA<", ">NA<"]),
