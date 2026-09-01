@@ -311,17 +311,29 @@
   </div>
 </section>
 
-<!-- ══════════════════ THE POINT ══════════════════ -->
-<section class="thesis" id="thesis">
-  <div class="thesisbg" aria-hidden="true"><span class="aurora aurora--d"></span><span class="grid grid--dark"></span></div>
+<!-- ══════════════════ GUESS THE PRICE ══════════════════ -->
+<section class="guess" id="guess">
+  <div class="guessbg" aria-hidden="true"><span class="aurora aurora--d"></span><span class="grid grid--dark"></span></div>
   <div class="wrap">
-    <p class="kicker kicker--light reveal">The point</p>
-    <h2 class="thesis__h">
-      <span class="thesis__line reveal"><span>Nobody should have to</span></span>
-      <span class="thesis__line reveal"><span data-i18n="thesis-2"><em>guess</em> what a repair</span></span>
-      <span class="thesis__line reveal"><span>is going to cost.</span></span>
-    </h2>
-    <p class="thesis__p reveal">The panel, the damage type, the severity and a range in euros — before you speak to anyone, and before anyone quotes you a number.</p>
+    <p class="kicker kicker--light reveal">Try it yourself</p>
+    <h2 class="guess__h reveal">What would you have guessed?</h2>
+
+    <div class="guess__case reveal">
+      <span class="guess__car">Volkswagen Golf</span>
+      <span class="guess__chips"><i class="gchip">Rear bumper</i><i class="gchip">Crack</i><i class="gchip gchip--a">Medium</i></span>
+    </div>
+
+    <div class="dial reveal">
+      <output class="dial__out" id="dialOut" for="dialInput">€400</output>
+      <div class="dial__track">
+        <span class="dial__band" id="dialBand" aria-hidden="true"></span>
+        <input class="dial__input" id="dialInput" type="range" min="0" max="800" step="5" value="400" aria-label="Your guess, in euros" />
+      </div>
+      <div class="dial__ends" aria-hidden="true"><span>€0</span><span>€800</span></div>
+      <p class="dial__hint" id="dialHint">Drag to your guess</p>
+      <button class="btn btn--green dial__go" id="dialGo" type="button"><span>Reveal the estimate</span></button>
+      <p class="dial__result i18n-skip" id="dialResult" role="status" hidden></p>
+    </div>
   </div>
 </section>
 

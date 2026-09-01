@@ -147,6 +147,50 @@
     if (qa.open) qas.forEach((o) => { if (o !== qa) o.open = false; });
   }));
 
+  /* ── guess the price ─────────────────────────────────────────
+        A real case from the app: rear bumper, crack, medium, which the
+        estimate screen prices at EUR 195-391. The visitor puts a number on
+        the same line, then the range lands on it. The result line is written
+        here rather than in the markup, so it is marked i18n-skip and
+        re-rendered when the language changes. */
+  const dial = document.querySelector('.dial');
+  if (dial) {
+    const LOW = 195, HIGH = 391;
+    const input = document.getElementById('dialInput');
+    const out = document.getElementById('dialOut');
+    const band = document.getElementById('dialBand');
+    const go = document.getElementById('dialGo');
+    const result = document.getElementById('dialResult');
+    const max = Number(input.max);
+    const t = (s) => (window.snapT ? window.snapT(s) : s);
+
+    band.style.left = (LOW / max * 100) + '%';
+    band.style.width = ((HIGH - LOW) / max * 100) + '%';
+
+    const show = () => { out.textContent = '€' + input.value; };
+    input.addEventListener('input', show);
+    show();
+
+    const render = () => {
+      const guess = Number(input.value);
+      const off = guess < LOW ? LOW - guess : guess > HIGH ? guess - HIGH : 0;
+      result.innerHTML = '';
+      const b = document.createElement('b');
+      b.textContent = '€' + LOW + ' – €' + HIGH;
+      const note = document.createElement('span');
+      note.textContent = off === 0 ? t('Inside the range') : t('Off by') + ' €' + off;
+      result.append(b, note);
+    };
+
+    go.addEventListener('click', () => {
+      render();
+      result.hidden = false;
+      dial.classList.add('is-done');
+      input.disabled = true;
+    });
+    addEventListener('snapprice:lang', () => { if (!result.hidden) render(); });
+  }
+
   /* ── footer year ─────────────────────────────────────────── */
   document.getElementById('yr').textContent = String(new Date().getFullYear());
 })();

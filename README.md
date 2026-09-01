@@ -214,10 +214,13 @@ make a single left-to-right line meaningless.
 The scroll story is the loud part of the page, so the sections under it are
 composed to carry the same energy rather than settling into card grids:
 
-- **The point** — one sculptural statement on the ink ground, the only type on
-  the page at that scale. The lines are clipped and pushed up rather than faded,
-  so the sentence assembles itself as it arrives. Each line is its own overflow
-  window, which is why it still works when a line wraps on a narrow screen.
+- **Guess the price** — the one place the page stops asserting and lets the
+  visitor try. A real case from the app (rear bumper, crack, medium) and a line
+  from €0 to €800 to put a number on; revealing drops the actual €195–€391 onto
+  the same line, leaving the visitor's handle where they left it. The gap
+  between the two is the argument, made without a sentence. It replaced a big
+  statement band, which said the same thing but was the sort of device that
+  could sit on any page.
 - **For repair shops** — the hero's floating fragments return, on a dark glass
   variant, drifting against the scroll at their own depths. They sit over the
   device's edge, never over its content.

@@ -19,6 +19,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Strings that are the same in both languages, or are not words to translate.
 IGNORE = {
     "SnapPrice", "FAQ", "App Store", "Google Play", "EN", "SQ",
+    "Volkswagen Golf", "Audi A4", "VW Golf",   # vehicle names stay as they are
     "min", "~2 min", "Prishtinë", "Deçan", "Dragash", "Ferizaj", "Fushë Kosovë",
     "Gjakovë", "Gjilan", "Graçanicë", "Istog", "Kaçanik", "Klinë", "Lipjan",
     "Malishevë", "Mitrovicë", "Pejë", "Podujevë", "Prizren", "Rahovec",

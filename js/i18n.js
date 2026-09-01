@@ -127,12 +127,17 @@
     'Compare replies from repair shops, accept one, and book the drop-off.':
       'Krahaso përgjigjet e punëtorive, prano njërën dhe rezervo dorëzimin.',
 
-    /* — the point — */
-    'The point': 'Thelbi',
-    'Nobody should have to': 'Askush nuk duhet ta',
-    'is going to cost.': 'një riparim.',
-    'The panel, the damage type, the severity and a range in euros — before you speak to anyone, and before anyone quotes you a number.':
-      'Paneli, lloji i dëmtimit, ashpërsia dhe një interval në euro — para se t’i flasësh askujt, dhe para se dikush të të japë një shifër.',
+    /* — guess the price — */
+    'Try it yourself': 'Provoje vetë',
+    'What would you have guessed?': 'Sa do të kishit hamendësuar?',
+    'Rear bumper': 'Parakolpi i pasmë',
+    'Crack': 'Plasaritje',
+    'Medium': 'Mesatar',
+    'Your guess, in euros': 'Hamendja jote, në euro',
+    'Drag to your guess': 'Rrëshqite te hamendja jote',
+    'Reveal the estimate': 'Zbulo vlerësimin',
+    'Inside the range': 'Brenda intervalit',
+    'Off by': 'Larg me',
 
     /* — for drivers — */
     'Know what a repair could cost before you visit a shop.': 'Mëso sa mund të kushtojë një riparim para se të shkosh në punëtori.',
@@ -221,7 +226,6 @@
   /* Lines that carry inline markup translate whole, by id. */
   const SQ_HTML = {
     'why-h': 'Dëmtimi është stresues.<br />Por <em>procesi</em> nuk ka pse të jetë.',
-    'thesis-2': '<em>hamendësojë</em> sa kushton',
     'final-2': 'fillon me një <em>skanim</em>.',
   };
 
@@ -232,7 +236,7 @@
   const LOOKUP = Object.create(null);
   for (const k of Object.keys(SQ)) LOOKUP[norm(k)] = SQ[k];
 
-  const SKIP = /(^|\s)(phone__screen|scr|fg)(\s|$)/;
+  const SKIP = /(^|\s)(phone__screen|scr|fg|i18n-skip)(\s|$)/;
   const LETTER = /[A-Za-z]/;
   const STORE = 'snapprice-lang';
 
