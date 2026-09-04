@@ -157,14 +157,25 @@
     'Scan, estimate, offers, booking, drop-off and pick-up — one thread from start to finish.':
       'Skanimi, vlerësimi, ofertat, rezervimi, dorëzimi dhe marrja — një fill i vetëm nga fillimi në fund.',
 
+    /* — parts marketplace — */
+    'For drivers and shops': 'Për shoferë dhe punëtori',
+    'Parts, from whoever': 'Pjesë, nga kushdo që',
+    'already has them.': 'i ka tashmë.',
+    'The same app carries a marketplace for body parts, wheels, lights and paint — listed by repair shops and by private sellers. CrashPricer shows the item, the price and the address; payment and pickup are arranged directly with the seller.':
+      'I njëjti aplikacion ka edhe një treg për pjesë karrocerie, rrota, fenerë dhe ngjyra — të listuara nga punëtoritë dhe nga shitës privatë. CrashPricer tregon artikullin, çmimin dhe adresën; pagesa dhe marrja rregullohen drejtpërdrejt me shitësin.',
+    'Search by part, model or shop': 'Kërko sipas pjesës, modelit ose punëtorisë',
+    'Filter to body parts, wheels, lights or paint': 'Filtro në pjesë karrocerie, rrota, fenerë ose ngjyrë',
+    'Distance from you on every listing': 'Largësia nga ti në çdo listim',
+    'Shop or private seller, labelled on the listing': 'Punëtori apo shitës privat, e shënuar në listim',
+
     /* — for repair shops — */
     'Damage requests,': 'Kërkesa për dëmtime,',
     'already qualified.': 'tashmë të kualifikuara.',
     'Shops on CrashPricer see damage cases from drivers in their coverage area — photos, detected part and severity attached — and reply with a single offer: price, repair time, drop-off. No cold leads, no scoping over the phone.':
       'Punëtoritë në CrashPricer shohin rastet e dëmtimeve nga shoferët në zonën e tyre të mbulimit — me foto, pjesën e identifikuar dhe ashpërsinë — dhe përgjigjen me një ofertë të vetme: çmimi, koha e riparimit, dorëzimi. Pa kontakte të ftohta, pa vlerësime në telefon.',
-    'Set your coverage area and get only relevant requests': 'Cakto zonën e mbulimit dhe merr vetëm kërkesa relevante',
-    'See the photos, the detected part and the severity up front': 'Shiko fotot, pjesën e identifikuar dhe ashpërsinë që në fillim',
-    'Send one clear offer and track it through to pick-up': 'Dërgo një ofertë të qartë dhe ndiqe deri te marrja',
+    'Draw a radius of 10, 25, 50 or 100 km around your city': 'Cakto një rreze prej 10, 25, 50 ose 100 km rreth qytetit tënd',
+    'See how many open requests fall inside it before you commit': 'Shiko sa kërkesa të hapura bien brenda saj para se të vendosësh',
+    'Every request arrives with the owner’s estimate already on it': 'Çdo kërkesë vjen me vlerësimin e pronarit tashmë në të',
     'Accepted work arrives with the owner’s contact attached': 'Puna e pranuar vjen me kontaktin e pronarit',
     'Join as a repair shop': 'Bashkohu si punëtori',
 

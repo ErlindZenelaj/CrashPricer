@@ -83,13 +83,21 @@ def main():
 
     # ── body: everything between the skeleton tags ────────────────────────
     body = page[page.index("<body>") + len("<body>"): page.index("</body>")]
+
+    # Vercel's analytics tags are served by Vercel; on any other host they are
+    # two 404s. The single-file build is for elsewhere, so they come out.
+    body = re.sub(r"<!-- Vercel Analytics.*?speed-insights/script\.js\"></script>",
+                  "", body, flags=re.S)
     for tag in re.findall(r'<script src="js/[^"]+" defer></script>', body):
         body = body.replace(tag, "")
 
     # ── images become data URIs ───────────────────────────────────────────
     def inline_img(m):
         src = m.group(1)
-        if src.startswith(("data:", "http")):
+        if src.startswith(("data:", "http", "/")):
+            return m.group(0)          # already inline, remote, or host-absolute
+        if not os.path.exists(os.path.join(ROOT, src)):
+            print("  ! referenced file is missing, left as-is: %s" % src)
             return m.group(0)
         return m.group(0).replace(src, data_uri(src))
 

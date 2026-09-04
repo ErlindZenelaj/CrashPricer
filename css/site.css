@@ -641,15 +641,26 @@
   content: "";
   width: 20px; height: 20px; flex: none; margin-top: 3px;
   border-radius: 50%;
-  background: rgba(34,197,94,.16);
+  background-color: rgba(34,197,94,.16);
   border: 1px solid rgba(34,197,94,.42);
-  background-image:
-    linear-gradient(45deg, transparent 44%, var(--green-bright) 44% 56%, transparent 56%),
-    linear-gradient(-45deg, transparent 44%, var(--green-bright) 44% 56%, transparent 56%);
-  background-size: 5px 2px, 9px 2px;
-  background-position: 5px 11px, 9px 10px;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='%2322C55E' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'><path d='M2.6 6.3 4.9 8.6 9.4 3.6'/></svg>");
   background-repeat: no-repeat;
+  background-position: center;
+  background-size: 11px 11px;
 }
+
+/* the marketplace serves both sides, so it sits between the two audience
+   sections and mirrors the repair-shop layout rather than repeating it */
+.shops--flip { grid-template-columns: minmax(0, 420px) minmax(0, 1fr); }
+.sec--paper .shops .lede { color: var(--text-2); }
+.sec--paper .ticks li { color: var(--text-2); }
+.sec--paper .ticks li::before {
+  background-color: var(--green-pale);
+  border-color: var(--green-line);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='%2315803D' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'><path d='M2.6 6.3 4.9 8.6 9.4 3.6'/></svg>");
+}
+.sec--paper .shops__viz .phone { transform: rotateX(6deg) rotateY(11deg) rotateZ(-1.5deg); }
+.sec--paper .shops__viz:hover .phone { transform: rotateX(2deg) rotateY(4deg); }
 
 .shops__viz { position: relative; display: flex; justify-content: center; perspective: 1400px; }
 
@@ -1009,6 +1020,7 @@
   .bento { grid-template-columns: repeat(2, minmax(0,1fr)); }
   .card--wide { grid-column: span 2; grid-template-columns: minmax(0,1fr); }
   .shops { grid-template-columns: minmax(0,1fr); }
+  .shops--flip .shops__viz { order: 1; }
   .stats { grid-template-columns: repeat(2, minmax(0,1fr)); }
   .foot__inner { grid-template-columns: minmax(0,1fr); }
 }

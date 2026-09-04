@@ -33,6 +33,20 @@ the matching artboard, and writes `index.html`. **Edit the template, never the
 generated screen markup in `index.html`.** Pass canvas paths as arguments to read
 different files.
 
+### Editing the generated page
+
+`index.html` is generated. Anything added straight to it is lost on the next
+run — the Vercel Analytics and Speed Insights tags were added there once and had
+to be moved into `index.template.html` to survive. Put page-level scripts and
+tags in the template.
+
+### Unbound artboards
+
+Some artboards in the canvases are templates, not rendered screens: they still
+carry `{{ activeCount }}`-style bindings. The embedder refuses those rather than
+putting literal braces on the page, and names what is unbound. `Crash feed area
+filter` is one of them today.
+
 ### The product name
 
 The design canvases still carry the old product name in the app's wordmark, so

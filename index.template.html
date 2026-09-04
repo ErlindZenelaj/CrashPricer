@@ -394,6 +394,39 @@
   </div>
 </section>
 
+<!-- ══════════════════ PARTS MARKETPLACE ══════════════════ -->
+<section class="sec sec--paper" id="market">
+  <div class="wrap">
+    <div class="shops shops--flip">
+      <div class="shops__viz reveal" aria-hidden="true">
+        <div class="phone phone--shop">
+          <div class="phone__aura"></div>
+          <div class="phone__body">
+            <div class="phone__bezel">
+              <div class="phone__screen">
+                <div class="scr is-on"><!--SCREEN shops-market--></div>
+              </div>
+              <span class="phone__glare"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="shops__copy reveal">
+        <p class="kicker">For drivers and shops</p>
+        <h2 class="sech">Parts, from whoever<br />already has them.</h2>
+        <p class="lede">The same app carries a marketplace for body parts, wheels, lights and paint — listed by repair shops and by private sellers. CrashPricer shows the item, the price and the address; payment and pickup are arranged directly with the seller.</p>
+        <ul class="ticks">
+          <li>Search by part, model or shop</li>
+          <li>Filter to body parts, wheels, lights or paint</li>
+          <li>Distance from you on every listing</li>
+          <li>Shop or private seller, labelled on the listing</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ══════════════════ FOR REPAIR SHOPS ══════════════════ -->
 <section class="sec sec--ink" id="shops">
   <div class="wrap">
@@ -403,9 +436,9 @@
         <h2 class="sech sech--light">Damage requests,<br />already qualified.</h2>
         <p class="lede">Shops on CrashPricer see damage cases from drivers in their coverage area — photos, detected part and severity attached — and reply with a single offer: price, repair time, drop-off. No cold leads, no scoping over the phone.</p>
         <ul class="ticks">
-          <li>Set your coverage area and get only relevant requests</li>
-          <li>See the photos, the detected part and the severity up front</li>
-          <li>Send one clear offer and track it through to pick-up</li>
+          <li>Draw a radius of 10, 25, 50 or 100 km around your city</li>
+          <li>See how many open requests fall inside it before you commit</li>
+          <li>Every request arrives with the owner’s estimate already on it</li>
           <li>Accepted work arrives with the owner's contact attached</li>
         </ul>
         <a class="btn btn--green magnetic" href="#get">
@@ -581,5 +614,20 @@
 <script src="js/experience.js" defer></script>
 <script src="js/site.js" defer></script>
 <script src="js/i18n.js" defer></script>
+
+<!-- Vercel Analytics and Speed Insights. These live here, not in the
+     generated index.html, so that regenerating the page does not drop them. -->
+<script>
+  window.va = window.va || function () {
+    (window.vaq = window.vaq || []).push(arguments);
+  };
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script>
+  window.si = window.si || function () {
+    (window.siq = window.siq || []).push(arguments);
+  };
+</script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
 </body>
 </html>

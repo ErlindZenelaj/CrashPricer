@@ -28,6 +28,7 @@ DL = os.path.expanduser("~/Downloads")
 CANVASES = [
     os.path.join(DL, "SnapPrice - Core Flow.dc.html"),
     os.path.join(DL, "SnapPrice- light.dc.html"),
+    os.path.join(DL, "SnapPrice - Shops.dc.html"),
 ]
 
 # marker name -> data-screen-label
@@ -38,6 +39,7 @@ SCREENS = {
     "estimate-result": "Estimate result",
     "offers-list":     "Offers list",
     "make-an-offer":   "Make an offer",
+    "shops-market":    "Shops marketplace",
 }
 
 # The offers artboard ships with one test account repeated for every offer, so
@@ -51,6 +53,10 @@ CONTENT_OVERRIDES = {
     # delete this once the artboards themselves say CrashPricer.
     "home-scan-first": [
         ("SnapPrice", ["CrashPricer"]),
+    ],
+    "shops-market": [
+        ("SnapPrice", ["CrashPricer"]),
+        ("Erlind Zenelaj", ["Fatmir K."]),
     ],
     "offers-list": [
         ("Erlind Zenelaj", ["Auto Ngjyra", "Prime Auto", "Naseri Auto"]),
@@ -159,6 +165,12 @@ def clean(html, font, canvas_dir):
     return html
 
 
+def unbound(html):
+    """Canvas bindings the artboard never had values for. Shipping one puts a
+    literal {{ activeCount }} on the page, so report rather than embed."""
+    return sorted(set(re.findall(r"\{\{[^}]*\}\}", html)))
+
+
 def apply_overrides(name, html):
     """Swap canvas test data for something presentable, one occurrence at a
     time. A count mismatch means the artboard changed — say so rather than
@@ -200,8 +212,17 @@ def main():
             found = artboard(canvas, label)
             if found:
                 html, font = found
-                html = apply_overrides(name, html)
-                page = page.replace(marker, clean(html, font, os.path.dirname(path)))
+                html = clean(apply_overrides(name, html), font, os.path.dirname(path))
+                # checked after cleaning: bindings inside sc-if blocks are
+                # stripped there, and only what survives would reach the page
+                loose = unbound(html)
+                if loose:
+                    raise SystemExit(
+                        "%s still has unbound canvas bindings: %s\n"
+                        "That artboard is a template, not a rendered screen - "
+                        "bind it in the canvas and re-export."
+                        % (name, ", ".join(loose)))
+                page = page.replace(marker, html)
                 print("  %-16s %-26s %6d bytes  %s%s"
                       % (name, label, len(html), os.path.basename(path),
                          "  [%s]" % font if font else ""))
