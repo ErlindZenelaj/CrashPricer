@@ -188,6 +188,45 @@
   margin-top: 6px;
 }
 
+/* — the deletion request form — */
+.doc__form { margin: 18px 0 14px; }
+.doc__label {
+  display: block;
+  font-size: var(--t-body-sm);
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+.doc__input {
+  display: block;
+  width: 100%;
+  max-width: 420px;
+  font: inherit;
+  font-size: var(--t-body);
+  color: var(--ink);
+  background: var(--mist);
+  border: 1px solid var(--line-soft);
+  border-radius: 12px;
+  padding: 13px 16px;
+  margin-bottom: 14px;
+}
+.doc__input:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 1px;
+  background: var(--paper);
+}
+.doc__cta[type="submit"], .doc__cta[type="button"] {
+  font: inherit;
+  font-weight: 700;
+  border: 0;
+  cursor: pointer;
+}
+.doc__cta[disabled] { opacity: 0.55; cursor: default; }
+
+/* Deleting an account is irreversible; the button that does it should not look
+   like the button that sends an email. */
+.doc__cta--danger { background: #B42318; }
+
 /* — footer — */
 .doc__foot {
   border-top: 1px solid var(--line);

@@ -43,6 +43,13 @@ SUPPORT_EMAIL = "support@crashpricer.com"
 APP_NAME = "CrashPricer"
 CITY = "Prishtinë, Kosovo"
 
+# Where the deletion form posts. The site is static and deploys separately from
+# the API, so this cannot be inferred — and it must be an origin listed in the
+# backend's Cors:AllowedOrigins or the browser will refuse the request. Left on
+# localhost so a wrong production value cannot ship silently; the build says so
+# on every run.
+API_BASE_URL = "http://localhost:5050"
+
 # Not registered yet. Each of these renders as a visible marker and is listed at
 # the end of the build; fill them in before the site goes in front of a store
 # reviewer, since Play's developer identity and the EU trader rules both ask.
@@ -139,7 +146,8 @@ def mailto(subject: str) -> str:
     return f"mailto:{SUPPORT_EMAIL}?subject={query}"
 
 
-def chrome(lang: str, page: str, title: str, description: str, body: str) -> str:
+def chrome(lang: str, page: str, title: str, description: str, body: str,
+           script: str = "") -> str:
     """Wrap page content in the shared shell: bar, language switch, footer."""
     up = "../" if lang == "sq" else ""
     other = "sq" if lang == "en" else "en"
@@ -198,7 +206,7 @@ def chrome(lang: str, page: str, title: str, description: str, body: str) -> str
     <p>© 2026 {APP_NAME} · {CITY} · {RIGHTS[lang]}</p>
   </div>
 </footer>
-
+{script}
 </body>
 </html>
 """
@@ -271,6 +279,50 @@ DELETION = {
         "kept_p": f"Të dhëna të kufizuara moderimi — lloji i veprimit, arsyeja, koha dhe identifikues pseudonimë — mund të ruhen pas fshirjes kur kjo është e nevojshme për të mbrojtur përdoruesit e tjerë dhe për të parandaluar abuzimin e përsëritur, si dhe të dhënat që jemi të detyruar me ligj t'i ruajmë. Këto nuk të identifikojnë publikisht. Të dhënat e fshira qëndrojnë edhe në kopjet rezervë të enkriptuara derisa ato të skadojnë në ciklin e tyre normal ({TODO['backup_window']}), pas së cilës hiqen edhe prej atje.",
         "timing_h": "Sa zgjat",
         "timing_p": "Fshirja brenda aplikacionit është e menjëhershme. Një kërkesë me email trajtohet brenda 30 ditësh nga verifikimi, zakonisht shumë më shpejt.",
+    },
+}
+
+# The form on the deletion page, and the page the mailed link opens.
+FORM = {
+    "en": {
+        "label": "The email address your account is registered to",
+        "placeholder": "you@example.com",
+        "submit": "Send me the deletion link",
+        "sending": "Sending…",
+        # Says the same thing whether or not the address had an account: the
+        # server will not tell the page, so the page cannot tell the visitor.
+        "sent": "If that address has a CrashPricer account, a confirmation link is on its way. The link expires in 30 minutes.",
+        "failed": "That request could not be sent. Check your connection and try again, or email " + SUPPORT_EMAIL + ".",
+        "or_email": "Prefer email? Write to " + SUPPORT_EMAIL + " with the subject “Account deletion”, from the address the account is registered to.",
+        "confirm_eyebrow": "Account deletion",
+        "confirm_title": "Confirm you want this account deleted",
+        "confirm_lede": "This permanently deletes the CrashPricer account this link was sent for. It cannot be undone.",
+        "confirm_button": "Delete my account permanently",
+        "confirm_working": "Deleting…",
+        "confirm_done": "The account has been deleted. Nothing further is needed.",
+        "confirm_invalid": "This link is no longer valid. Links expire after 30 minutes and can only be used once — request a new one from the deletion page.",
+        "confirm_missing": "This link is incomplete. Open the link from the confirmation email exactly as it was sent.",
+        "confirm_failed": "The account could not be deleted just now. Check your connection and try again, or email " + SUPPORT_EMAIL + ".",
+        "confirm_back": "Back to the deletion page",
+    },
+    "sq": {
+        "label": "Adresa e emailit me të cilën është regjistruar llogaria",
+        "placeholder": "ti@shembull.com",
+        "submit": "Dërgomë lidhjen e fshirjes",
+        "sending": "Po dërgohet…",
+        "sent": "Nëse ajo adresë ka një llogari CrashPricer, lidhja e konfirmimit është nisur. Lidhja skadon pas 30 minutash.",
+        "failed": "Kërkesa nuk mundi të dërgohej. Kontrollo lidhjen dhe provo sërish, ose shkruaj te " + SUPPORT_EMAIL + ".",
+        "or_email": "Preferon emailin? Shkruaj te " + SUPPORT_EMAIL + " me subjektin “Fshirja e llogarisë”, nga adresa me të cilën është regjistruar llogaria.",
+        "confirm_eyebrow": "Fshirja e llogarisë",
+        "confirm_title": "Konfirmo që dëshiron ta fshish këtë llogari",
+        "confirm_lede": "Kjo fshin përgjithmonë llogarinë CrashPricer për të cilën u dërgua kjo lidhje. Nuk mund të zhbëhet.",
+        "confirm_button": "Fshij llogarinë time përgjithmonë",
+        "confirm_working": "Po fshihet…",
+        "confirm_done": "Llogaria u fshi. Nuk nevojitet asgjë tjetër.",
+        "confirm_invalid": "Kjo lidhje nuk është më e vlefshme. Lidhjet skadojnë pas 30 minutash dhe përdoren vetëm një herë — kërko një të re nga faqja e fshirjes.",
+        "confirm_missing": "Kjo lidhje është e paplotë. Hape lidhjen nga emaili i konfirmimit pikërisht ashtu si u dërgua.",
+        "confirm_failed": "Llogaria nuk mundi të fshihej tani. Kontrollo lidhjen dhe provo sërish, ose shkruaj te " + SUPPORT_EMAIL + ".",
+        "confirm_back": "Kthehu te faqja e fshirjes",
     },
 }
 
@@ -357,8 +409,45 @@ def build_support(lang: str, helpc: dict, legal: dict) -> str:
     return chrome(lang, "support", h["title"], h["subtitle"], body)
 
 
+def build_deletion_confirm(lang: str) -> str:
+    """The page the mailed link opens.
+
+    It asks for a click rather than deleting on load. Mail clients and security
+    scanners follow links in messages to preview or vet them, and a page that
+    acted on load would let a scanner erase the account before the person had
+    even read the email.
+    """
+    f = FORM[lang]
+    up = "../" if lang == "sq" else ""
+    body = (
+        head(f["confirm_eyebrow"], f["confirm_title"], f["confirm_lede"])
+        + f"""
+    <div class="doc__card">
+      <section class="doc__sec" data-deletion-confirm
+               data-endpoint="{API_BASE_URL}/api/account-deletion/confirm"
+               data-working="{html.escape(f["confirm_working"], quote=True)}"
+               data-done="{html.escape(f["confirm_done"], quote=True)}"
+               data-invalid="{html.escape(f["confirm_invalid"], quote=True)}"
+               data-missing="{html.escape(f["confirm_missing"], quote=True)}"
+               data-failed="{html.escape(f["confirm_failed"], quote=True)}">
+        <button class="doc__cta doc__cta--danger" type="button">{esc(f["confirm_button"])}</button>
+      </section>
+      <p class="doc__note doc__note--calm" data-confirm-status hidden></p>
+      <section class="doc__sec">
+        <p><a href="{up}delete-account.html">{esc(f["confirm_back"])}</a></p>
+      </section>
+    </div>"""
+    )
+    return chrome(
+        lang, "delete-account-confirm", f["confirm_title"], f["confirm_lede"], body,
+        script=f'<script src="{up}js/deletion.js" defer></script>',
+    )
+
+
 def build_deletion(lang: str) -> str:
     d = DELETION[lang]
+    f = FORM[lang]
+    up = "../" if lang == "sq" else ""
     steps = "\n".join(f"          <li>{esc(s)}</li>" for s in d["steps"])
     body = (
         head(d["eyebrow"], d["title"], d["lede"])
@@ -374,7 +463,20 @@ def build_deletion(lang: str) -> str:
         <ol class="doc__steps">
 {steps}
         </ol>
-        <a class="doc__cta" href="{mailto('Account deletion')}">{esc(d["cta"])}</a>
+
+        <form class="doc__form" data-deletion-form
+              data-endpoint="{API_BASE_URL}/api/account-deletion/request"
+              data-sending="{html.escape(f["sending"], quote=True)}"
+              data-sent="{html.escape(f["sent"], quote=True)}"
+              data-failed="{html.escape(f["failed"], quote=True)}">
+          <label class="doc__label" for="deletion-email">{esc(f["label"])}</label>
+          <input class="doc__input" id="deletion-email" type="email" name="email"
+                 autocomplete="email" required placeholder="{html.escape(f["placeholder"], quote=True)}" />
+          <button class="doc__cta" type="submit">{esc(f["submit"])}</button>
+        </form>
+        <p class="doc__note doc__note--calm" data-deletion-status hidden></p>
+
+        <p>{esc(f["or_email"])}</p>
       </section>
       <section class="doc__sec">
         <h2>{esc(d["what_h"])}</h2>
@@ -390,7 +492,10 @@ def build_deletion(lang: str) -> str:
       </section>
     </div>"""
     )
-    return chrome(lang, "delete-account", d["title"], d["lede"], body)
+    return chrome(
+        lang, "delete-account", d["title"], d["lede"], body,
+        script=f'<script src="{up}js/deletion.js" defer></script>',
+    )
 
 
 def build_company(lang: str) -> str:
@@ -431,6 +536,9 @@ def main() -> None:
             "terms": build_terms(lang, legal),
             "support": build_support(lang, helpc, legal),
             "delete-account": build_deletion(lang),
+            # Not in PAGES: it is the landing page for the emailed link, not a
+            # destination anyone navigates to, so it stays out of the footer.
+            "delete-account-confirm": build_deletion_confirm(lang),
             "company": build_company(lang),
         }
         for name, markup in pages.items():
@@ -443,6 +551,12 @@ def main() -> None:
         print(f"  {path}")
 
     print(f"\nsupport email, consistent across app and site: {SUPPORT_EMAIL}")
+    print(f"deletion form posts to: {API_BASE_URL}")
+    if "localhost" in API_BASE_URL or "127.0.0.1" in API_BASE_URL:
+        print("  !! that is a local address — the deletion form will not work once deployed.")
+        print("     Set API_BASE_URL to the production API, and add this site's origin")
+        print("     to the backend's Cors:AllowedOrigins, or the browser will block it.")
+
     print("\nSTILL TO FILL IN before this goes in front of a store reviewer:")
     for key, value in TODO.items():
         print(f"  {key:14} {value}")

@@ -57,7 +57,20 @@
           <li>We reply to that address to confirm the request came from you.</li>
           <li>Once confirmed, the account is deleted and we email you when it is done.</li>
         </ol>
-        <a class="doc__cta" href="mailto:support@crashpricer.com?subject=Account%20deletion">Email a deletion request</a>
+
+        <form class="doc__form" data-deletion-form
+              data-endpoint="http://localhost:5050/api/account-deletion/request"
+              data-sending="Sending…"
+              data-sent="If that address has a CrashPricer account, a confirmation link is on its way. The link expires in 30 minutes."
+              data-failed="That request could not be sent. Check your connection and try again, or email support@crashpricer.com.">
+          <label class="doc__label" for="deletion-email">The email address your account is registered to</label>
+          <input class="doc__input" id="deletion-email" type="email" name="email"
+                 autocomplete="email" required placeholder="you@example.com" />
+          <button class="doc__cta" type="submit">Send me the deletion link</button>
+        </form>
+        <p class="doc__note doc__note--calm" data-deletion-status hidden></p>
+
+        <p>Prefer email? Write to support@crashpricer.com with the subject “Account deletion”, from the address the account is registered to.</p>
       </section>
       <section class="doc__sec">
         <h2>What is deleted</h2>
@@ -83,6 +96,6 @@
     <p>© 2026 CrashPricer · Prishtinë, Kosovo · All rights reserved.</p>
   </div>
 </footer>
-
+<script src="js/deletion.js" defer></script>
 </body>
 </html>

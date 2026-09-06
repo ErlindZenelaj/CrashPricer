@@ -161,6 +161,35 @@ the deletion-request page (the app's own route is Settings → Delete account;
 this is for someone who has already uninstalled) and the company identification
 page. **Their Albanian is mine and unreviewed**, same caveat as above.
 
+### The deletion flow
+
+`delete-account.html` carries a real form, not just an email address, because
+Google Play wants a deletion request that works without installing the app. It
+posts to the backend, which mails a single-use link; that link opens
+`delete-account-confirm.html`, which does the deletion. `js/deletion.js` drives
+both, reading its endpoints and its messages from `data-*` attributes so one
+script serves both languages.
+
+Three things about it are deliberate:
+
+- **No password field, ever.** The in-app route re-authenticates with the
+  current password; a public web page must not. Possession of the mailed link
+  is the proof instead. Teaching people to type their password into a page they
+  reached from an email is the phishing pattern itself.
+- **The request always reports the same thing**, whether or not the address had
+  an account. The endpoint answers 202 either way. Saying "no such account"
+  would confirm to anyone who asks that a given person uses the product.
+- **The confirmation page needs a click**; it never deletes on load. Mail
+  clients and security scanners follow links to preview or vet them, and a page
+  that acted on load would let a scanner erase the account before its owner had
+  opened the email.
+
+`API_BASE_URL` at the top of the build script is where the form posts. It
+defaults to localhost so a wrong production value cannot ship quietly — the
+build warns whenever it still points at a local address. That origin must also
+appear in the backend's `Cors:AllowedOrigins`, or the browser blocks the request
+before it is sent.
+
 ### Unfilled company details
 
 The operating entity is not registered yet, so the legal name, registered
