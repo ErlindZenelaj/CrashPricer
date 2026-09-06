@@ -240,15 +240,15 @@ DELETION = {
         "eyebrow": "Account deletion",
         "title": "Request deletion of your account",
         "lede": f"You can delete your {APP_NAME} account from inside the app, or ask us to delete it for you — including after you have uninstalled.",
-        "in_app_h": "Fastest: delete it yourself in the app",
-        "in_app": "Open CrashPricer and go to Settings → Delete account. The account is removed immediately and no email exchange is needed.",
-        "request_h": "If you no longer have the app",
-        "request_p": "Email us and we will verify the request before acting on it, because an account must never be deleted by someone who is not its owner.",
+        "in_app_h": "Still have the app installed?",
+        "in_app": "You can also delete the account inside CrashPricer: Settings → Delete account. It is removed immediately, with no email step.",
+        "request_h": "Request deletion",
+        "request_p": "Enter the email address your account is registered to and we will send a confirmation link to it. We confirm by email because an account must never be deleted by someone who is not its owner.",
         "steps": [
-            f"Email {SUPPORT_EMAIL} with the subject “Account deletion”.",
-            "Send it from the email address the account is registered to.",
-            "We reply to that address to confirm the request came from you.",
-            "Once confirmed, the account is deleted and we email you when it is done.",
+            "Enter your registered email address below.",
+            "Open the confirmation link we send to that address.",
+            "Confirm on the page it opens — the account is deleted straight away.",
+            "The link expires after 30 minutes and works only once.",
         ],
         "cta": "Email a deletion request",
         "what_h": "What is deleted",
@@ -262,15 +262,15 @@ DELETION = {
         "eyebrow": "Fshirja e llogarisë",
         "title": "Kërko fshirjen e llogarisë sate",
         "lede": f"Mund ta fshish llogarinë tënde {APP_NAME} brenda aplikacionit, ose të na kërkosh ta fshijmë ne — edhe pasi ta kesh çinstaluar.",
-        "in_app_h": "Më e shpejta: fshije vetë në aplikacion",
-        "in_app": "Hap CrashPricer dhe shko te Cilësimet → Fshi llogarinë. Llogaria hiqet menjëherë dhe nuk nevojitet asnjë email.",
-        "request_h": "Nëse nuk e ke më aplikacionin",
-        "request_p": "Na shkruaj me email dhe ne e verifikojmë kërkesën para se të veprojmë, sepse një llogari nuk duhet fshirë kurrë nga dikush që nuk është pronari i saj.",
+        "in_app_h": "E ke ende aplikacionin?",
+        "in_app": "Mund ta fshish llogarinë edhe brenda CrashPricer: Cilësimet → Fshi llogarinë. Hiqet menjëherë, pa asnjë hap me email.",
+        "request_h": "Kërko fshirjen",
+        "request_p": "Shkruaj adresën e emailit me të cilën është regjistruar llogaria dhe ne do të dërgojmë një lidhje konfirmimi. Konfirmojmë me email sepse një llogari nuk duhet fshirë kurrë nga dikush që nuk është pronari i saj.",
         "steps": [
-            f"Dërgo email te {SUPPORT_EMAIL} me subjektin “Fshirja e llogarisë”.",
-            "Dërgoje nga adresa e emailit me të cilën është regjistruar llogaria.",
-            "Ne përgjigjemi në atë adresë për të konfirmuar se kërkesa erdhi prej teje.",
-            "Pas konfirmimit, llogaria fshihet dhe të njoftojmë me email kur të përfundojë.",
+            "Shkruaj më poshtë adresën e emailit të regjistruar.",
+            "Hap lidhjen e konfirmimit që dërgojmë në atë adresë.",
+            "Konfirmo në faqen që hapet — llogaria fshihet menjëherë.",
+            "Lidhja skadon pas 30 minutash dhe përdoret vetëm një herë.",
         ],
         "cta": "Dërgo kërkesë për fshirje",
         "what_h": "Çfarë fshihet",
@@ -454,10 +454,6 @@ def build_deletion(lang: str) -> str:
         + f"""
     <div class="doc__card">
       <section class="doc__sec">
-        <h2>{esc(d["in_app_h"])}</h2>
-        <p>{esc(d["in_app"])}</p>
-      </section>
-      <section class="doc__sec">
         <h2>{esc(d["request_h"])}</h2>
         <p>{esc(d["request_p"])}</p>
         <ol class="doc__steps">
@@ -477,6 +473,10 @@ def build_deletion(lang: str) -> str:
         <p class="doc__note doc__note--calm" data-deletion-status hidden></p>
 
         <p>{esc(f["or_email"])}</p>
+      </section>
+      <section class="doc__sec">
+        <h2>{esc(d["in_app_h"])}</h2>
+        <p>{esc(d["in_app"])}</p>
       </section>
       <section class="doc__sec">
         <h2>{esc(d["what_h"])}</h2>
