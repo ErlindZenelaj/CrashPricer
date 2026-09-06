@@ -130,6 +130,47 @@ language.
 The Albanian is mine and reads naturally, but it has not been reviewed by a
 native speaker — worth one pass before launch.
 
+## The legal pages
+
+Google Play and the App Store both require stable HTTPS pages a signed-out
+person can reach: privacy policy, terms, support, account deletion, and who
+operates the thing. Those live at the site root in English and under `sq/` in
+Albanian:
+
+```
+privacy.html  terms.html  support.html  delete-account.html  company.html
+sq/…          the same five
+```
+
+**They are generated — do not hand-edit them.** The privacy policy, terms and
+FAQ already exist in both languages inside the app, at
+`features/legal/support-legal.ts`, and are read straight out of it:
+
+```bash
+python3 tools/build-legal.py [path/to/support-legal.ts]
+```
+
+Retyping legal copy on a website is how it drifts from the app, and a store
+reviewer comparing the two is exactly who notices. Edit the copy in the app,
+re-run this, and both agree by construction. The build refuses to run if the
+app's `SUPPORT_EMAIL` disagrees with the address the site publishes, for the
+same reason.
+
+Two pages have no counterpart in the app and are authored inside the script:
+the deletion-request page (the app's own route is Settings → Delete account;
+this is for someone who has already uninstalled) and the company identification
+page. **Their Albanian is mine and unreviewed**, same caveat as above.
+
+### Unfilled company details
+
+The operating entity is not registered yet, so the legal name, registered
+address, registration number and backup-retention window are `TODO` markers in
+the script. They render as amber chips on the page, the company page carries a
+warning banner, and every build prints what is still missing. Fill in `TODO` at
+the top of `tools/build-legal.py` and re-run — **before this goes in front of a
+store reviewer**, since Play's developer identity and the EU trader rules both
+ask for them.
+
 ## Sharing it
 
 `tools/build-artifact.py` flattens the site into one self-contained file at

@@ -1,0 +1,208 @@
+/* ============================================================
+   CrashPricer — legal & support pages
+
+   The store-facing pages: privacy, terms, support, account
+   deletion, company identification. They share the site's tokens
+   so they read as the same product, but they are plain documents
+   — no 3D, no scroll choreography, nothing that could fail to
+   load while a store reviewer is reading them.
+   ============================================================ */
+
+.doc {
+  background: var(--canvas);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* — top bar — brand left, language right — */
+.doc__bar {
+  border-bottom: 1px solid var(--line);
+  background: var(--canvas);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.doc__bar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 64px;
+  padding-block: 12px;
+}
+.doc__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--ink);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.doc__brand svg { width: 30px; height: 30px; display: block; }
+
+.doc__langs { display: inline-flex; align-items: center; gap: 4px; }
+.doc__lang {
+  font-size: var(--t-caption);
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--text-3);
+  padding: 6px 10px;
+  border-radius: 999px;
+  line-height: 1;
+}
+.doc__lang[aria-current="true"] { background: var(--ink); color: #fff; }
+
+/* — document body — */
+.doc__main { flex: 1; padding-block: clamp(40px, 6vw, 80px); }
+.doc__head { margin-bottom: 40px; }
+.doc__eyebrow {
+  font-size: var(--t-micro);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--green-deep);
+  margin: 0 0 12px;
+}
+.doc__title {
+  font-size: clamp(2rem, 5vw, 3rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  font-weight: 800;
+  margin: 0 0 14px;
+  color: var(--ink);
+}
+.doc__lede {
+  font-size: var(--t-lede);
+  line-height: 1.55;
+  color: var(--text-2);
+  margin: 0 0 10px;
+  max-width: 62ch;
+}
+.doc__stamp {
+  font-size: var(--t-caption);
+  color: var(--text-4);
+  margin: 0;
+}
+
+.doc__card {
+  background: var(--paper);
+  border: 1px solid var(--line-soft);
+  border-radius: 20px;
+  padding: clamp(22px, 3.5vw, 40px);
+}
+
+.doc__sec + .doc__sec {
+  margin-top: 30px;
+  padding-top: 30px;
+  border-top: 1px solid var(--line-soft);
+}
+.doc__sec h2 {
+  font-size: var(--t-h4);
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  font-weight: 800;
+  margin: 0 0 10px;
+  color: var(--ink);
+}
+.doc__sec p {
+  font-size: var(--t-body);
+  line-height: 1.65;
+  color: var(--text-2);
+  margin: 0 0 12px;
+  max-width: 74ch;
+}
+.doc__sec p:last-child { margin-bottom: 0; }
+.doc__sec a { color: var(--green-deep); }
+
+/* — callouts — */
+.doc__note {
+  border-radius: 14px;
+  padding: 16px 18px;
+  margin: 0 0 28px;
+  font-size: var(--t-body-sm);
+  line-height: 1.6;
+}
+.doc__note--calm {
+  background: var(--green-pale);
+  border: 1px solid var(--green-line);
+  color: var(--green-deep);
+}
+.doc__note--warn {
+  background: var(--amber-pale);
+  border: 1px solid var(--amber-mid);
+  color: var(--amber);
+}
+.doc__note p { margin: 0; color: inherit; }
+.doc__note p + p { margin-top: 8px; }
+
+/* — key/value list, used for company identification — */
+.doc__facts { margin: 0; }
+.doc__facts div {
+  display: grid;
+  grid-template-columns: minmax(160px, 240px) 1fr;
+  gap: 10px 24px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line-soft);
+}
+.doc__facts div:last-child { border-bottom: 0; }
+.doc__facts dt { font-weight: 700; color: var(--ink); font-size: var(--t-body-sm); }
+.doc__facts dd { margin: 0; color: var(--text-2); font-size: var(--t-body-sm); line-height: 1.6; }
+@media (max-width: 620px) {
+  .doc__facts div { grid-template-columns: 1fr; gap: 4px; padding: 12px 0; }
+}
+
+/* — the fill-me-in marker on unpublished company details — */
+.todo {
+  display: inline-block;
+  background: var(--amber-pale);
+  border: 1px dashed var(--amber-mid);
+  color: var(--amber);
+  border-radius: 6px;
+  padding: 1px 8px;
+  font-weight: 700;
+  font-size: 0.9em;
+}
+
+/* — ordered steps, used on the deletion page — */
+.doc__steps { margin: 0 0 12px; padding-left: 22px; }
+.doc__steps li {
+  font-size: var(--t-body);
+  line-height: 1.65;
+  color: var(--text-2);
+  margin-bottom: 10px;
+  max-width: 72ch;
+}
+
+.doc__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--ink);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 14px 24px;
+  margin-top: 6px;
+}
+
+/* — footer — */
+.doc__foot {
+  border-top: 1px solid var(--line);
+  padding-block: 28px;
+  font-size: var(--t-caption);
+  color: var(--text-4);
+}
+.doc__foot-inner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 22px;
+  align-items: center;
+  justify-content: space-between;
+}
+.doc__foot nav { display: flex; flex-wrap: wrap; gap: 10px 18px; }
+.doc__foot a { color: var(--text-3); text-decoration: none; }
+.doc__foot a:hover { color: var(--ink); text-decoration: underline; }
+.doc__foot p { margin: 0; }

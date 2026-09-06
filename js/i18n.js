@@ -231,6 +231,10 @@
     'Company': 'Kompania',
     'Privacy': 'Privatësia',
     'Terms': 'Kushtet',
+    'Legal': 'Ligjore',
+    'Support': 'Ndihma',
+    'Company details': 'Të dhënat e kompanisë',
+    'Delete account': 'Fshi llogarinë',
     'Prishtinë, Kosovo': 'Prishtinë, Kosovë',
   };
 
