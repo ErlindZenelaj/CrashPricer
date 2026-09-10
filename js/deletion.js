@@ -88,8 +88,6 @@
               confirmPanel.hidden = true;
               setStatus(confirmStatus, confirmPanel.dataset.done, 'ok');
             } else {
-              // Invalid, expired and already-used are one message: the server
-              // does not distinguish them and neither should the page.
               setStatus(confirmStatus, confirmPanel.dataset.invalid, 'error');
               confirmButton.disabled = false;
             }

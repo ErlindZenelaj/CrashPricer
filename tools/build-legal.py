@@ -19,9 +19,9 @@ route for someone who has uninstalled) and the company identification page.
 Their Albanian is mine and has not had a native-speaker pass — the same caveat
 the README makes about the landing page.
 
-The company identity is not yet registered, so those fields are TODO markers.
-They render as visible amber chips and the build lists them on every run, so the
-gap is loud rather than quietly shipped.
+The company page intentionally leaves operator-registration details out until
+the operating entity has finalised them. It still publishes the contact and
+data-controller information that is known today.
 """
 
 from __future__ import annotations
@@ -48,17 +48,8 @@ CITY = "Prishtinë, Kosovo"
 # backend's Cors:AllowedOrigins or the browser will refuse the request. Left on
 # localhost so a wrong production value cannot ship silently; the build says so
 # on every run.
-API_BASE_URL = "http://localhost:5050"
-
-# Not registered yet. Each of these renders as a visible marker and is listed at
-# the end of the build; fill them in before the site goes in front of a store
-# reviewer, since Play's developer identity and the EU trader rules both ask.
-TODO = {
-    "legal_name": "TODO — registered legal name",
-    "address": "TODO — registered street address",
-    "reg_number": "TODO — business registration number",
-    "backup_window": "TODO — backup retention window",
-}
+API_BASE_URL = "https://api-crashpricer-prod-chbebygmezgbhzbp.austriaeast-01.azurewebsites.net"
+BACKUP_RETENTION_DAYS = 30
 
 # ── the brand mark, same geometry as the landing page ────────────────────────
 MARK = """<svg viewBox="0 0 96 96" fill="none" aria-hidden="true">
@@ -135,10 +126,6 @@ process.stdout.write(new Function(js)());
 
 def esc(text: str) -> str:
     return html.escape(text, quote=False)
-
-
-def todo(key: str) -> str:
-    return f'<span class="todo">{esc(TODO[key])}</span>'
 
 
 def mailto(subject: str) -> str:
@@ -254,7 +241,7 @@ DELETION = {
         "what_h": "What is deleted",
         "what_p": "The account itself, sessions and sign-in links, cases and photos stored on the server, marketplace requests and offers, in-app notifications, and analytics tied to the account. Accepted offers are removed together with the request they belong to. Cases and photos held only on your phone are removed with the app's data.",
         "kept_h": "What is kept, and why",
-        "kept_p": f"Limited moderation records — the type of action, its reason, timestamps and pseudonymous identifiers — may be kept after deletion where that is necessary to protect other users and prevent repeat abuse, and records we are required by law to retain. These do not identify you publicly. Deleted data also persists in encrypted backups until they expire on their normal cycle ({TODO['backup_window']}), after which it is gone from those too.",
+        "kept_p": f"Limited moderation records — the type of action, its reason, timestamps and pseudonymous identifiers — may be kept after deletion where that is necessary to protect other users and prevent repeat abuse, and records we are required by law to retain. These do not identify you publicly. Deleted data may also remain in encrypted backups for up to {BACKUP_RETENTION_DAYS} days after deletion, until those backups expire.",
         "timing_h": "How long it takes",
         "timing_p": "Deletion from inside the app is immediate. An emailed request is answered within 30 days of us verifying it, and usually much sooner.",
     },
@@ -276,7 +263,7 @@ DELETION = {
         "what_h": "Çfarë fshihet",
         "what_p": "Vetë llogaria, sesionet dhe lidhjet e hyrjes, rastet dhe fotot e ruajtura në server, kërkesat dhe ofertat e tregut, njoftimet në aplikacion dhe analitika e lidhur me llogarinë. Ofertat e pranuara hiqen bashkë me kërkesën së cilës i përkasin. Rastet dhe fotot që ruhen vetëm në telefonin tënd hiqen me të dhënat e aplikacionit.",
         "kept_h": "Çfarë ruhet dhe pse",
-        "kept_p": f"Të dhëna të kufizuara moderimi — lloji i veprimit, arsyeja, koha dhe identifikues pseudonimë — mund të ruhen pas fshirjes kur kjo është e nevojshme për të mbrojtur përdoruesit e tjerë dhe për të parandaluar abuzimin e përsëritur, si dhe të dhënat që jemi të detyruar me ligj t'i ruajmë. Këto nuk të identifikojnë publikisht. Të dhënat e fshira qëndrojnë edhe në kopjet rezervë të enkriptuara derisa ato të skadojnë në ciklin e tyre normal ({TODO['backup_window']}), pas së cilës hiqen edhe prej atje.",
+        "kept_p": f"Të dhëna të kufizuara moderimi — lloji i veprimit, arsyeja, koha dhe identifikues pseudonimë — mund të ruhen pas fshirjes kur kjo është e nevojshme për të mbrojtur përdoruesit e tjerë dhe për të parandaluar abuzimin e përsëritur, si dhe të dhënat që jemi të detyruar me ligj t'i ruajmë. Këto nuk të identifikojnë publikisht. Të dhënat e fshira mund të mbeten edhe në kopjet rezervë të enkriptuara deri në {BACKUP_RETENTION_DAYS} ditë pas fshirjes, derisa ato të skadojnë.",
         "timing_h": "Sa zgjat",
         "timing_p": "Fshirja brenda aplikacionit është e menjëhershme. Një kërkesë me email trajtohet brenda 30 ditësh nga verifikimi, zakonisht shumë më shpejt.",
     },
@@ -331,26 +318,24 @@ COMPANY = {
         "eyebrow": "Company details",
         "title": "Who operates CrashPricer",
         "lede": "The identity of the operator behind the app, its store listings and this website.",
-        "warn": "These details are not final. The operating entity is not yet registered, so the fields marked below must be completed before this page is published or submitted to an app store.",
         "labels": {
             "app": "Application", "operator": "Operator", "reg": "Registration number",
             "address": "Registered address", "email": "Contact email",
             "site": "Website", "role": "Data controller", "auth": "Supervisory authority",
         },
-        "role": "The operator named above is the data controller for personal data processed in the app, the accounts system and the repair marketplace.",
+        "role": "CrashPricer is the data controller for personal data processed in the app, the accounts system and the repair marketplace.",
         "auth": "Information and Privacy Agency of Kosovo.",
     },
     "sq": {
         "eyebrow": "Të dhënat e kompanisë",
         "title": "Kush e operon CrashPricer",
         "lede": "Identiteti i operatorit pas aplikacionit, listimeve në dyqane dhe kësaj faqeje.",
-        "warn": "Këto të dhëna nuk janë përfundimtare. Subjekti operues nuk është ende i regjistruar, prandaj fushat e shënuara më poshtë duhet të plotësohen para se kjo faqe të publikohet ose të dorëzohet në një dyqan aplikacionesh.",
         "labels": {
             "app": "Aplikacioni", "operator": "Operatori", "reg": "Numri i regjistrimit",
             "address": "Adresa e regjistruar", "email": "Emaili i kontaktit",
             "site": "Faqja", "role": "Kontrolluesi i të dhënave", "auth": "Autoriteti mbikëqyrës",
         },
-        "role": "Operatori i emërtuar më lart është kontrolluesi i të dhënave personale që përpunohen në aplikacion, në sistemin e llogarive dhe në tregun e riparimeve.",
+        "role": "CrashPricer është kontrolluesi i të dhënave personale që përpunohen në aplikacion, në sistemin e llogarive dhe në tregun e riparimeve.",
         "auth": "Agjencia për Informim dhe Privatësi e Kosovës.",
     },
 }
@@ -484,7 +469,7 @@ def build_deletion(lang: str) -> str:
       </section>
       <section class="doc__sec">
         <h2>{esc(d["kept_h"])}</h2>
-        <p>{esc(d["kept_p"]).replace(esc(TODO["backup_window"]), todo("backup_window"))}</p>
+        <p>{esc(d["kept_p"])}</p>
       </section>
       <section class="doc__sec">
         <h2>{esc(d["timing_h"])}</h2>
@@ -503,9 +488,6 @@ def build_company(lang: str) -> str:
     lab = c["labels"]
     rows = [
         (lab["app"], APP_NAME),
-        (lab["operator"], todo("legal_name")),
-        (lab["reg"], todo("reg_number")),
-        (lab["address"], f'{todo("address")}<br />{esc(CITY)}'),
         (lab["email"], f'<a href="mailto:{SUPPORT_EMAIL}">{SUPPORT_EMAIL}</a>'),
         (lab["site"], f'<a href="https://{SITE_DOMAIN}">{SITE_DOMAIN}</a>'),
         (lab["role"], esc(c["role"])),
@@ -516,8 +498,7 @@ def build_company(lang: str) -> str:
     )
     body = (
         head(c["eyebrow"], c["title"], c["lede"])
-        + f'\n    <div class="doc__note doc__note--warn"><p>{esc(c["warn"])}</p></div>\n'
-        + f'    <div class="doc__card">\n      <dl class="doc__facts">\n{facts}\n      </dl>\n    </div>'
+        + f'\n    <div class="doc__card">\n      <dl class="doc__facts">\n{facts}\n      </dl>\n    </div>'
     )
     return chrome(lang, "company", c["title"], c["lede"], body)
 
@@ -556,12 +537,6 @@ def main() -> None:
         print("  !! that is a local address — the deletion form will not work once deployed.")
         print("     Set API_BASE_URL to the production API, and add this site's origin")
         print("     to the backend's Cors:AllowedOrigins, or the browser will block it.")
-
-    print("\nSTILL TO FILL IN before this goes in front of a store reviewer:")
-    for key, value in TODO.items():
-        print(f"  {key:14} {value}")
-    print("  -> edit TODO at the top of this script, then re-run.")
-
 
 if __name__ == "__main__":
     main()

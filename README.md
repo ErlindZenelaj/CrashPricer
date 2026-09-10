@@ -190,15 +190,17 @@ build warns whenever it still points at a local address. That origin must also
 appear in the backend's `Cors:AllowedOrigins`, or the browser blocks the request
 before it is sent.
 
-### Unfilled company details
+### Company details
 
-The operating entity is not registered yet, so the legal name, registered
-address, registration number and backup-retention window are `TODO` markers in
-the script. They render as amber chips on the page, the company page carries a
-warning banner, and every build prints what is still missing. Fill in `TODO` at
-the top of `tools/build-legal.py` and re-run — **before this goes in front of a
-store reviewer**, since Play's developer identity and the EU trader rules both
-ask for them.
+The public company page currently publishes the known CrashPricer contact,
+website, data-controller and supervisory-authority information. Operator
+registration details are omitted until the operating entity has finalised them;
+add the legal name, registration number and registered address to
+`tools/build-legal.py` when they are available, then regenerate the pages.
+
+The account-deletion page explains that deleted data may remain in encrypted
+backups for up to 30 days after deletion. Keep the Azure backup-retention
+setting aligned with this published period.
 
 ## Sharing it
 
