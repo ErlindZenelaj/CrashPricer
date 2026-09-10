@@ -62,6 +62,9 @@
   /* ── confirming it ──────────────────────────────────────── */
   var confirmPanel = document.querySelector('[data-deletion-confirm]');
   if (confirmPanel) {
+    var confirmPage = document.querySelector('[data-confirm-page]');
+    var confirmTitle = document.querySelector('[data-confirm-title]');
+    var confirmLede = document.querySelector('[data-confirm-lede]');
     var confirmStatus = document.querySelector('[data-confirm-status]');
     var confirmButton = confirmPanel.querySelector('button');
     var token = new URLSearchParams(window.location.search).get('token');
@@ -86,6 +89,9 @@
           .then(function (response) {
             if (response.ok) {
               confirmPanel.hidden = true;
+              if (confirmPage) confirmPage.classList.add('is-complete');
+              if (confirmTitle) confirmTitle.textContent = confirmPanel.dataset.doneTitle;
+              if (confirmLede) confirmLede.textContent = confirmPanel.dataset.doneLede;
               setStatus(confirmStatus, confirmPanel.dataset.done, 'ok');
             } else {
               setStatus(confirmStatus, confirmPanel.dataset.invalid, 'error');

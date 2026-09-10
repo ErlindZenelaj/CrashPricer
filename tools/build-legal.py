@@ -285,8 +285,11 @@ FORM = {
         "confirm_title": "Confirm you want this account deleted",
         "confirm_lede": "This permanently deletes the CrashPricer account this link was sent for. It cannot be undone.",
         "confirm_button": "Delete my account permanently",
+        "confirm_prompt": "This is the final step. Once confirmed, your account and associated data will be scheduled for permanent deletion.",
         "confirm_working": "Deleting…",
         "confirm_done": "The account has been deleted. Nothing further is needed.",
+        "confirm_done_title": "Your account has been deleted",
+        "confirm_done_lede": "The deletion is complete. You can safely close this page.",
         "confirm_invalid": "This link is no longer valid. Links expire after 30 minutes and can only be used once — request a new one from the deletion page.",
         "confirm_missing": "This link is incomplete. Open the link from the confirmation email exactly as it was sent.",
         "confirm_failed": "The account could not be deleted just now. Check your connection and try again, or email " + SUPPORT_EMAIL + ".",
@@ -304,8 +307,11 @@ FORM = {
         "confirm_title": "Konfirmo që dëshiron ta fshish këtë llogari",
         "confirm_lede": "Kjo fshin përgjithmonë llogarinë CrashPricer për të cilën u dërgua kjo lidhje. Nuk mund të zhbëhet.",
         "confirm_button": "Fshij llogarinë time përgjithmonë",
+        "confirm_prompt": "Ky është hapi i fundit. Pas konfirmimit, llogaria dhe të dhënat e lidhura do të caktohen për fshirje të përhershme.",
         "confirm_working": "Po fshihet…",
         "confirm_done": "Llogaria u fshi. Nuk nevojitet asgjë tjetër.",
+        "confirm_done_title": "Llogaria jote u fshi",
+        "confirm_done_lede": "Fshirja përfundoi. Mund ta mbyllësh këtë faqe pa problem.",
         "confirm_invalid": "Kjo lidhje nuk është më e vlefshme. Lidhjet skadojnë pas 30 minutash dhe përdoren vetëm një herë — kërko një të re nga faqja e fshirjes.",
         "confirm_missing": "Kjo lidhje është e paplotë. Hape lidhjen nga emaili i konfirmimit pikërisht ashtu si u dërgua.",
         "confirm_failed": "Llogaria nuk mundi të fshihej tani. Kontrollo lidhjen dhe provo sërish, ose shkruaj te " + SUPPORT_EMAIL + ".",
@@ -404,25 +410,30 @@ def build_deletion_confirm(lang: str) -> str:
     """
     f = FORM[lang]
     up = "../" if lang == "sq" else ""
-    body = (
-        head(f["confirm_eyebrow"], f["confirm_title"], f["confirm_lede"])
-        + f"""
-    <div class="doc__card">
+    body = f"""
+    <div class="doc__confirm" data-confirm-page>
+      <header class="doc__head">
+        <p class="doc__eyebrow">{esc(f["confirm_eyebrow"])}</p>
+        <h1 class="doc__title" data-confirm-title>{esc(f["confirm_title"])}</h1>
+        <p class="doc__lede" data-confirm-lede>{esc(f["confirm_lede"])}</p>
+      </header>
+      <div class="doc__card doc__confirm-card">
       <section class="doc__sec" data-deletion-confirm
                data-endpoint="{API_BASE_URL}/api/account-deletion/confirm"
                data-working="{html.escape(f["confirm_working"], quote=True)}"
                data-done="{html.escape(f["confirm_done"], quote=True)}"
+               data-done-title="{html.escape(f["confirm_done_title"], quote=True)}"
+               data-done-lede="{html.escape(f["confirm_done_lede"], quote=True)}"
                data-invalid="{html.escape(f["confirm_invalid"], quote=True)}"
                data-missing="{html.escape(f["confirm_missing"], quote=True)}"
                data-failed="{html.escape(f["confirm_failed"], quote=True)}">
+        <p class="doc__confirm-prompt">{esc(f["confirm_prompt"])}</p>
         <button class="doc__cta doc__cta--danger" type="button">{esc(f["confirm_button"])}</button>
       </section>
-      <p class="doc__note doc__note--calm" data-confirm-status hidden></p>
-      <section class="doc__sec">
-        <p><a href="{up}delete-account.html">{esc(f["confirm_back"])}</a></p>
-      </section>
+      <p class="doc__note doc__note--calm doc__confirm-status" data-confirm-status role="status" aria-live="polite" hidden></p>
+      <a class="doc__back" href="{up}delete-account.html">{esc(f["confirm_back"])}</a>
+      </div>
     </div>"""
-    )
     return chrome(
         lang, "delete-account-confirm", f["confirm_title"], f["confirm_lede"], body,
         script=f'<script src="{up}js/deletion.js" defer></script>',
