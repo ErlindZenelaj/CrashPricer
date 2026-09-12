@@ -76,6 +76,19 @@ NAV_LABEL = {
 
 RIGHTS = {"en": "All rights reserved.", "sq": "Të gjitha të drejtat e rezervuara."}
 
+SHELL_COPY = {
+    "en": {
+        "area": "Trust & support",
+        "nav": "Trust and support pages",
+        "menu": "Explore",
+    },
+    "sq": {
+        "area": "Besimi dhe ndihma",
+        "nav": "Faqet e besimit dhe ndihmës",
+        "menu": "Shfleto",
+    },
+}
+
 
 def extract(copy_path: Path) -> dict:
     """Evaluate the app's legal module and hand back its copy as data.
@@ -140,11 +153,12 @@ def chrome(lang: str, page: str, title: str, description: str, body: str,
     other = "sq" if lang == "en" else "en"
     other_href = f"sq/{page}.html" if lang == "en" else f"../{page}.html"
     label = NAV_LABEL[lang]
+    shell = SHELL_COPY[lang]
 
-    links = "".join(
-        f'<a href="{up if p != page else ""}{p}.html">{esc(label[p])}</a>'
-        if p != page
-        else f'<a href="{p}.html" aria-current="page">{esc(label[p])}</a>'
+    links = "\n".join(
+        f'        <a href="{p}.html">{esc(label[p])}</a>'
+        if p != page else
+        f'        <a href="{p}.html" aria-current="page">{esc(label[p])}</a>'
         for p in PAGES
     )
 
@@ -167,11 +181,11 @@ def chrome(lang: str, page: str, title: str, description: str, body: str,
 <link rel="stylesheet" href="{up}css/base.css" />
 <link rel="stylesheet" href="{up}css/legal.css" />
 </head>
-<body class="doc">
+<body class="doc doc--{page}">
 
 <header class="doc__bar">
   <div class="wrap doc__bar-inner">
-    <a class="doc__brand" href="{up}index.html">{MARK}<span>{APP_NAME}</span></a>
+    <a class="doc__brand" href="{up}index.html">{MARK}<span class="doc__brand-name">{APP_NAME}</span><span class="doc__brand-area">{esc(shell['area'])}</span></a>
     <div class="doc__langs">
       <a class="doc__lang" href="{'' if lang == 'en' else other_href}" {'aria-current="true"' if lang == 'en' else ''}>EN</a>
       <a class="doc__lang" href="{other_href if lang == 'en' else ''}" {'aria-current="true"' if lang == 'sq' else ''}>SQ</a>
@@ -181,14 +195,25 @@ def chrome(lang: str, page: str, title: str, description: str, body: str,
 
 <main class="doc__main">
   <div class="wrap wrap--narrow">
+    <div class="doc__layout">
+      <aside class="doc__rail">
+        <p class="doc__rail-label">{esc(shell['menu'])}</p>
+        <nav class="doc__nav" aria-label="{esc(shell['nav'])}">
+{links}
+        </nav>
+      </aside>
+      <article class="doc__content">
 {body}
+      </article>
+    </div>
   </div>
 </main>
 
 <footer class="doc__foot">
   <div class="wrap doc__foot-inner">
-    <nav aria-label="{esc(label['home'])}">
-      <a href="{up}index.html">{esc(label['home'])}</a>{links}
+    <nav aria-label="{esc(shell['nav'])}">
+      <a href="{up}index.html">{esc(label['home'])}</a>
+{links}
     </nav>
     <p>© 2026 {APP_NAME} · {CITY} · {RIGHTS[lang]}</p>
   </div>
@@ -390,8 +415,8 @@ def build_support(lang: str, helpc: dict, legal: dict) -> str:
       </section>
     </div>
 
-    <header class="doc__head" style="margin-top:48px">
-      <h2 class="doc__title" style="font-size:clamp(1.5rem,3.4vw,2.1rem)">{esc(t["faq_h"])}</h2>
+    <header class="doc__head doc__subhead">
+      <h2 class="doc__title">{esc(t["faq_h"])}</h2>
     </header>
     <div class="doc__card">
 {faq}
@@ -431,7 +456,7 @@ def build_deletion_confirm(lang: str) -> str:
         <button class="doc__cta doc__cta--danger" type="button">{esc(f["confirm_button"])}</button>
       </section>
       <p class="doc__note doc__note--calm doc__confirm-status" data-confirm-status role="status" aria-live="polite" hidden></p>
-      <a class="doc__back" href="{up}delete-account.html">{esc(f["confirm_back"])}</a>
+      <a class="doc__back" href="delete-account.html">{esc(f["confirm_back"])}</a>
       </div>
     </div>"""
     return chrome(
