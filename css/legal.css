@@ -419,6 +419,11 @@
   padding: clamp(24px, 4vw, 40px);
   border-top: 4px solid #B42318;
 }
+/* The red rule reads as a warning, which suits deletion and misreads on a
+   routine hand-off like a password reset. */
+.doc__confirm-card--calm {
+  border-top-color: var(--green-bright);
+}
 .doc__confirm-prompt {
   max-width: 58ch;
   margin: 0 0 22px;
