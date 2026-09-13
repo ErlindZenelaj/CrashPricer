@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Embed CrashPricer app screens into the landing page.
+Embed locally supplied CrashPricer app captures into the landing page.
 
 The screens shown inside the device on this site are not re-drawings — they are
 the actual artboards from the CrashPricer design canvases, lifted out at their
@@ -8,7 +8,8 @@ native 390x844 and scaled by CSS. This script does the lifting.
 
     python3 tools/embed-screens.py [canvas.dc.html ...]
 
-With no arguments it reads the canvases listed in CANVASES below. Each screen is
+With no arguments it embeds images from assets/app without reading Downloads.
+Explicit canvas arguments retain the legacy canvas import. Each screen is
 taken from the first canvas that has it, so the focused "Core Flow" set wins over
 the older full set. It reads index.template.html, replaces every
 `<!--SCREEN name-->` marker with the matching artboard, and writes index.html.
@@ -188,6 +189,29 @@ def apply_overrides(name, html):
 
 
 def main():
+    # The website now uses the supplied app captures. Keep the legacy canvas
+    # importer available only when canvas files are explicitly passed.
+    if len(sys.argv) == 1:
+        captures = {
+            'home-scan-first': 'home', 'vehicle-details': 'vehicle',
+            'damage-photos': 'photos', 'estimate-result': 'estimate',
+            'offers-list': 'offers', 'make-an-offer': 'offer-sent',
+            'shops-market': 'coverage',
+        }
+        with open(os.path.join(ROOT, 'index.template.html'), encoding='utf-8') as fh:
+            page = fh.read()
+        for name, filename in captures.items():
+            relative = 'assets/app/%s.png' % filename
+            if not os.path.isfile(os.path.join(ROOT, relative)):
+                raise SystemExit('Missing app capture: ' + relative)
+            page = page.replace('<!--SCREEN %s-->' % name,
+                                '<img class="app-capture" src="%s" alt="" width="1179" height="2556" loading="lazy" />' % relative)
+        if '<!--SCREEN ' in page:
+            raise SystemExit('Unmapped app capture')
+        with open(os.path.join(ROOT, 'index.html'), 'w', encoding='utf-8') as fh:
+            fh.write(page)
+        print('Built index.html from local app captures.')
+        return
     paths = sys.argv[1:] or CANVASES
     canvases = []
     for p in paths:
