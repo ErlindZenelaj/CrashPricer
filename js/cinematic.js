@@ -29,7 +29,6 @@
   const clamp = (n) => Math.max(0, Math.min(1, n));
   const ease = (t) => t * t * (3 - 2 * t);
   const NAV_LINE = 36;    // the nav's vertical centre
-  let lastScrollIndex = -1;
   let frame = 0;
   let restScan = () => {};   // set by the hero's scan cycle below
 
@@ -134,9 +133,10 @@
       put(b.querySelector(':scope > .veil'), 'opacity', lifting ? (edge / vh * 0.5).toFixed(3) : '0');
     }
     put(progress, 'transform', `scaleX(${clamp(sy / Math.max(1, docH - vh)).toFixed(4)})`);
-    if (shopR.top <= 0 && shopR.bottom >= vh) {
-      const index = Math.min(2, Math.floor(clamp(-shopR.top / Math.max(1, shopH - vh)) * 3));
-      if (index !== lastScrollIndex) { lastScrollIndex = index; select(index); }
+    /* the shop gallery follows the scroll the whole way through its pinned
+       stretch (see placeGallery) */
+    if (shopR.bottom > 0 && shopR.top < vh) {
+      placeGallery(clamp(-shopR.top / Math.max(1, shopH - vh)) * 2);
     }
   }
   function queue() { if (!frame) frame = requestAnimationFrame(update); }
@@ -341,25 +341,77 @@
   const buttons = [...document.querySelectorAll('[data-showcase]')];
   const devices = [...document.querySelectorAll('[data-device]')];
   const caption = document.querySelector('.showcase-caption');
+  const showcase = document.querySelector('.shop-scroll .app-showcase');
   const captions = ['Your area. Your next opportunity.', 'Your price. Your schedule. Your offer.', 'Accepted. Scheduled. All in one place.'];
-  let active = 0;
-  function select(index) {
+  let active = -1;
+  let placed = 0;
+  let spread = innerWidth < 600 ? 145 : 280;
+
+  /* the tabs and the caption follow whichever phone is nearest the front */
+  function setActive(index) {
+    if (index === active) return;
     active = index;
     buttons.forEach((button, i) => {
       button.classList.toggle('is-active', i === index);
       button.setAttribute('aria-pressed', String(i === index));
     });
-    devices.forEach((device, i) => {
-      const position = ((i - index + 4) % 3) - 1;
-      device.style.transform = position === 0 ? 'translateX(0) rotate(0deg)' : `translateX(${position * (innerWidth < 600 ? 145 : 280)}px) translateY(60px) rotate(${position * 12}deg) scale(.84)`;
-      device.style.opacity = position === 0 ? '1' : '.5';
-      device.style.zIndex = position === 0 ? '3' : '1';
-    });
     caption.textContent = window.snapT ? window.snapT(captions[index]) : captions[index];
   }
-  buttons.forEach((button, index) => button.addEventListener('click', () => select(index)));
+
+  /* Each phone sits (its index - f) places from the front, where f runs
+     0 → 2 through the pinned stretch, so the gallery moves for as long as
+     the page does. Stepping only at each third left long stretches where
+     the screen sat still under a moving finger, which reads as a stalled
+     scroll. Places wrap round the back, fading out as they cross. */
+  function placeGallery(f) {
+    placed = f;
+    devices.forEach((device, i) => {
+      const d = (((i - f + 1.5) % 3) + 3) % 3 - 1.5;
+      const near = Math.min(1, Math.abs(d));
+      const fade = clamp((1.5 - Math.abs(d)) * 2);
+      put(device, 'transform', `translateX(${(d * spread).toFixed(1)}px) translateY(${(near * 60).toFixed(1)}px) rotate(${(d * 12).toFixed(2)}deg) scale(${(1 - near * 0.16).toFixed(4)})`);
+      put(device, 'opacity', ((1 - near * 0.5) * fade).toFixed(3));
+      put(device, 'zIndex', near < 0.5 ? '3' : '1');
+    });
+    setActive(Math.round(f) % 3);
+  }
+
+  /* A tab, while the gallery is pinned, scrolls to that phone's place —
+     the scroll then brings it forward. Unpinned (reduced motion) it simply
+     shows that phone. */
+  buttons.forEach((button, index) => button.addEventListener('click', () => {
+    if (!reduced.matches && showcase && getComputedStyle(showcase).position === 'sticky') {
+      const span = shop.offsetHeight - innerHeight;
+      scrollTo({ top: shop.offsetTop + span * (index / 2) + (index ? 1 : 0), behavior: 'smooth' });
+    } else {
+      placeGallery(index);
+    }
+  }));
   let galleryWidth = innerWidth;
-  addEventListener('resize', () => { if (innerWidth !== galleryWidth) { galleryWidth = innerWidth; select(active); } }, {passive:true});
-  addEventListener('crashpricer:lang', () => select(active));
-  select(0);
+  addEventListener('resize', () => {
+    if (innerWidth === galleryWidth) return;
+    galleryWidth = innerWidth;
+    spread = innerWidth < 600 ? 145 : 280;
+    placeGallery(placed);
+  }, {passive:true});
+  addEventListener('crashpricer:lang', () => { const i = active; active = -1; setActive(i); });
+  placeGallery(0);
+
+  /* Decode the screenshots ahead of time, one at a time while the page is
+     idle, so a phone that scrolls into view for the first time does not
+     hold the scroll up while its image is decoded. */
+  addEventListener('load', () => {
+    const pending = [...document.querySelectorAll('img[src*="assets/app/web/"]')];
+    const done = new Set();
+    const idle = window.requestIdleCallback || ((cb) => setTimeout(cb, 120));
+    const next = () => {
+      const img = pending.shift();
+      if (!img) return;
+      const src = img.currentSrc || img.src;
+      if (done.has(src) || !img.decode) { idle(next); return; }
+      done.add(src);
+      img.decode().catch(() => {}).then(() => idle(next));
+    };
+    idle(next);
+  });
 })();

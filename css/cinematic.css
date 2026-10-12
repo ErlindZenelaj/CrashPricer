@@ -261,6 +261,9 @@ html { scroll-padding-top: 90px; }
 .showcase-stage { position:relative; height:680px; margin-top:40px; perspective:1400px; overflow:hidden; }
 .showcase-word { position:absolute; top:180px; left:50%; transform:translateX(-50%); font-size:clamp(80px,13vw,200px); font-weight:800; color:#1b2c3c; letter-spacing:-.08em; white-space:nowrap; }
 .showcase-phone { left:calc(50% - 135px); top:20px; transition:transform .85s cubic-bezier(.22,1,.36,1),opacity .85s,filter .85s; }
+/* pinned, the gallery is placed by the scroll every frame; easing on top
+   of that would only make it trail the finger */
+@media (prefers-reduced-motion:no-preference) { .shop-scroll .showcase-phone { transition:none; } }
 .showcase-caption { text-align:center; color:#bfcdcf; font-size:13px; }
 /* the shop side shares the hero's ground and light */
 .sec--charcoal { background:var(--charcoal); }
