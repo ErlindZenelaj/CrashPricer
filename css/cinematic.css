@@ -87,9 +87,10 @@ html { scroll-padding-top: 90px; }
 /* the side phones are dealt out from behind the lit one (--deal, on
    load) and folded back in as the hero travels (--hp, on scroll) */
 @property --deal { syntax:'<number>'; inherits:true; initial-value:1; }
-.rig__side { top:6%; left:0; z-index:1; filter:brightness(.34) saturate(.7); --spread:58%; --tilt:7deg; --depth:-120px; --size:.88;
+.rig__side { top:6%; left:0; z-index:1; --spread:58%; --tilt:7deg; --depth:-120px; --size:.88;
  transform:translateX(calc(var(--side) * var(--spread) * var(--deal) * (1 - var(--hp, 0)))) translateZ(var(--depth)) rotate(calc(var(--side) * var(--tilt) * var(--deal) * (1 - var(--hp, 0)))) scale(var(--size));
  opacity:clamp(0, calc(1 - var(--hp, 0) * 1.6), 1); }
+.rig__side::after { content:""; position:absolute; inset:0; z-index:5; background:rgba(5,8,12,.66); pointer-events:none; }
 .rig__side--l { --side:-1; }
 .rig__side--r { --side:1; }
 .rig__screen { position:absolute; inset:7px; container-type:size; overflow:hidden; border-radius:calc(var(--pw) * .125); }
@@ -98,7 +99,7 @@ html { scroll-padding-top: 90px; }
 .spot-hero[data-state="price"] .rig__next { clip-path:inset(0); }
 .spot-hero[data-state="price"] .rig__beam { transform:translateY(calc(100cqh - 2px)); }
 .spot-hero.is-wiping .rig__beam { opacity:1; }
-.rig__floor { position:absolute; left:50%; bottom:0; width:min(520px, 80%); height:60px; transform:translateX(-50%); border-radius:50%; background:radial-gradient(closest-side, rgba(34,197,94,.16), transparent); filter:blur(6px); pointer-events:none; }
+.rig__floor { position:absolute; left:50%; bottom:0; width:min(520px, 80%); height:60px; transform:translateX(-50%); border-radius:50%; background:radial-gradient(closest-side, rgba(34,197,94,.16), transparent); pointer-events:none; }
 /* offscreen: the looping parts hold still */
 .expand.is-paused .portal__scan { animation-play-state:paused; }
 
@@ -389,4 +390,35 @@ html { scroll-padding-top: 90px; }
  .spot-hero__title > span { opacity:1 !important; }
  .capture-device,.showcase-phone,.card { transition:none; }
  .reading-progress { display:none; }
+}
+
+/* ══════════ PHONES: KEEP THE SCROLL LIGHT ══════════
+   iOS Safari re-rasterises blurred, blended and filtered layers as they
+   move, and keeps every looping animation alive on the main thread. On
+   phones those effects go; the layout, the motion tied to scrolling and the
+   arrival animation stay. Where a blur sat on a gradient that already fades
+   out, nothing visible is lost. */
+.is-near { will-change:transform; }
+@media (max-width:860px) {
+ /* the walkthrough's backdrop is a 5000px-tall masked, animated layer */
+ .experience__bg { display:none; }
+ .aurora { animation:none; }
+ /* backdrop blur re-samples everything scrolling beneath the bar, every frame */
+ .nav.is-stuck, .nav.is-dark, .nav.is-dark.is-stuck, .eyebrow { backdrop-filter:none; -webkit-backdrop-filter:none; }
+ .nav.is-stuck { background:rgba(237,240,234,.97); }
+ .nav.is-dark { background:rgba(11,16,22,.94); }
+ .nav.is-dark.is-stuck { background:rgba(11,16,22,.97); }
+ .eyebrow { background:rgba(255,255,255,.85); }
+ .btn--glass { backdrop-filter:none; -webkit-backdrop-filter:none; background:rgba(255,255,255,.1); }
+ /* the walkthrough phone: a 50px / 18px blur and a blend mode on a 3D layer */
+ .phone__aura, .phone__floor, .phone__glare { display:none; }
+ /* a gentler shadow is cheaper to paint under every moving phone */
+ .capture-device { box-shadow:0 18px 30px -18px #08152570, inset 0 0 0 1px #e4e9f255; }
+}
+@media (max-width:860px) and (prefers-reduced-motion:no-preference) {
+ /* arrival only; no looping drift once it has landed */
+ .rig__fan { animation:none; }
+ .rig__side, .rig__side--r { animation:side-in .5s ease-out .75s backwards; }
+ .portal__scan { animation:none; transform:translateY(110px); }
+ .scene__beam::before, .motion-ribbon > div { animation:none; }
 }

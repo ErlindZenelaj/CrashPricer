@@ -3,6 +3,10 @@
    section hand-offs, the shop gallery and the nav's tone. One rAF-throttled scroll
    handler drives all of them; each only writes CSS variables or
    classes, and the CSS decides what they do.
+
+   Per frame it reads every measurement first and writes afterwards, and
+   writes only what changed: interleaving the two forces layout several
+   times a frame, which is what makes scrolling stutter on phones.
    ============================================================ */
 (() => {
   'use strict';
@@ -29,60 +33,109 @@
   let frame = 0;
   let restScan = () => {};   // set by the hero's scan cycle below
 
+  /* Write only what changed. A custom property set on an ancestor restyles
+     every descendant, so re-writing an identical value each frame is real
+     work; so is toggling a class to the state it already has. */
+  const wrote = new WeakMap();
+  function put(el, prop, value) {
+    if (!el) return;
+    let m = wrote.get(el);
+    if (!m) wrote.set(el, (m = {}));
+    if (m[prop] === value) return;
+    m[prop] = value;
+    if (value === null || value === '') {
+      if (prop.startsWith('--')) el.style.removeProperty(prop); else el.style[prop] = '';
+    } else if (prop.startsWith('--')) el.style.setProperty(prop, value);
+    else el.style[prop] = value;
+  }
+  const flags = new WeakMap();
+  function setFlag(el, name, on) {
+    let m = flags.get(el);
+    if (!m) flags.set(el, (m = {}));
+    if (m[name] === on) return;
+    m[name] = on;
+    el.classList.toggle(name, on);
+  }
+
   /* The card opens over the first 80% of its stage and holds open for
-     the rest, so the walkthrough arrives already settled. */
-  function opening() {
+     the rest, so the walkthrough arrives already settled. r is the card's
+     rect, measured before anything was written this frame. */
+  function opening(r, h, vh) {
     if (!expand) return 1;
-    if (staticCard.matches) {
-      expand.style.removeProperty('--x');
-      if (walkthrough) walkthrough.style.removeProperty('--lift');
+    if (!r) {                                   // reduced motion: open and unpinned
+      put(expand, '--x', null);
+      put(walkthrough, '--lift', null);
       return 1;
     }
-    const r = expand.getBoundingClientRect();
-    const x = clamp(-r.top / Math.max(1, expand.offsetHeight - innerHeight) / 0.8);
-    expand.style.setProperty('--x', ease(x).toFixed(4));
+    const x = clamp(-r.top / Math.max(1, h - vh) / 0.8);
+    put(expand, '--x', ease(x).toFixed(4));
     /* then the open card lifts off the walkthrough pinned beneath it */
-    if (walkthrough) walkthrough.style.setProperty('--lift', ease(clamp(1 - r.bottom / innerHeight)).toFixed(4));
+    put(walkthrough, '--lift', ease(clamp(1 - r.bottom / vh)).toFixed(4));
     return x;
   }
 
   function update() {
     frame = 0;
-    travel();
-    const x = opening();
+    const sy = scrollY, vh = innerHeight;
+    const still = reduced.matches;
+
+    /* ── read: every measurement, before the first write ── */
+    const heroR = hero ? hero.getBoundingClientRect() : null;
+    const boxTop = hero && cut ? (cut.pinned ? pin.getBoundingClientRect().top : heroR.top) : 0;
+    const heroH = hero ? hero.offsetHeight : 0;
+    const expandR = expand && !staticCard.matches ? expand.getBoundingClientRect() : null;
+    const expandH = expand ? expand.offsetHeight : 0;
+    const rects = layers.map((layer) => layer.getBoundingClientRect());
+    let seams = null, docH = 0, shopR = null, shopH = 0;
+    if (!still) {
+      seams = curtains.map((a) => ({ a, b: a.nextElementSibling, end: a.offsetTop + a.offsetHeight, bh: a.nextElementSibling.offsetHeight }));
+      docH = document.documentElement.scrollHeight;
+      shopR = shop.getBoundingClientRect();
+      shopH = shop.offsetHeight;
+    }
+
+    /* ── write ── */
+    travel(heroR, boxTop, heroH, vh);
+    const x = opening(expandR, expandH, vh);
 
     /* light-on-dark chrome while a dark section is under the bar — the
        opening card counts as light once it has nearly filled the screen */
     let dark = false;
-    for (const layer of layers) {
-      const r = layer.getBoundingClientRect();
+    for (let i = 0; i < layers.length; i++) {
+      const r = rects[i];
       if (r.top <= NAV_LINE && r.bottom > NAV_LINE) {
-        dark = layer.hasAttribute('data-dark') && (layer !== expand || x < 0.85);
+        dark = layers[i].hasAttribute('data-dark') && (layers[i] !== expand || x < 0.85);
         break;
       }
     }
-    nav.classList.toggle('is-dark', dark);
+    setFlag(nav, 'is-dark', dark);
 
-    if (reduced.matches) return;
+    if (still) {
+      for (const a of curtains) {
+        setFlag(a, 'is-lifting', false);
+        put(a.nextElementSibling, 'transform', null);
+      }
+      return;
+    }
 
     /* Curtains. While a section's bottom edge crosses the screen it lifts
        away with the scan line on that edge, and the section after it is
        held in place underneath, fading up as it is uncovered. Measured
-       from layout, so the held position never feeds back into itself. */
-    for (const a of curtains) {
-      const b = a.nextElementSibling;
-      const edge = a.offsetTop + a.offsetHeight - scrollY;
+       from layout, so the held position never feeds back into itself.
+       The section about to be held is promoted to its own layer shortly
+       before, so the first frame of the lift is not spent rasterising it. */
+    for (const { a, b, end, bh } of seams) {
+      const edge = end - sy;
       /* a section shorter than the screen cannot be held without a gap */
-      const lifting = edge > 0 && edge < innerHeight && b.offsetHeight >= innerHeight;
-      a.classList.toggle('is-lifting', lifting);
-      b.style.transform = lifting ? `translate3d(0, ${(-edge).toFixed(1)}px, 0)` : '';
-      const veil = b.querySelector(':scope > .veil');
-      if (veil) veil.style.opacity = lifting ? (edge / innerHeight * 0.5).toFixed(3) : '0';
+      const lifting = edge > 0 && edge < vh && bh >= vh;
+      setFlag(a, 'is-lifting', lifting);
+      setFlag(b, 'is-near', edge > -vh * 0.25 && edge < vh * 2);
+      put(b, 'transform', lifting ? `translate3d(0, ${(-edge).toFixed(1)}px, 0)` : null);
+      put(b.querySelector(':scope > .veil'), 'opacity', lifting ? (edge / vh * 0.5).toFixed(3) : '0');
     }
-    progress.style.transform = `scaleX(${clamp(scrollY / Math.max(1, document.documentElement.scrollHeight - innerHeight))})`;
-    const rect = shop.getBoundingClientRect();
-    if (rect.top <= 0 && rect.bottom >= innerHeight) {
-      const index = Math.min(2, Math.floor(clamp(-rect.top / Math.max(1, shop.offsetHeight - innerHeight)) * 3));
+    put(progress, 'transform', `scaleX(${clamp(sy / Math.max(1, docH - vh)).toFixed(4)})`);
+    if (shopR.top <= 0 && shopR.bottom >= vh) {
+      const index = Math.min(2, Math.floor(clamp(-shopR.top / Math.max(1, shopH - vh)) * 3));
       if (index !== lastScrollIndex) { lastScrollIndex = index; select(index); }
     }
   }
@@ -92,14 +145,20 @@
   function settle() {
     if (reduced.matches) {
       for (const a of curtains) {
-        a.classList.remove('is-lifting');
-        a.nextElementSibling.style.transform = '';
+        setFlag(a, 'is-lifting', false);
+        setFlag(a.nextElementSibling, 'is-near', false);
+        put(a.nextElementSibling, 'transform', null);
       }
     }
     queue();
   }
 
   addEventListener('scroll', queue, { passive:true });
+  /* On phones the toolbar sliding in and out fires resize with only the
+     height changed; nothing here depends on that, so measuring waits for a
+     real change of width (see the hero's re-measure below). */
+  let knownWidth = innerWidth;
+  const widthChanged = () => { const w = innerWidth; if (w === knownWidth) return false; knownWidth = w; return true; };
   addEventListener('resize', queue, { passive:true });
   reduced.addEventListener('change', settle);
   staticCard.addEventListener('change', queue);
@@ -198,9 +257,6 @@
   const cardPhone = document.querySelector('.expand__main .capture-device');
   let cut = null;
 
-  /* the box the rig rides in: the pin where it sticks, else the hero */
-  const rigBox = () => (cut && cut.pinned ? pin : hero).getBoundingClientRect();
-
   function measureCut() {
     cut = null;
     if (!rig || !cardPhone || !travelling.matches) return;
@@ -212,7 +268,7 @@
     const cx = r.left + fan.offsetLeft + fan.offsetWidth / 2;
     const cy = r.top - top + fan.offsetTop + fan.offsetHeight / 2;
     rig.style.transformOrigin = `${(cx - r.left).toFixed(1)}px ${(cy - (r.top - top)).toFixed(1)}px`;
-    rig.style.transform = held;
+    rig.style.transform = held;     // put() already knows this value
     /* the card's phone, from layout: offsets summed up to the stage, which
        is held at the top of the screen when the cut happens */
     let cardY = cardPhone.offsetHeight / 2;
@@ -226,34 +282,34 @@
     queue();
   }
 
-  function travel() {
+  function travel(heroR, boxTop, heroH, vh) {
     if (!hero) return;
     if (!cut) {
-      if (rig) rig.style.transform = '';
-      hero.style.removeProperty('--hp');
-      hero.classList.remove('is-travelling', 'is-cleared');
+      put(rig, 'transform', null);
+      put(hero, '--hp', null);
+      setFlag(hero, 'is-travelling', false);
+      setFlag(hero, 'is-cleared', false);
       return;
     }
-    const r = hero.getBoundingClientRect();
     /* the glide runs over the hold, or a third of a screen where the hero
        has little to hold */
-    const hold = Math.max(hero.offsetHeight - innerHeight, innerHeight * 0.3);
-    const hp = clamp(-r.top / hold);
+    const hold = Math.max(heroH - vh, vh * 0.3);
+    const hp = clamp(-heroR.top / hold);
     const e = ease(hp);
     const moving = hp > 0.005;
-    const y = rigBox().top + cut.cy;            // where the phone is now, untouched
-    hero.style.setProperty('--hp', hp.toFixed(4));
-    hero.classList.toggle('is-travelling', moving);
-    hero.classList.toggle('is-cleared', hp > 0.56);    // copy fully faded: out of reach too
-    rig.style.transform = moving
+    const y = boxTop + cut.cy;                  // where the phone is now, untouched
+    put(hero, '--hp', hp.toFixed(4));
+    setFlag(hero, 'is-travelling', moving);
+    setFlag(hero, 'is-cleared', hp > 0.56);     // copy fully faded: out of reach too
+    put(rig, 'transform', moving
       ? `translate3d(${((cut.tx - cut.cx) * e).toFixed(1)}px, ${((cut.ty - y) * e).toFixed(1)}px, 0) scale(${(1 + (cut.k - 1) * e).toFixed(4)})`
-      : '';
+      : null);
     if (moving) restScan();     // the cut lands on the estimate, as the card shows it
   }
 
   if (hero) {
     measureCut();
-    addEventListener('resize', measureCut, { passive:true });
+    addEventListener('resize', () => { if (widthChanged()) measureCut(); }, { passive:true });
     travelling.addEventListener('change', measureCut);
     addEventListener('load', measureCut);
     if (document.fonts) document.fonts.ready.then(measureCut);
@@ -302,7 +358,8 @@
     caption.textContent = window.snapT ? window.snapT(captions[index]) : captions[index];
   }
   buttons.forEach((button, index) => button.addEventListener('click', () => select(index)));
-  addEventListener('resize', () => select(active), {passive:true});
+  let galleryWidth = innerWidth;
+  addEventListener('resize', () => { if (innerWidth !== galleryWidth) { galleryWidth = innerWidth; select(active); } }, {passive:true});
   addEventListener('crashpricer:lang', () => select(active));
   select(0);
 })();

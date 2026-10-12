@@ -201,11 +201,14 @@ def main():
         with open(os.path.join(ROOT, 'index.template.html'), encoding='utf-8') as fh:
             page = fh.read()
         for name, filename in captures.items():
-            relative = 'assets/app/%s.png' % filename
+            # Web-sized copies (assets/app/web, 780 px wide): the 1179 x 2556
+            # originals are 16-bit PNGs that cost ~12 MB each to decode, which
+            # stalls scrolling on phones.
+            relative = 'assets/app/web/%s.jpg' % filename
             if not os.path.isfile(os.path.join(ROOT, relative)):
                 raise SystemExit('Missing app capture: ' + relative)
             page = page.replace('<!--SCREEN %s-->' % name,
-                                '<img class="app-capture" src="%s" alt="" width="1179" height="2556" loading="lazy" />' % relative)
+                                '<img class="app-capture" src="%s" alt="" width="780" height="1691" decoding="async" />' % relative)
         if '<!--SCREEN ' in page:
             raise SystemExit('Unmapped app capture')
         with open(os.path.join(ROOT, 'index.html'), 'w', encoding='utf-8') as fh:

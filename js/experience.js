@@ -79,6 +79,7 @@
     if (small.matches) return;
     target.mx = (e.clientX / innerWidth) * 2 - 1;
     target.my = (e.clientY / innerHeight) * 2 - 1;
+    kick();
   }
 
   /* Chapter 0 is the hero; 1-4 are the story. */
@@ -146,7 +147,12 @@
       }
     }
 
-    if (inView || Math.abs(cur.p - target.p) > 0.001) {
+    /* keep going only while something is still easing toward its target;
+       a scroll or a pointer move starts it again (see kick) */
+    const moving = Math.abs(cur.p - target.p) > 0.0005
+      || Math.abs(cur.mx - target.mx) > 0.0005
+      || Math.abs(cur.my - target.my) > 0.0005;
+    if (moving) {
       requestAnimationFrame(frame);
     } else {
       running = false;
@@ -172,9 +178,16 @@
   ).observe(experience);
 
   addEventListener('scroll', () => { readScroll(); kick(); }, { passive: true });
-  addEventListener('resize', () => { readLead(); readScroll(); kick(); }, { passive: true });
+  let knownWidth = innerWidth;
+  addEventListener('resize', () => {
+    /* the phone toolbar sliding in and out resizes only the height, and
+       every height this script uses is read live in readScroll() */
+    if (innerWidth !== knownWidth) { knownWidth = innerWidth; readLead(); }
+    readScroll();
+    kick();
+  }, { passive: true });
   stage.addEventListener('pointermove', onPointer, { passive: true });
-  stage.addEventListener('pointerleave', () => { target.mx = 0; target.my = 0; }, { passive: true });
+  stage.addEventListener('pointerleave', () => { target.mx = 0; target.my = 0; kick(); }, { passive: true });
 
   readLead();
   readScroll();

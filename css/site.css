@@ -118,7 +118,9 @@
 .experience { position: relative; height: 620vh; }
 
 .experience__bg { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
-.aurora { position: absolute; border-radius: 50%; filter: blur(90px); opacity: .5; }
+/* the radial gradients fade to transparent on their own; the 90px blur
+   filter on top only made each of these a huge re-rasterised layer */
+.aurora { position: absolute; border-radius: 50%; opacity: .5; }
 .aurora--a {
   top: -14%; right: -6%; width: 46vw; height: 46vw;
   background: radial-gradient(circle, rgba(34,197,94,.40), transparent 68%);
