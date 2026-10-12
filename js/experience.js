@@ -64,9 +64,15 @@
   let running = false;
   let inView = true;
 
+  /* On wide screens the section slides in underneath the card above it
+     (a negative top margin) and is uncovered as that card lifts away.
+     The story starts once it is fully uncovered. */
+  let lead = 0;
+  function readLead() { lead = Math.max(0, -parseFloat(getComputedStyle(experience).marginTop) || 0); }
+
   function readScroll() {
-    const span = experience.offsetHeight - innerHeight;
-    target.p = span > 0 ? clamp(-experience.getBoundingClientRect().top / span) : 0;
+    const span = experience.offsetHeight - innerHeight - lead;
+    target.p = span > 0 ? clamp((-experience.getBoundingClientRect().top - lead) / span) : 0;
   }
 
   function onPointer(e) {
@@ -166,10 +172,11 @@
   ).observe(experience);
 
   addEventListener('scroll', () => { readScroll(); kick(); }, { passive: true });
-  addEventListener('resize', () => { readScroll(); kick(); }, { passive: true });
+  addEventListener('resize', () => { readLead(); readScroll(); kick(); }, { passive: true });
   stage.addEventListener('pointermove', onPointer, { passive: true });
   stage.addEventListener('pointerleave', () => { target.mx = 0; target.my = 0; }, { passive: true });
 
+  readLead();
   readScroll();
   cur.p = target.p;
   kick();

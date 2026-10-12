@@ -16,6 +16,8 @@
   --ink-soft:   #16263C;
   --ink-deep:   #0A1320;
   --device:     #0A0A0B;  /* the device body in every mockup */
+  --charcoal:   #0B1016;  /* the landing page's dark feature ground */
+  --charcoal-2: #121A23;
 
   /* — the single chromatic voice — */
   --green:        #16A34A;  /* logo mark, icons */

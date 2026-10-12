@@ -107,6 +107,13 @@
     'FAQ': 'Pyetje',
     'Get CrashPricer': 'Merr CrashPricer',
 
+    /* — hero flow — */
+    'Scan': 'Skano',
+    'Compare': 'Krahaso',
+    'Book': 'Rezervo',
+    'Know the': 'Mëso',
+    'price.': 'çmimin.',
+
     /* — hero — */
     'Vehicle body damage, handled from your phone': 'Dëmtimet e karrocerisë, të zgjidhura nga telefoni',
     'Scan the damage.': 'Skano dëmtimin.',

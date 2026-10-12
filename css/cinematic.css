@@ -5,70 +5,244 @@ html { scroll-padding-top: 90px; }
 .nav { background:rgba(237,240,234,.92); }
 .nav.is-stuck { background:rgba(237,240,234,.94); }
 .reading-progress { position:fixed; top:0; left:0; height:3px; width:100%; transform:scaleX(0); transform-origin:left; background:#22c55e; z-index:110; }
-.intro-loader { position:fixed; inset:0; z-index:200; display:flex; align-items:center; justify-content:center; gap:14px; background:#0e1a2b; color:white; font-size:25px; font-weight:800; pointer-events:none; animation:loader-out .7s 1s forwards; }
-.intro-loader img { width:44px; }
-.intro-loader i { position:absolute; bottom:0; left:0; height:3px; background:#22c55e; width:100%; transform-origin:left; animation:load-line 1s both; }
-@keyframes load-line { from {transform:scaleX(0)} to {transform:scaleX(1)} }
-@keyframes loader-out { to {transform:translateY(-101%); visibility:hidden} }
-.launch { position:relative; min-height:930px; height:100svh; max-height:1180px; padding:112px var(--gutter) 35px; overflow:hidden; color:var(--ink); isolation:isolate; }
-.launch__top,.launch__bottom { display:flex; align-items:center; justify-content:space-between; font-size:10px; letter-spacing:.15em; font-weight:700; }
-.launch__tag { letter-spacing:0; font-size:12px; }
-.launch__copy { position:relative; z-index:4; margin-top:90px; max-width:670px; }
-.launch__eyebrow { font-size:10px; letter-spacing:.18em; font-weight:800; display:flex; align-items:center; gap:9px; }
-.launch__eyebrow>span { width:6px; height:6px; border-radius:50%; background:#16a34a; }
-.launch h1 { margin:25px 0; font-size:clamp(64px,6.9vw,112px); line-height:.98; font-weight:800; letter-spacing:-.075em; }
-.launch h1>span { display:block; animation:headline-in 1.2s 1s both; }
-.launch h1>span:nth-child(2) { animation-delay:1.15s; }
-.launch em,.scan-story em { font-style:normal; color:#159749; }
-@keyframes headline-in { from {opacity:0;transform:translateY(50px);clip-path:inset(100% 0 0)} to {opacity:1;transform:none;clip-path:inset(0)} }
-.launch__sub { max-width:390px; font-size:17px; line-height:1.7; color:var(--text-2); }
-.launch__actions { display:flex; align-items:center; gap:25px; margin-top:32px; }
-.launch__actions .btn { gap:22px; padding:18px 24px; }
-.launch__link { font-size:12px; font-weight:700; text-decoration:underline; text-underline-offset:6px; }
-.launch__bottom { position:absolute; bottom:32px; left:var(--gutter); right:var(--gutter); z-index:5; }
-.launch__bottom a { letter-spacing:0; font-size:12px; }
-.launch__bottom a span { margin-left:20px; }
-.device-fan { position:absolute; width:670px; height:700px; right:-20px; top:180px; perspective:1400px; transform:translateY(calc(var(--launch-p,0) * -100px)); }
 .capture-device { position:absolute; width:270px; padding:7px; border-radius:42px; background:#111923; border:2px solid #5a626c; box-shadow:0 35px 65px -25px #08152570, inset 0 0 0 1px #e4e9f255; overflow:hidden; }
 .capture-device img { display:block; width:100%; height:auto; aspect-ratio:1179/2556; border-radius:33px; }
-.fan-center { left:198px; top:35px; z-index:3; transform:rotate(calc(-5deg + var(--launch-p,0) * 12deg)) rotateY(calc(var(--pointer-x,0) * 6deg)) translateY(calc(var(--pointer-y,0) * -8px)); }
-.fan-left { left:10px; top:135px; z-index:1; transform:translateX(calc(var(--launch-p,0) * -90px)) rotate(calc(-17deg - var(--launch-p,0) * 9deg)) scale(.87); }
-.fan-right { right:-10px; top:85px; z-index:2; transform:translateX(calc(var(--launch-p,0) * 70px)) rotate(calc(16deg + var(--launch-p,0) * 9deg)) scale(.9); }
-.device-fan .capture-device { transition:transform .5s ease-out; }
-.launch-chip { position:absolute; z-index:4; background:white; border:1px solid #e0e6df; border-radius:17px; box-shadow:0 20px 60px #0e1a2b20; }
-.launch-chip--price { top:40px; right:45px; padding:19px 24px; transform:rotate(5deg); }
-.launch-chip--price span,.launch-chip--price small { display:block; font-size:10px; color:#637164; }
-.launch-chip--price b { display:block; font-size:30px; letter-spacing:-.06em; margin:6px 0; }
-.launch-chip--done { bottom:50px; left:65px; display:flex; align-items:center; gap:12px; padding:18px 22px; transform:rotate(-5deg); }
-.launch-chip--done i { display:grid; place-items:center; width:35px; height:35px; background:#22c55e; color:#fff; border-radius:50%; font-style:normal; }
-.launch-chip--done b,.launch-chip--done span { display:block; font-size:13px; }
-.launch-chip--done span { font-size:10px; color:#637164; margin-top:5px; }
-.motion-ribbon { background:#24c764; padding:25px 0; overflow:hidden; }
-.motion-ribbon>div { display:flex; gap:44px; white-space:nowrap; width:max-content; animation:ribbon 28s linear infinite; }
-.motion-ribbon span { font-size:18px; font-weight:800; letter-spacing:-.04em; }
-.motion-ribbon i { font-style:normal; }
-@keyframes ribbon { to {transform:translateX(-40%)} }
-.scan-story { height:230svh; background:#080f18; color:#fff; }
-.scan-story__stage { position:sticky; top:0; height:100svh; min-height:680px; overflow:hidden; }
-.scan-story__heading { position:absolute; left:var(--gutter); top:120px; z-index:3; }
-.scan-story h2 { font-size:clamp(50px,6vw,92px); line-height:1; letter-spacing:-.065em; margin-top:22px; }
-.scan-story em { color:#40dc7e; }
-.scan-visual { position:absolute; width:90%; left:14%; top:11%; height:90%; transform:translateX(calc(var(--scan-p,0) * -8%)) scale(calc(1 + var(--scan-p,0) * .17)); }
-.scan-visual>img { width:100%; height:100%; object-fit:contain; mix-blend-mode:lighten; }
-.scan-sweep { position:absolute; left:calc(12% + var(--scan-p,0) * 74%); top:30%; height:43%; width:2px; background:#59ff91; box-shadow:0 0 30px 10px #22c55e55; opacity:var(--scan-active,0); }
-.damage-pin { position:absolute; left:32%; top:62%; display:flex; gap:14px; align-items:center; font-size:11px; opacity:var(--scan-active,0); }
-.damage-pin i { width:15px; height:15px; border:2px solid #4ce989; border-radius:50%; box-shadow:0 0 0 10px #22c55e22; }
-.damage-pin span { background:#08131dd9; padding:10px 15px; border:1px solid #427358; border-radius:20px; }
-.scan-result { position:absolute; z-index:4; right:8%; bottom:13%; width:320px; padding:26px; border:1px solid #ffffff26; background:#101e2bee; backdrop-filter:blur(18px); border-radius:22px; opacity:var(--scan-result,0); transform:translateY(calc((1 - var(--scan-result,0)) * 35px)); }
-.scan-result>span { font-size:11px; color:#b5c1ca; }
-.scan-result strong { display:block; font-size:40px; letter-spacing:-.06em; margin-top:10px; }
-.scan-result strong em { font-size:28px; }
-.scan-result p { font-size:11px; line-height:1.6; margin-top:12px; color:#b5c1ca; }
-.scan-result>div { display:flex; gap:8px; margin-top:18px; }
-.scan-result>div span { font-size:10px; padding:7px 11px; background:#1f3e32; border-radius:6px; }
-.scan-result small { display:block; font-size:9px; line-height:1.5; color:#97a9b2; margin-top:18px; }
-.scan-story__foot { position:absolute; bottom:35px; left:var(--gutter); right:var(--gutter); display:flex; justify-content:space-between; font-size:10px; letter-spacing:.13em; color:#afbdc7; }
-.experience { height:500vh; background:#eef2ec; }
+
+/* ── the nav over a dark section ─────────────────────────────
+   cinematic.js sets .is-dark while a [data-dark] section sits
+   under the bar, so the chrome never turns light-on-light.    */
+.nav.is-dark { background:rgba(11,16,22,.62); backdrop-filter:blur(18px) saturate(160%); box-shadow:0 1px 0 rgba(255,255,255,.06); }
+.nav.is-dark.is-stuck { background:rgba(11,16,22,.82); }
+.nav.is-dark .brand, .nav.is-dark .brand__mark { color:#fff; }
+.nav.is-dark .nav__links a { color:rgba(255,255,255,.72); }
+.nav.is-dark .nav__links a:hover { color:#fff; background:rgba(255,255,255,.1); }
+.nav.is-dark.is-stuck .nav__links { background:rgba(255,255,255,.05); border-color:rgba(255,255,255,.1); }
+.nav.is-dark .langtoggle { border-color:rgba(255,255,255,.18); background:rgba(255,255,255,.06); }
+.nav.is-dark .langtoggle button { color:rgba(255,255,255,.72); }
+.nav.is-dark .langtoggle button:hover { color:#fff; }
+.nav.is-dark .langtoggle button.is-on { background:#fff; color:var(--ink); }
+.nav.is-dark .btn--ink { --bg:#fff; --fg:var(--ink); box-shadow:none; }
+.nav.is-dark .btn--ink:hover { --bg:#E9EEF3; }
+.nav.is-dark .nav__burger { border-color:rgba(255,255,255,.2); background:rgba(255,255,255,.06); }
+.nav.is-dark .nav__burger span { background:#fff; }
+.nav.is-dark :focus-visible, [data-dark] :focus-visible { outline-color:#86EFAC; }
+/* the download action stays in the bar on phones, compacted */
+@media (max-width:560px) {
+ .nav__actions .btn { display:inline-flex; padding:9px 13px; }
+ .nav__actions .btn .arrow { display:none; }
+}
+@media (max-width:370px) { .nav .brand__word { display:none; } }
+
+/* ── spotlight (after the Spline Scene reference) ────────────
+   A long soft ellipse that swings in from the top-left once.
+   Drawn as a gradient rather than an SVG blur filter, which is
+   expensive to paint at this size.                            */
+.spotlight { position:absolute; z-index:0; left:-30vw; top:-34vw; width:120vw; height:46vw; border-radius:50%; pointer-events:none;
+ background:radial-gradient(closest-side, rgba(255,255,255,.13), rgba(255,255,255,.045) 52%, transparent);
+ transform:rotate(30deg); opacity:0; animation:spotlight 2.2s .25s var(--e-out) forwards; }
+@keyframes spotlight { from { opacity:0; transform:translate(-18%,-16%) rotate(30deg) scale(.55); } to { opacity:1; transform:rotate(30deg); } }
+
+/* ══════════ HERO ══════════ */
+.spot-hero { position:relative; isolation:isolate; overflow:clip;   /* clip, not hidden: hidden would stop the pin sticking */
+  display:flex; flex-direction:column; justify-content:center;
+ min-height:min(100svh, 980px); padding:118px 0 84px; background:var(--charcoal); color:#fff; }
+.spot-hero::after { content:""; position:absolute; inset:auto 0 0; height:140px; z-index:1; pointer-events:none; background:linear-gradient(to bottom, transparent, var(--charcoal)); }
+.spot-hero__inner { position:relative; z-index:2; display:grid; grid-template-columns:minmax(0,7fr) minmax(0,5fr); align-items:center; gap:clamp(24px,3vw,48px); max-width:1400px; }
+/* the headline is sized by its column: each line holds on one row */
+.spot-hero__copy { container-type:inline-size; }
+.spot-hero__eyebrow { display:inline-flex; align-items:center; gap:10px; font-size:.75rem; font-weight:800; letter-spacing:.16em; color:rgba(255,255,255,.66); }
+.spot-hero__eyebrow span { width:7px; height:7px; border-radius:50%; background:var(--green-bright); box-shadow:0 0 0 4px rgba(34,197,94,.18); }
+.spot-hero__title { margin-top:22px; font-size:min(12cqi, 6.75rem); line-height:.98; letter-spacing:-.055em; }
+.spot-hero__title span { display:block; }
+/* the reference's neutral-50 → neutral-400 text gradient; the padding
+   keeps the descenders inside the painted box */
+.spot-hero__l1 { padding-bottom:.08em; margin-bottom:-.08em; background:linear-gradient(180deg,#FAFAFA 25%,#A3A3A3); -webkit-background-clip:text; background-clip:text; color:transparent; }
+.spot-hero__l2 { color:var(--green-bright); }
+.spot-hero__sub { max-width:44ch; margin-top:24px; font-size:var(--t-lede); line-height:1.6; color:rgba(255,255,255,.7); }
+.spot-hero__cta { display:flex; flex-wrap:wrap; gap:12px; margin-top:34px; }
+.spot-hero__flow { display:flex; flex-wrap:wrap; align-items:center; gap:10px 12px; margin-top:38px; }
+.spot-hero__flow li { display:flex; align-items:center; gap:12px; font-size:.75rem; font-weight:800; letter-spacing:.14em; text-transform:uppercase; color:rgba(255,255,255,.58); }
+.spot-hero__flow li + li::before { content:""; width:26px; height:1px; background:rgba(255,255,255,.24); }
+.spot-hero__flow li { transition:color .9s var(--e-soft); }
+.spot-hero[data-state="scan"] .spot-hero__flow li:nth-child(1), .spot-hero[data-state="price"] .spot-hero__flow li:nth-child(2) { color:var(--green-bright); }
+.spot-hero__next { position:absolute; z-index:3; left:50%; bottom:26px; transform:translateX(-50%); font-size:.75rem; font-weight:700; color:rgba(255,255,255,.55); white-space:nowrap; transition:color .25s; }
+.spot-hero__next:hover { color:#fff; }
+
+/* — the headline follows the screen: the line it is showing is lit — */
+.spot-hero__title > span { transition:opacity .9s var(--e-soft); }
+.spot-hero[data-state="scan"] .spot-hero__l2, .spot-hero[data-state="price"] .spot-hero__l1 { opacity:.5; }
+.spot-hero__l2 em { font-family:Georgia,"Times New Roman",serif; font-style:italic; font-weight:400; letter-spacing:-.05em; }
+
+/* — the rig: the real app under the light. The lit phone wipes from
+     the damage photos to the estimate behind a scan line; Offers and
+     the booking recede into the dark either side. The pointer turns
+     the fan a few degrees — the interactive-3D half of the Spline
+     reference, applied to the product rather than a stand-in. — */
+.rig { position:relative; display:grid; place-items:center; min-height:min(640px, 72svh); perspective:1700px; --pw:clamp(210px, 17vw, 270px); }
+.rig::before { content:""; position:absolute; width:120%; aspect-ratio:1; border-radius:50%; background:radial-gradient(closest-side, rgba(255,255,255,.075), transparent 70%); pointer-events:none; }
+.rig__fan { position:relative; width:var(--pw); transform-style:preserve-3d; transform:rotateX(calc(var(--ty,0) * -4deg)) rotateY(calc(-8deg + var(--tx,0) * 7deg)); transition:transform 1s var(--e-out); }
+.rig .capture-device { width:var(--pw); border-radius:calc(var(--pw) * .155); }
+.rig .capture-device img { border-radius:calc(var(--pw) * .125); }
+.rig__main { position:relative; z-index:3; box-shadow:0 60px 90px -40px rgba(0,0,0,.9), 0 0 0 1px rgba(255,255,255,.06); }
+/* the side phones are dealt out from behind the lit one (--deal, on
+   load) and folded back in as the hero travels (--hp, on scroll) */
+@property --deal { syntax:'<number>'; inherits:true; initial-value:1; }
+.rig__side { top:6%; left:0; z-index:1; filter:brightness(.34) saturate(.7); --spread:58%; --tilt:7deg; --depth:-120px; --size:.88;
+ transform:translateX(calc(var(--side) * var(--spread) * var(--deal) * (1 - var(--hp, 0)))) translateZ(var(--depth)) rotate(calc(var(--side) * var(--tilt) * var(--deal) * (1 - var(--hp, 0)))) scale(var(--size));
+ opacity:clamp(0, calc(1 - var(--hp, 0) * 1.6), 1); }
+.rig__side--l { --side:-1; }
+.rig__side--r { --side:1; }
+.rig__screen { position:absolute; inset:7px; container-type:size; overflow:hidden; border-radius:calc(var(--pw) * .125); }
+.rig__next { position:absolute; inset:0; width:100%; height:100%; clip-path:inset(0 0 100% 0); transition:clip-path 1.2s var(--e-soft); }
+.rig__beam { position:absolute; left:-4%; right:-4%; top:0; height:2px; background:linear-gradient(90deg,transparent,#4ADE80 18%,#4ADE80 82%,transparent); box-shadow:0 0 18px 2px rgba(74,222,128,.55); opacity:0; transition:transform 1.2s var(--e-soft), opacity .3s; }
+.spot-hero[data-state="price"] .rig__next { clip-path:inset(0); }
+.spot-hero[data-state="price"] .rig__beam { transform:translateY(calc(100cqh - 2px)); }
+.spot-hero.is-wiping .rig__beam { opacity:1; }
+.rig__floor { position:absolute; left:50%; bottom:0; width:min(520px, 80%); height:60px; transform:translateX(-50%); border-radius:50%; background:radial-gradient(closest-side, rgba(34,197,94,.16), transparent); filter:blur(6px); pointer-events:none; }
+/* offscreen: the looping parts hold still */
+.expand.is-paused .portal__scan { animation-play-state:paused; }
+
+/* — the hero's arrival: the copy rises in line by line, the lit phone
+     comes up out of a tilt, the other two are dealt out from behind it
+     and a streak of light crosses the glass. Then the fan drifts. — */
+.spot-hero__pin { display:contents; }
+@media (prefers-reduced-motion:no-preference) {
+ .spot-hero__eyebrow, .spot-hero__title > span, .spot-hero__sub, .spot-hero__cta, .spot-hero__flow { animation:hero-rise .9s var(--e-out) backwards; }
+ .spot-hero__title > .spot-hero__l1 { animation-delay:.1s; }
+ .spot-hero__title > .spot-hero__l2 { animation-delay:.22s; }
+ .spot-hero__sub { animation-delay:.34s; }
+ .spot-hero__cta { animation-delay:.44s; }
+ .spot-hero__flow { animation-delay:.54s; }
+ .rig__main { animation:phone-arrive 1.25s var(--e-out) .2s backwards; }
+ .rig { animation:deal 1s var(--e-out) .8s backwards; }
+ .rig__side { animation:side-in .5s ease-out .75s backwards, drift 6.5s ease-in-out 2.4s infinite alternate; }
+ .rig__side--r { animation-duration:.5s, 5.6s; }
+ .rig__fan { animation:drift 7.5s ease-in-out 2s infinite alternate; }
+ .rig__main::after { content:""; position:absolute; inset:0; z-index:4; border-radius:inherit; pointer-events:none;
+  background:linear-gradient(105deg, transparent 38%, rgba(255,255,255,.32) 50%, transparent 62%); transform:translateX(-130%); animation:glare 1.3s ease-in-out 1.35s forwards; }
+ .spot-hero.is-paused .rig__fan, .spot-hero.is-paused .rig__side { animation-play-state:paused; }
+ .spot-hero.is-travelling .rig__fan, .spot-hero.is-travelling .rig__side { animation:none; transition:none; }
+ .rig::before, .rig__floor { opacity:clamp(0, calc(1 - var(--hp, 0) * 1.5), 1); }
+ /* the copy clears as the phone travels — on phones it rises over it */
+ .spot-hero__copy { opacity:clamp(0, calc(1 - var(--hp, 0) * 1.8), 1); translate:0 calc(var(--hp, 0) * -40px); }
+ .spot-hero.is-cleared .spot-hero__copy { visibility:hidden; }
+}
+@keyframes hero-rise { from { opacity:0; transform:translateY(26px); } }
+@keyframes phone-arrive { from { opacity:0; transform:translateY(90px) rotateX(16deg) scale(.92); } }
+@keyframes deal { from { --deal:0; } to { --deal:1; } }
+@keyframes side-in { from { opacity:0; } }
+@keyframes drift { to { translate:0 -10px; } }
+@keyframes glare { to { transform:translateX(130%); } }
+
+/* — the match cut: the side phones fold in and the lit phone glides to
+     exactly where the opening card's phone sits; then the hero lifts and
+     its scan line passes from one phone straight into the other.
+     cinematic.js measures the glide and writes --hp. On desktop the hero
+     also holds for a short beat while the copy clears. — */
+@media (min-width:961px) and (prefers-reduced-motion:no-preference) {
+ .spot-hero { display:block; height:160svh; min-height:0; padding:0; }
+ .spot-hero__pin { position:sticky; top:0; height:100svh; min-height:640px; display:flex; flex-direction:column; justify-content:center; padding:118px 0 84px; overflow:hidden; }
+ .spot-hero__next { opacity:clamp(0, calc(1 - var(--hp, 0) * 3), 1); }
+ .rig__fan { transform:rotateX(calc(var(--ty, 0) * -4deg * (1 - var(--hp, 0)))) rotateY(calc((-8deg + var(--tx, 0) * 7deg) * (1 - var(--hp, 0)))); }
+}
+
+/* ══════════ FROM SCAN TO PRICE ══════════
+   After the Scroll Expansion Hero reference: a card opens into the
+   full walkthrough. Native scroll drives --x (0 → 1) across a short
+   sticky stage; nothing captures the wheel. The card is the panel
+   clipped down, so the screenshots inside never resize.          */
+.expand { position:relative; height:190svh; background:var(--charcoal); --x:0; }
+.expand__stage { position:sticky; top:0; height:100svh; min-height:640px; overflow:hidden;
+ --pw:clamp(150px, calc((100svh - 300px) / 2.3), 250px);
+ --ph:calc(var(--pw) * 2.168 - 21px);
+ --cw:calc(var(--pw) + 56px);
+ --ch:calc(var(--ph) + 56px); }
+.expand__panel { position:absolute; inset:0; z-index:2; display:grid; grid-template-columns:minmax(0,1fr); place-items:center; padding-top:72px; background:#EEF2EC; color:var(--ink);
+ clip-path:inset(max(0px, calc(((100% - var(--ch)) / 2 + 36px) * (1 - var(--x)))) max(0px, calc((100% - var(--cw)) / 2 * (1 - var(--x)))) max(0px, calc(((100% - var(--ch)) / 2 - 36px) * (1 - var(--x)))) round calc(30px * (1 - var(--x)))); }
+.expand__head { position:absolute; left:var(--gutter); right:var(--gutter); top:calc(50% + 36px - var(--ph) / 2 - 104px); text-align:center; opacity:clamp(0, calc(var(--x) * 2.4 - 1.4), 1); transform:translateY(calc((1 - var(--x)) * 24px)); }
+.expand__head h2 { margin-top:10px; font-size:clamp(1.75rem, 1rem + 2vw, 2.9rem); letter-spacing:-.045em; }
+/* centred on the middle screen even when the strip is wider than the stage */
+.expand__phones { display:flex; align-items:flex-start; gap:clamp(28px, 5vw, 84px); width:max-content; justify-self:start; margin-left:50%; translate:-50% 0; }
+.expand__phones li { flex:none; }
+.expand .capture-device { position:relative; width:var(--pw); border-radius:calc(var(--pw) * .155); }
+.expand .capture-device img { border-radius:calc(var(--pw) * .125); }
+.expand__side:first-child { transform:translateX(calc((1 - var(--x)) * 70px)); }
+.expand__side:last-child { transform:translateX(calc((1 - var(--x)) * -70px)); }
+.expand__phones p { margin-top:16px; text-align:center; font-size:.75rem; font-weight:800; letter-spacing:.14em; text-transform:uppercase; color:var(--text-3); opacity:clamp(0, calc(var(--x) * 2.4 - 1.4), 1); }
+.expand__phones p b { margin-right:6px; color:var(--green-deep); }
+
+/* — the hand-off: once open, the card lifts like a curtain off the
+     walkthrough, which is already pinned beneath it (see .experience
+     below). A scan line rides the curtain's edge, the same gesture as
+     the hero's screen wipe, and the walkthrough settles forward as it
+     is uncovered. — */
+.expand__panel::after { content:""; position:absolute; left:0; right:0; bottom:0; height:2px; background:linear-gradient(90deg,transparent,#22C55E 15%,#4ADE80 50%,#22C55E 85%,transparent); box-shadow:0 0 22px 3px rgba(34,197,94,.45); opacity:clamp(0, calc((var(--x) - .92) * 12.5), 1); }
+@media (prefers-reduced-motion:no-preference) {
+ .experience { height:calc(640vh + 100svh); margin-top:-100svh; scroll-margin-top:calc(-100svh - 90px); }
+ .experience .stage { transform:scale(calc(.94 + var(--lift,1) * .06)); opacity:calc(.55 + var(--lift,1) * .45); transform-origin:50% 40%; }
+}
+
+/* — the glyph window (after the Glyph Portal reference): the estimate
+     set as a clip onto a green scan field, either side of the card. It
+     parts and fades as the card opens; it is decoration only. — */
+.portal { position:absolute; inset:0; z-index:1; transform:translateY(36px); pointer-events:none; }
+.portal__half { position:absolute; top:50%; width:min(calc((100vw - var(--cw)) / 2 - 5vw), 560px); height:auto; aspect-ratio:640/240; translate:0 -50%; opacity:clamp(0, calc(1 - var(--x) * 1.7), 1); }
+.portal__half--l { right:calc(50% + var(--cw) / 2 + 2vw); transform:translateX(calc(var(--x) * -16vw)); }
+.portal__half--r { left:calc(50% + var(--cw) / 2 + 2vw); transform:translateX(calc(var(--x) * 16vw)); }
+.portal text { font-family:var(--sans); font-size:230px; font-weight:800; letter-spacing:-.06em; }
+.portal__scan { fill:#DCFCE7; opacity:.7; animation:portal-scan 3.4s linear infinite; }
+@keyframes portal-scan { from { transform:translateY(0); } to { transform:translateY(240px); } }
+.portal__edge { fill:none; stroke:rgba(255,255,255,.16); stroke-width:1.2; }
+
+/* up to tablet width the three screens do not fit side by side at a
+   readable size; the fan below applies wherever that is true */
+@media (max-width:960px) and (prefers-reduced-motion:no-preference) {
+ /* three screens do not fit side by side, so as the card opens the
+    side ones slide in from outside it and tuck behind the estimate —
+    the hero's fan again. Centres start (--pw + gap) apart and end at
+    .48 --pw apart, which keeps the tilted side screens on screen. */
+ .expand__phones { gap:34px; }
+ .expand__main { position:relative; z-index:2; }
+ .expand__side { position:relative; z-index:1; }
+ .expand__side:first-child { transform:translateX(calc(var(--x) * (var(--pw) * .52 + 34px))) rotate(calc(var(--x) * -6deg)) scale(calc(1 - var(--x) * .22)); }
+ .expand__side:last-child { transform:translateX(calc(var(--x) * (var(--pw) * -.52 - 34px))) rotate(calc(var(--x) * 6deg)) scale(calc(1 - var(--x) * .22)); }
+ .expand__side .capture-device { box-shadow:0 24px 40px -24px rgba(8,21,37,.5); }
+ .expand__side p { display:none; }
+}
+
+/* phones: the same opening, re-proportioned. There is no room beside
+   the card, so the glyph halves sit above and below it and part
+   vertically as it opens. */
+@media (max-width:600px) and (prefers-reduced-motion:no-preference) {
+ .expand__stage { min-height:0; --pw:clamp(140px, calc((100svh - 400px) / 2.3), 210px); }
+ .expand__head { top:calc(50% + 36px - var(--ph) / 2 - 124px); }
+ .expand__head h2 { font-size:1.6rem; }
+ .portal__half { width:min(56vw, 250px); left:50%; right:auto; translate:-50% 0; }
+ .portal__half--l { top:auto; bottom:calc(50% + var(--ch) / 2 + 10px); transform:translateY(calc(var(--x) * -12svh)); }
+ .portal__half--r { top:calc(50% + var(--ch) / 2 + 10px); transform:translateY(calc(var(--x) * 12svh)); }
+}
+
+/* reduced motion: no sticky stage — the glyph sits above an open panel
+   and the three screens scroll sideways */
+@media (prefers-reduced-motion:reduce) {
+ .expand { height:auto; --x:1; padding-top:clamp(40px, 10vw, 120px); }
+ .expand__stage { position:relative; height:auto; min-height:0; overflow:visible; --pw:min(230px, 58vw); }
+ .portal { position:relative; inset:auto; transform:none; display:flex; justify-content:center; gap:3vw; padding-inline:var(--gutter); }
+ .portal__half { position:relative; top:auto; left:auto; right:auto; translate:none; transform:none; opacity:1; width:min(42vw, 380px); }
+ .portal__scan { animation:none; transform:translateY(130px); }
+ .expand__panel { position:relative; inset:auto; display:block; place-items:normal; clip-path:none; margin-top:clamp(28px, 6vw, 56px); padding:clamp(48px, 8vw, 80px) 0 clamp(56px, 8vw, 88px); border-radius:28px 28px 0 0; }
+ .expand__head { position:relative; top:auto; left:auto; right:auto; padding-inline:var(--gutter); opacity:1; transform:none; }
+ .expand__phones { width:100%; margin-left:0; translate:none; margin-top:32px; gap:20px; overflow-x:auto; scroll-snap-type:x mandatory; padding:4px var(--gutter) 12px; scrollbar-width:none; }
+ .expand__phones::-webkit-scrollbar { display:none; }
+ .expand__phones li { scroll-snap-align:center; }
+ .expand__phones li:first-child { margin-left:auto; }
+ .expand__phones li:last-child { margin-right:auto; }
+ .expand__side:first-child, .expand__side:last-child { transform:none; }
+ .expand__phones p { opacity:1; }
+}
+
+/* ══════════ EXPERIENCE · BOOKING · SHOPS ══════════ */
+.experience { height:640vh; background:#eef2ec; }   /* ~1.4 screens of scroll per chapter */
 .experience .grid { opacity:.35; }
 .experience .hero__title { font-size:clamp(40px,4.3vw,70px); }
 .experience .stage { perspective-origin:65% 50%; }
@@ -78,7 +252,8 @@ html { scroll-padding-top: 90px; }
 .showcase-heading { display:flex; justify-content:space-between; gap:40px; align-items:flex-end; }
 .showcase-heading h2 { font-size:clamp(38px,4.7vw,74px); line-height:1.05; letter-spacing:-.065em; margin-top:20px; }
 .showcase-heading em { color:#43dd83; font-style:normal; }
-.showcase-heading>p { max-width:270px; font-size:14px; color:#a9b7c6; line-height:1.8; }
+.showcase-aside { display:flex; flex-direction:column; align-items:flex-start; gap:18px; }
+.showcase-aside p { max-width:270px; font-size:15px; color:#a9b7c6; line-height:1.7; }
 .showcase-tabs { display:flex; gap:8px; margin-top:40px; }
 .showcase-tabs button { padding:12px 23px; border:1px solid #ffffff28; border-radius:30px; color:#c3cdd9; font-size:12px; cursor:pointer; transition:background .25s,color .25s; }
 .showcase-tabs button.is-active { background:#31d573; color:#0e1a2b; border-color:#31d573; }
@@ -86,7 +261,12 @@ html { scroll-padding-top: 90px; }
 .showcase-word { position:absolute; top:180px; left:50%; transform:translateX(-50%); font-size:clamp(80px,13vw,200px); font-weight:800; color:#1b2c3c; letter-spacing:-.08em; white-space:nowrap; }
 .showcase-phone { left:calc(50% - 135px); top:20px; transition:transform .85s cubic-bezier(.22,1,.36,1),opacity .85s,filter .85s; }
 .showcase-caption { text-align:center; color:#bfcdcf; font-size:13px; }
-#shops .shops { border-top:1px solid #ffffff20; padding-top:90px; }
+/* the shop side shares the hero's ground and light */
+.sec--charcoal { background:var(--charcoal); }
+.sec--charcoal::before { background:radial-gradient(46% 40% at 88% 96%, rgba(34,197,94,.09), transparent 72%); }
+.sec--charcoal .showcase-word { color:#141D27; }
+.spotlight--shop { left:-40vw; top:-30vw; }
+.app-showcase > :not(.spotlight) { position:relative; z-index:1; }
 .connected-journey { background:#dcecdf; overflow:hidden; }
 .connected-layout { display:grid; grid-template-columns:1fr 1fr; align-items:center; gap:50px; }
 .connected-copy h2 { font-size:clamp(46px,5vw,76px); line-height:1.04; letter-spacing:-.065em; margin:25px 0; }
@@ -98,120 +278,115 @@ html { scroll-padding-top: 90px; }
 .connected-label { position:absolute; bottom:-25px; left:70px; font-weight:700; font-size:12px; }
 .card,.stepr,.faq details { transition:transform .4s,box-shadow .4s; }
 .card:hover { transform:translateY(-6px); box-shadow:0 20px 60px #0e1a2b14; }
-.sec--final { overflow:hidden; }
+
+/* ══════════ FINAL CTA · FOOTER ══════════ */
+.sec--final { overflow:hidden; background:var(--charcoal); }
 .final__h { letter-spacing:-.065em; }
-@media(min-width:1600px) { .device-fan {right:7%;} .launch__copy {margin-top:130px;} }
-@media(max-width:1180px) { .device-fan {right:-100px;transform:scale(.82);transform-origin:right center;} .launch__copy {max-width:55%;} .launch h1 {font-size:7.5vw;} .launch {min-height:830px;} }
-@media(max-width:860px) {
- .launch {height:auto; min-height:1200px; padding-top:100px;}
- .launch__copy {margin-top:50px;max-width:100%;}
- .launch h1 {font-size:clamp(54px,11vw,88px);}
- .launch__sub {max-width:440px;font-size:15px;}
- .device-fan {top:545px;left:50%;right:auto;transform:translateX(-50%) scale(.75);transform-origin:top center;}
- .launch__bottom>span {max-width:150px;line-height:1.8;font-size:8px;}
- .launch__top {font-size:8px;}
- .scan-story__heading {top:105px;}
- .scan-visual {width:130%;left:-15%;top:20%;height:65%;}
- .scan-result {right:var(--gutter);bottom:11%;width:280px;padding:20px;}
- .scan-story__foot {font-size:8px;gap:25px;}
- .showcase-heading {display:block;}
- .showcase-heading>p {margin-top:25px;max-width:390px;}
- .showcase-tabs {gap:5px;}
- .showcase-tabs button {padding:10px 13px;font-size:10px;}
- .showcase-stage {height:610px;}
- .showcase-phone {width:240px;left:calc(50% - 120px);}
-}
-@media(max-width:480px) {
- .launch {min-height:1040px;}
- .launch__copy {margin-top:40px;}
- .launch h1 {font-size:clamp(42px,12vw,48px);}
- .launch__actions {gap:16px;}
- .launch__actions .btn {padding:15px 18px;font-size:12px;}
- .launch__link {font-size:10px;}
- .device-fan {top:495px;transform:translateX(-50%) scale(.59);}
- .launch-chip--done {bottom:25px;}
- .launch__bottom {bottom:25px;}
- .scan-story h2 {font-size:54px;}
- .scan-story .launch__eyebrow {font-size:8px;}
- .scan-result {bottom:10%;width:255px;}
- .scan-result strong {font-size:34px;}
- .showcase-stage {height:580px;margin-left:-20px;margin-right:-20px;}
- .showcase-word {font-size:85px;}
-}
-@media(max-width:1000px) {
- .connected-layout {grid-template-columns:1fr;gap:30px;}
- .connected-phones {width:490px;max-width:100%;margin:auto;}
-}
-@media(max-width:560px) {
- .connected-phones {height:540px;}
- .connected-phones .capture-device {width:210px;border-radius:35px;}
- .connected-second {left:135px;top:75px;}
- .connected-label {left:10px;bottom:-15px;}
-}
-.launch--editorial { height:210svh; max-height:none; min-height:0; padding:0; overflow:clip; }
-.launch-pin { position:sticky; top:0; height:100svh; min-height:720px; padding:110px var(--gutter) 30px; overflow:hidden; }
-.launch--editorial .launch__copy { max-width:none; margin-top:34px; text-align:center; transform:translateY(calc(var(--launch-p,0) * -65px)); }
-.launch--editorial .launch__eyebrow { justify-content:center; font-size:9px; }
-.launch--editorial h1 { font-size:clamp(100px,15vw,230px); letter-spacing:-.085em; margin:8px 0 0; line-height:1; }
-.launch--editorial h1 em { font-family:Georgia,serif; font-weight:400; font-style:italic; letter-spacing:-.075em; }
-.launch--editorial .device-fan { top:300px; left:50%; right:auto; transform:translateX(-50%) translateY(calc(var(--launch-p,0) * -40px)) scale(.84); transform-origin:top center; }
-.launch--editorial .fan-center { transform:rotate(calc(-6deg + var(--launch-p,0) * 6deg)) scale(calc(1 + var(--launch-p,0) * .12)); }
-.launch-next-screen { position:absolute; top:7px; left:7px; width:calc(100% - 14px)!important; clip-path:inset(calc((1 - var(--launch-screen,0)) * 100%) 0 0); }
-.launch-note { position:absolute; left:var(--gutter); bottom:130px; z-index:5; font-size:15px; line-height:1.5; }
-.launch-note strong { font-weight:500; color:#718073; }
-.launch-note .launch__link { display:inline-block; margin-top:22px; }
-.launch--editorial .launch-chip--price { right:-60px;top:160px; }
-.launch--editorial .launch-chip--done { left:-25px;bottom:110px; }
+.spotlight--final { left:-10vw; top:-36vw; }
+.final .stores--hero { justify-content:center; margin-top:38px; }
+.stores--hero .store { min-width:220px; padding:16px 30px 16px 22px; border-radius:18px; }
+.stores--hero .store__ico { width:30px; height:30px; }
+.stores--hero .store span { font-size:1.25rem; }
+.final__more { display:inline-block; margin-top:26px; font-size:var(--t-body-sm); font-weight:700; color:rgba(255,255,255,.66); text-decoration:underline; text-underline-offset:5px; transition:color .25s; }
+.final__more:hover { color:#fff; }
+.foot { background:var(--charcoal); }
+
+/* ══════════ SHOP SCROLL ══════════ */
 .shop-scroll { height:290svh; padding-top:0; padding-bottom:0; overflow:clip; }
 .shop-scroll .app-showcase { position:sticky; top:0; height:100svh; min-height:850px; padding-top:105px; padding-bottom:20px; overflow:hidden; }
 .shop-scroll .showcase-heading h2 { font-size:clamp(38px,4vw,62px); }
 .shop-scroll .showcase-stage { height:570px; margin-top:10px; }
 .shop-scroll .showcase-phone { width:230px; left:calc(50% - 115px); }
 .shop-scroll .showcase-tabs { margin-top:22px; }
-@media(max-width:860px) {
- .launch--editorial .launch-pin { padding-top:100px; }
- .launch--editorial .launch__copy { margin-top:40px; }
- .launch--editorial h1 { font-size:16vw; }
- .launch--editorial .device-fan { top:290px; transform:translateX(-50%) translateY(calc(var(--launch-p,0) * -25px)) scale(.7); }
- .launch-note { bottom:95px; font-size:12px; }
- .launch-note .launch__link {margin-top:10px;}
- .shop-scroll .app-showcase {min-height:780px;padding-top:95px;}
- .shop-scroll .showcase-heading>p {margin-top:12px;}
- .shop-scroll .showcase-stage {height:490px;}
- .shop-scroll .showcase-phone {width:205px;left:calc(50% - 102.5px);}
+
+/* ══════════ SECTION HAND-OFFS ══════════
+   Every seam is the curtain lift from the opening card. A
+   [data-curtain] section lifts away with the scan line riding its
+   bottom edge, and the section after it waits underneath — held in
+   place by cinematic.js while the edge crosses the screen — and fades
+   up as it is uncovered. Earlier sections sit above later ones.     */
+.curtain-edge, .veil { display:none; }
+@media (prefers-reduced-motion:no-preference) {
+ .spot-hero { z-index:9; }
+ .expand { z-index:8; }
+ .experience { z-index:7; }
+ #booking { z-index:6; }
+ #shops { z-index:5; }
+ #faq { z-index:4; background:var(--canvas); }
+ /* a section held under a curtain has to fill the screen it is held on */
+ #booking, #faq { min-height:100svh; display:flex; flex-direction:column; justify-content:center; }
+ #booking > .wrap, #faq > .wrap { width:100%; }
+ #get { z-index:3; }
+ .foot { position:relative; z-index:2; }
+ .curtain-edge { display:block; position:absolute; z-index:80; left:0; right:0; bottom:0; height:2px; pointer-events:none; opacity:0; transition:opacity .3s;
+  background:linear-gradient(90deg,transparent,#22C55E 15%,#4ADE80 50%,#22C55E 85%,transparent); box-shadow:0 0 22px 3px rgba(34,197,94,.45); }
+ .is-lifting > .curtain-edge { opacity:1; }
+ .veil { display:block; position:absolute; z-index:60; left:0; right:0; top:0; height:100svh; background:inherit; opacity:0; pointer-events:none; }
 }
-@media(max-width:480px) {
- .launch-pin {min-height:720px;}
- .launch--editorial .launch__top {font-size:7px;}
- .launch--editorial .launch__tag {font-size:10px;}
- .launch--editorial .launch__copy {margin-top:34px;}
- .launch--editorial .launch__eyebrow {font-size:7px;letter-spacing:.12em;}
- .launch--editorial h1 {font-size:18vw;margin-top:12px;}
- .launch--editorial .device-fan {top:280px;transform:translateX(-50%) translateY(calc(var(--launch-p,0) * -20px)) scale(.5);}
- .launch--editorial .launch-chip--price {right:25px;top:90px;}
- .launch--editorial .launch-chip--done {left:65px;bottom:50px;}
- .launch-note {bottom:83px;}
- .launch--editorial .launch__bottom>span {max-width:none;font-size:7px;}
- .launch--editorial .launch__bottom a {font-size:9px;}
- .shop-scroll .showcase-heading h2 {font-size:36px;}
- .shop-scroll .app-showcase {min-height:760px;}
+/* the lights come up as a dark section arrives, not on page load */
+.spotlight { animation-play-state:paused; }
+.is-lit .spotlight { animation-play-state:running; }
+
+/* ══════════ RESPONSIVE ══════════ */
+@media (max-width:1000px) {
+ .connected-layout { grid-template-columns:minmax(0,1fr); gap:30px; }
+ .connected-phones { width:490px; max-width:100%; margin:auto; }
 }
-@media(prefers-reduced-motion:reduce) {
- .launch--editorial {height:auto;}
- .launch--editorial .launch-pin {position:relative;height:900px;}
- .shop-scroll {height:auto;}
- .shop-scroll .app-showcase {position:relative;height:auto;}
- .experience {height:auto;}
- .connected-first,.connected-second {transform:none;}
- .fan-center {transform:rotate(-5deg);}
- .fan-left {transform:rotate(-17deg) scale(.87);}
- .fan-right {transform:rotate(16deg) scale(.9);}
- .intro-loader {display:none;}
- .launch h1>span,.motion-ribbon>div {animation:none;}
- .scan-story {height:auto;}
- .scan-story__stage {position:relative;height:820px;}
- .scan-result {opacity:1;transform:none;}
- .scan-visual {transform:none;}
- .capture-device,.showcase-phone,.card {transition:none;}
- .reading-progress {display:none;}
+@media (max-width:960px) {
+ .spot-hero { min-height:0; padding:108px 0 64px; }
+ .spot-hero__inner { grid-template-columns:minmax(0,1fr); gap:20px; }
+ .spot-hero__copy { max-width:640px; }
+ .rig { min-height:0; padding:12px 0 16px; --pw:min(230px, 52vw); }
+ .spot-hero__next { display:none; }
+}
+@media (max-width:860px) {
+ .showcase-heading { display:block; }
+ .showcase-aside { margin-top:16px; }
+ .showcase-tabs { gap:5px; }
+ .showcase-tabs button { padding:10px 13px; font-size:10px; }
+ .showcase-stage { height:610px; }
+ .showcase-phone { width:240px; left:calc(50% - 120px); }
+ .shop-scroll .app-showcase { min-height:780px; padding-top:95px; }
+ .shop-scroll .showcase-stage { height:490px; }
+ .shop-scroll .showcase-phone { width:205px; left:calc(50% - 102.5px); }
+ /* phones: the fan holds still */
+ /* flat, so stacking follows z-index and the lit phone stays in front
+    while it tilts in; its own perspective keeps that tilt reading as 3D */
+ .rig__fan { transform:none; transition:none; transform-style:flat; perspective:1200px; }
+ .rig__side { --spread:52%; --depth:0px; --size:.86; }
+}
+@media (max-width:560px) {
+ .spot-hero { padding-top:96px; }
+ .spot-hero__title { margin-top:18px; }
+ .spot-hero__sub { font-size:var(--t-body); margin-top:18px; }
+ .spot-hero__cta { margin-top:26px; }
+ .spot-hero__cta .btn { flex:1 1 auto; justify-content:center; padding:16px 22px; font-size:var(--t-body); }
+ .spot-hero__flow { margin-top:26px; }
+ .spot-hero__flow { gap:8px; }
+ .spot-hero__flow li { gap:8px; font-size:.6875rem; letter-spacing:.1em; }
+ .spot-hero__flow li + li::before { width:10px; }
+ .stores--hero .store { flex:1 1 200px; justify-content:center; }
+}
+@media (max-width:480px) {
+ .showcase-stage { height:580px; margin-left:-20px; margin-right:-20px; }
+ .showcase-word { font-size:85px; }
+ .shop-scroll .showcase-heading h2 { font-size:36px; }
+ .shop-scroll .app-showcase { min-height:760px; }
+}
+@media (max-width:560px) {
+ .connected-phones { height:540px; }
+ .connected-phones .capture-device { width:210px; border-radius:35px; }
+ .connected-second { left:135px; top:75px; }
+ .connected-label { left:10px; bottom:-15px; }
+}
+@media (prefers-reduced-motion:reduce) {
+ .shop-scroll { height:auto; }
+ .shop-scroll .app-showcase { position:relative; height:auto; }
+ .experience { height:auto; }
+ .connected-first,.connected-second { transform:none; }
+ .spotlight { animation:none; opacity:1; }
+ .rig__fan { transform:rotateY(-8deg); }
+ .spot-hero__title > span { opacity:1 !important; }
+ .capture-device,.showcase-phone,.card { transition:none; }
+ .reading-progress { display:none; }
 }

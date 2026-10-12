@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>CrashPricer — Scan the damage. Know the price.</title>
 <meta name="description" content="Photograph a damaged panel and CrashPricer returns an estimated repair range in euros, then brings repair shops to you with real offers. Scan, estimate, compare, book — from your phone." />
-<meta name="theme-color" content="#E7E5DF" />
+<meta name="theme-color" content="#0B1016" />
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
 <link rel="apple-touch-icon" href="assets/logo/appicon-256.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -18,13 +18,12 @@
 <link rel="stylesheet" href="css/cinematic.css" />
 </head>
 <body>
-<div class="intro-loader" aria-hidden="true"><img src="assets/logo/mark.svg" alt="" /><span>CrashPricer</span><i></i></div>
 <div class="reading-progress" aria-hidden="true"></div>
 
-<a class="skip" href="#experience">Skip to content</a>
+<a class="skip" href="#top">Skip to content</a>
 
 <!-- ══════════════════ NAV ══════════════════ -->
-<header class="nav" id="nav">
+<header class="nav is-dark" id="nav">
   <div class="nav__inner">
     <a class="brand" href="#top" aria-label="CrashPricer home">
       <span class="brand__mark" aria-hidden="true">
@@ -77,26 +76,104 @@
 </div>
 
 <main id="top">
-<section class="launch launch--editorial" aria-labelledby="launch-title">
- <div class="launch-pin">
-  <div class="launch__top"><span class="edition">THE REPAIR APP</span><span class="launch__tag">For the unexpected.</span></div>
-  <div class="launch__copy">
-   <p class="launch__eyebrow">A SMALL SETBACK. A SMARTER COMEBACK.</p>
-   <h1 id="launch-title">Oh, <em>scratch.</em></h1>
+<!-- ══════════════════ HERO ══════════════════
+     The product under a spotlight. A scan line passes down the lit phone
+     and turns the damage photos into the estimate, and back; the
+     headline lights the line that matches what the screen is doing.
+     The copy and CTAs never depend on any of it. -->
+<section class="spot-hero" id="hero-top" aria-labelledby="hero-title" data-dark data-state="scan" data-curtain>
+ <div class="spot-hero__pin">
+  <span class="spotlight" aria-hidden="true"></span>
+  <div class="spot-hero__inner wrap">
+    <div class="spot-hero__copy">
+      <p class="spot-hero__eyebrow"><span aria-hidden="true"></span>THE REPAIR APP</p>
+      <h1 id="hero-title" class="spot-hero__title"><span class="spot-hero__l1">Scan the damage.</span> <span class="spot-hero__l2">Know the <em>price.</em></span></h1>
+      <p class="spot-hero__sub">Photograph the damaged panel and CrashPricer returns an estimated repair range in euros — then puts your request in front of repair shops nearby.</p>
+      <div class="spot-hero__cta">
+        <a class="btn btn--green btn--lg magnetic" href="#get">
+          <span>Get CrashPricer</span>
+          <svg class="arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h9m0 0-3.5-3.5M12 8l-3.5 3.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a class="btn btn--glass btn--lg" href="#experience"><span>See how it works</span></a>
+      </div>
+      <ol class="spot-hero__flow" aria-label="How CrashPricer works">
+        <li>Scan</li><li>Estimate</li><li>Compare</li><li>Book</li>
+      </ol>
+    </div>
+
+    <div class="rig" aria-hidden="true">
+      <div class="rig__fan">
+        <div class="capture-device rig__side rig__side--l"><img src="assets/app/web/offers.jpg" alt="" width="640" height="1387" decoding="async" /></div>
+        <div class="capture-device rig__side rig__side--r"><img src="assets/app/web/repairs.jpg" alt="" width="640" height="1387" decoding="async" /></div>
+        <div class="capture-device rig__main">
+          <img src="assets/app/web/photos.jpg" alt="" width="640" height="1387" fetchpriority="high" />
+          <div class="rig__screen">
+            <img class="rig__next" src="assets/app/web/estimate.jpg" alt="" width="640" height="1387" decoding="async" />
+            <span class="rig__beam"></span>
+          </div>
+        </div>
+      </div>
+      <span class="rig__floor"></span>
+    </div>
   </div>
-  <div class="device-fan" aria-label="CrashPricer app previews">
-   <div class="capture-device fan-left"><img src="assets/app/offers.png" alt="Driver repair offers in CrashPricer" width="1179" height="2556" fetchpriority="high" /></div>
-   <div class="capture-device fan-right"><img src="assets/app/shop-booking.png" alt="Accepted booking in the repair shop app" width="1179" height="2556" fetchpriority="high" /></div>
-   <div class="capture-device fan-center"><img src="assets/app/home.png" alt="CrashPricer home screen with Start scan" width="1179" height="2556" fetchpriority="high" /><img class="launch-next-screen" src="assets/app/estimate.png" alt="" width="1179" height="2556" /></div>
-   <div class="launch-chip launch-chip--price"><span>Estimated repair cost</span><b>€100–210</b><small>From photos to a clearer price.</small></div>
-   <div class="launch-chip launch-chip--done"><i aria-hidden="true">✓</i><div><b>Repair booked.</b><span>A little peace of mind.</span></div></div>
-  </div>
-  <div class="launch-note"><p>Your next move,<br /><strong>already in your pocket.</strong></p><a class="launch__link" href="#experience">Take a closer look <span aria-hidden="true">↘</span></a></div>
-  <div class="launch__bottom"><span>SCAN. COMPARE. GET GOING.</span><a href="#experience">Scroll to see it work <span aria-hidden="true">↓</span></a></div>
+  <a class="spot-hero__next" href="#tour">Scroll to see it work <span aria-hidden="true">↓</span></a>
  </div>
+  <span class="curtain-edge" aria-hidden="true"></span>
+</section>
+
+<!-- ══════════════════ FROM SCAN TO PRICE ══════════════════
+     The estimate screen opens out of a card into the full walkthrough as
+     the page scrolls normally — a short sticky stage, no wheel capture.
+     Either side of the card, the estimate itself is set as a glyph window
+     onto a green scan field — the price the scan produced. -->
+<section class="expand" id="tour" aria-labelledby="tour-title" data-dark>
+  <span class="veil" aria-hidden="true"></span>
+  <div class="expand__stage">
+    <div class="portal" aria-hidden="true">
+      <svg class="portal__half portal__half--l" viewBox="0 0 640 240" preserveAspectRatio="xMaxYMid meet" focusable="false">
+        <defs><radialGradient id="field-l" cx=".72" cy=".3" r=".9"><stop offset="0" stop-color="#4ADE80"/><stop offset=".45" stop-color="#15803D"/><stop offset="1" stop-color="#0B2A1A"/></radialGradient><pattern id="lines-l" width="8" height="6" patternUnits="userSpaceOnUse"><rect width="8" height="1" fill="rgba(255,255,255,.14)"/></pattern><clipPath id="glyph-l"><text x="636" y="196" text-anchor="end"><tspan class="cur cur--pre">€</tspan>100<tspan class="cur cur--post">&#160;€</tspan></text></clipPath></defs>
+        <g clip-path="url(#glyph-l)">
+          <rect width="640" height="240" fill="url(#field-l)" />
+          <rect width="640" height="240" fill="url(#lines-l)" />
+          <rect class="portal__scan" width="640" height="4" />
+        </g>
+        <text class="portal__edge" x="636" y="196" text-anchor="end"><tspan class="cur cur--pre">€</tspan>100<tspan class="cur cur--post">&#160;€</tspan></text>
+      </svg>
+      <svg class="portal__half portal__half--r" viewBox="0 0 640 240" preserveAspectRatio="xMinYMid meet" focusable="false">
+        <defs><radialGradient id="field-r" cx=".28" cy=".3" r=".9"><stop offset="0" stop-color="#4ADE80"/><stop offset=".45" stop-color="#15803D"/><stop offset="1" stop-color="#0B2A1A"/></radialGradient><pattern id="lines-r" width="8" height="6" patternUnits="userSpaceOnUse"><rect width="8" height="1" fill="rgba(255,255,255,.14)"/></pattern><clipPath id="glyph-r"><text x="4" y="196"><tspan class="cur cur--pre">€</tspan>210<tspan class="cur cur--post">&#160;€</tspan></text></clipPath></defs>
+        <g clip-path="url(#glyph-r)">
+          <rect width="640" height="240" fill="url(#field-r)" />
+          <rect width="640" height="240" fill="url(#lines-r)" />
+          <rect class="portal__scan" width="640" height="4" />
+        </g>
+        <text class="portal__edge" x="4" y="196"><tspan class="cur cur--pre">€</tspan>210<tspan class="cur cur--post">&#160;€</tspan></text>
+      </svg>
+    </div>
+
+    <div class="expand__panel">
+      <div class="expand__head">
+        <p class="kicker">YOUR PHOTOS. A CLEARER PICTURE.</p>
+        <h2 id="tour-title">From photos to a clearer price.</h2>
+      </div>
+      <ol class="expand__phones">
+        <li class="expand__side">
+          <div class="capture-device"><img src="assets/app/web/photos.jpg" alt="Damage photos step with three photos added" width="640" height="1387" loading="lazy" decoding="async" /></div>
+          <p><b>01</b> Scan</p>
+        </li>
+        <li class="expand__main">
+          <div class="capture-device"><img src="assets/app/web/estimate.jpg" alt="Estimate ready: repair cost €100 to €210 for a rear bumper" width="640" height="1387" loading="lazy" decoding="async" /></div>
+          <p><b>02</b> Estimate</p>
+        </li>
+        <li class="expand__side">
+          <div class="capture-device"><img src="assets/app/web/offers.jpg" alt="Repair offers from nearby shops" width="640" height="1387" loading="lazy" decoding="async" /></div>
+          <p><b>03</b> Compare</p>
+        </li>
+      </ol>
+    </div>
+  </div>
 </section>
 <!-- ══════════════════ THE EXPERIENCE ══════════════════ -->
-<section class="experience" id="experience" aria-label="How CrashPricer works">
+<section class="experience" id="experience" aria-label="How CrashPricer works" data-curtain>
   <div class="experience__bg" aria-hidden="true">
     <span class="aurora aurora--a"></span>
     <span class="aurora aurora--b"></span>
@@ -140,7 +217,7 @@
           <div><p class="orb__k">Last scan</p><p class="orb__v">Volkswagen Golf · Rear bumper</p></div>
         </div>
         <div class="orb" data-ch="0" style="--x:34%;--y:20%;--z:130px">
-          <p class="orb__k">Estimated repair cost</p><p class="orb__big orb__big--sm">€70–160</p>
+          <p class="orb__k">Estimated repair cost</p><p class="orb__big orb__big--sm"><span class="cur cur--pre">€</span>70–160<span class="cur cur--post">&nbsp;€</span></p>
         </div>
 
         <div class="orb" data-ch="1" style="--x:-42%;--y:-26%;--z:120px">
@@ -165,7 +242,7 @@
 
         <div class="orb" data-ch="3" style="--x:-44%;--y:-14%;--z:140px">
           <p class="orb__k">Estimated repair cost</p>
-          <p class="orb__big">€<span data-odo="100">100</span> – €<span data-odo="210">210</span></p>
+          <p class="orb__big"><span class="cur cur--pre">€</span><span data-odo="100">100</span> – <span class="cur cur--pre">€</span><span data-odo="210">210</span><span class="cur cur--post">&nbsp;€</span></p>
         </div>
         <div class="orb" data-ch="3" style="--x:34%;--y:24%;--z:80px">
           <p class="orb__k">Evidence</p><p class="orb__v orb__v--green">85% · AI-supported</p>
@@ -178,7 +255,7 @@
           <p class="orb__k">Your offers</p><p class="orb__v">1 offer from 1 shop</p>
         </div>
         <div class="orb" data-ch="4" style="--x:-42%;--y:6%;--z:65px">
-          <p class="orb__k">Volkswagen Golf · Rear bumper</p><p class="orb__big orb__big--sm">€85</p>
+          <p class="orb__k">Volkswagen Golf · Rear bumper</p><p class="orb__big orb__big--sm"><span class="cur cur--pre">€</span>85<span class="cur cur--post">&nbsp;€</span></p>
         </div>
         <div class="orb" data-ch="4" style="--x:34%;--y:22%;--z:95px">
           <p class="orb__k">Prishtina</p><p class="orb__v">Ready in 2 days</p>
@@ -222,12 +299,14 @@
     </ol>
 
   </div>
+  <span class="curtain-edge" aria-hidden="true"></span>
 </section>
 
 <!-- ══════════════════ HOW IT WORKS ══════════════════ -->
 <!-- ══════════════════ GUESS THE PRICE ══════════════════ -->
 <!-- ══════════════════ WHY CRASHPRICER ══════════════════ -->
-<section class="connected-journey sec" id="booking">
+<section class="connected-journey sec" id="booking" data-curtain>
+  <span class="veil" aria-hidden="true"></span>
   <div class="wrap connected-layout">
     <div class="connected-copy reveal"><p class="kicker">FROM SENT TO SCHEDULED</p><h2>That feeling<br />when it's <em>sorted.</em></h2><p>An offer accepted. A repair scheduled. Life moves on.</p><a class="btn btn--ink magnetic" href="#shops">See the shop side <span aria-hidden="true">↗</span></a></div>
     <div class="connected-phones" data-scrub>
@@ -236,12 +315,15 @@
       <span class="connected-label">One app. Every next step.</span>
     </div>
   </div>
+  <span class="curtain-edge" aria-hidden="true"></span>
 </section>
 
 <!-- ══════════════════ FOR REPAIR SHOPS ══════════════════ -->
-<section class="sec sec--ink shop-scroll" id="shops">
+<section class="sec sec--ink sec--charcoal shop-scroll" id="shops" data-dark data-curtain>
+  <span class="veil" aria-hidden="true"></span>
   <div class="app-showcase wrap">
-    <div class="showcase-heading"><div><p class="kicker kicker--light">TWO SIDES. ONE SMOOTHER REPAIR.</p><h2>Good for your car.<br /><em>Great for your shop.</em></h2></div><p>Find nearby work. Quote it. Book it.</p></div>
+    <span class="spotlight spotlight--shop" aria-hidden="true"></span>
+    <div class="showcase-heading"><div><p class="kicker kicker--light">TWO SIDES. ONE SMOOTHER REPAIR.</p><h2>Good for your car.<br /><em>Great for your shop.</em></h2></div><div class="showcase-aside"><p>Find nearby work. Quote it. Book it.</p><a class="btn btn--green btn--sm" href="#get"><span>Get CrashPricer</span><svg class="arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h9m0 0-3.5-3.5M12 8l-3.5 3.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div></div>
     <div class="showcase-tabs" role="group" aria-label="Repair shop app screens"><button type="button" class="is-active" data-showcase="0" aria-pressed="true">01 / Coverage</button><button type="button" data-showcase="1" aria-pressed="false">02 / Offers</button><button type="button" data-showcase="2" aria-pressed="false">03 / Bookings</button></div>
     <div class="showcase-stage">
       <div class="showcase-word" aria-hidden="true">CONNECTED.</div>
@@ -251,11 +333,13 @@
     </div>
     <p class="showcase-caption" aria-live="polite">Your area. Your next opportunity.</p>
   </div>
+  <span class="curtain-edge" aria-hidden="true"></span>
 </section>
 
 <!-- ══════════════════ COVERAGE ══════════════════ -->
 <!-- ══════════════════ FAQ ══════════════════ -->
-<section class="sec" id="faq">
+<section class="sec" id="faq" data-curtain>
+  <span class="veil" aria-hidden="true"></span>
   <div class="wrap faqgrid">
     <header class="faqgrid__head reveal">
       <p class="kicker">FAQ</p>
@@ -280,22 +364,17 @@
 
     </div>
   </div>
+  <span class="curtain-edge" aria-hidden="true"></span>
 </section>
 
 <!-- ══════════════════ FINAL CTA ══════════════════ -->
-<section class="sec sec--final" id="get">
-  <div class="finalbg" aria-hidden="true"><span class="aurora aurora--c"></span><span class="grid grid--dark"></span></div>
+<section class="sec sec--final" id="get" data-dark>
+  <span class="veil" aria-hidden="true"></span>
+  <div class="finalbg" aria-hidden="true"><span class="spotlight spotlight--final"></span><span class="grid grid--dark"></span></div>
   <div class="wrap final">
     <h2 class="final__h reveal"><span>Your repair</span><span data-i18n="final-2">starts with a <em>scan</em>.</span></h2>
     <p class="final__p reveal">A few photos. Your next step, sorted.</p>
-    <div class="final__cta reveal">
-      <a class="btn btn--green btn--lg magnetic" href="#top">
-        <span>Get started</span>
-        <svg class="arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h9m0 0-3.5-3.5M12 8l-3.5 3.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
-      <a class="btn btn--glass btn--lg magnetic" href="#experience"><span>See how it works</span></a>
-    </div>
-    <div class="stores stores--light reveal">
+    <div class="stores stores--light stores--hero final__cta reveal">
       <a class="store" href="#get">
         <svg class="store__ico" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
         <span><small>Download on the</small>App Store</span>
@@ -305,6 +384,7 @@
         <span><small>Get it on</small>Google Play</span>
       </a>
     </div>
+    <a class="final__more reveal" href="#experience">See how it works <span aria-hidden="true">↑</span></a>
 
     <div class="final__phone reveal" aria-hidden="true">
       <div class="phone phone--static">
@@ -323,7 +403,7 @@
 
 </main>
 
-<footer class="foot">
+<footer class="foot" data-dark>
   <div class="wrap foot__inner">
     <div class="foot__brand">
       <a class="brand brand--foot" href="#top">
