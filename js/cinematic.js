@@ -56,6 +56,14 @@
     el.classList.toggle(name, on);
   }
 
+  /* A held section first spends one screen under the one before it (its
+     negative top margin, see the CSS); its own progress starts after that.
+     Read once per width — 100svh does not change with the phone toolbar. */
+  const lead = (el) => (el ? Math.max(0, -parseFloat(getComputedStyle(el).marginTop) || 0) : 0);
+  let cardLead = 0, shopLead = 0;
+  function measureLeads() { cardLead = lead(expand); shopLead = lead(shop); }
+  measureLeads();
+
   /* The card opens over the first 80% of its stage and holds open for
      the rest, so the walkthrough arrives already settled. r is the card's
      rect, measured before anything was written this frame. */
@@ -66,7 +74,7 @@
       put(walkthrough, '--lift', null);
       return 1;
     }
-    const x = clamp(-r.top / Math.max(1, h - vh) / 0.8);
+    const x = clamp((-r.top - cardLead) / Math.max(1, h - vh - cardLead) / 0.8);
     put(expand, '--x', ease(x).toFixed(4));
     /* then the open card lifts off the walkthrough pinned beneath it */
     put(walkthrough, '--lift', ease(clamp(1 - r.bottom / vh)).toFixed(4));
@@ -87,7 +95,7 @@
     const rects = layers.map((layer) => layer.getBoundingClientRect());
     let seams = null, docH = 0, shopR = null, shopH = 0;
     if (!still) {
-      seams = curtains.map((a) => ({ a, b: a.nextElementSibling, end: a.offsetTop + a.offsetHeight, bh: a.nextElementSibling.offsetHeight }));
+      seams = curtains.map((a) => ({ a, end: a.offsetTop + a.offsetHeight }));
       docH = document.documentElement.scrollHeight;
       shopR = shop.getBoundingClientRect();
       shopH = shop.offsetHeight;
@@ -110,33 +118,22 @@
     setFlag(nav, 'is-dark', dark);
 
     if (still) {
-      for (const a of curtains) {
-        setFlag(a, 'is-lifting', false);
-        put(a.nextElementSibling, 'transform', null);
-      }
+      for (const a of curtains) setFlag(a, 'is-lifting', false);
       return;
     }
 
-    /* Curtains. While a section's bottom edge crosses the screen it lifts
-       away with the scan line on that edge, and the section after it is
-       held in place underneath, fading up as it is uncovered. Measured
-       from layout, so the held position never feeds back into itself.
-       The section about to be held is promoted to its own layer shortly
-       before, so the first frame of the lift is not spent rasterising it. */
-    for (const { a, b, end, bh } of seams) {
+    /* Curtains: while a section's bottom edge crosses the screen it lifts
+       away with the scan line lit on that edge. The section beneath is
+       held by the browser (sticky, see the CSS), not from here. */
+    for (const { a, end } of seams) {
       const edge = end - sy;
-      /* a section shorter than the screen cannot be held without a gap */
-      const lifting = edge > 0 && edge < vh && bh >= vh;
-      setFlag(a, 'is-lifting', lifting);
-      setFlag(b, 'is-near', edge > -vh * 0.25 && edge < vh * 2);
-      put(b, 'transform', lifting ? `translate3d(0, ${(-edge).toFixed(1)}px, 0)` : null);
-      put(b.querySelector(':scope > .veil'), 'opacity', lifting ? (edge / vh * 0.5).toFixed(3) : '0');
+      setFlag(a, 'is-lifting', edge > 0 && edge < vh);
     }
     put(progress, 'transform', `scaleX(${clamp(sy / Math.max(1, docH - vh)).toFixed(4)})`);
     /* the shop gallery follows the scroll the whole way through its pinned
        stretch (see placeGallery) */
     if (shopR.bottom > 0 && shopR.top < vh) {
-      placeGallery(clamp(-shopR.top / Math.max(1, shopH - vh)) * 2);
+      placeGallery(clamp((-shopR.top - shopLead) / Math.max(1, shopH - vh - shopLead)) * 2);
     }
   }
   function queue() { if (!frame) frame = requestAnimationFrame(update); }
@@ -144,12 +141,9 @@
   /* reduced motion drops the curtains: nothing held, nothing lifting */
   function settle() {
     if (reduced.matches) {
-      for (const a of curtains) {
-        setFlag(a, 'is-lifting', false);
-        setFlag(a.nextElementSibling, 'is-near', false);
-        put(a.nextElementSibling, 'transform', null);
-      }
+      for (const a of curtains) setFlag(a, 'is-lifting', false);
     }
+    measureLeads();
     queue();
   }
 
@@ -157,9 +151,9 @@
   /* On phones the toolbar sliding in and out fires resize with only the
      height changed; nothing here depends on that, so measuring waits for a
      real change of width (see the hero's re-measure below). */
-  let knownWidth = innerWidth;
-  const widthChanged = () => { const w = innerWidth; if (w === knownWidth) return false; knownWidth = w; return true; };
-  addEventListener('resize', queue, { passive:true });
+  const widthWatch = () => { let known = innerWidth; return () => { const w = innerWidth; if (w === known) return false; known = w; return true; }; };
+  const widthChanged = widthWatch();
+  addEventListener('resize', () => { if (widthChanged()) measureLeads(); queue(); }, { passive:true });
   reduced.addEventListener('change', settle);
   staticCard.addEventListener('change', queue);
   queue();
@@ -240,14 +234,14 @@
     if (reduced.matches) rest();
   }
 
-  /* The match cut. As the page starts to scroll, the side phones fold
-     in and the lit phone glides to exactly where the opening card's phone
-     waits below — same centre, same width — and stays there, so the scan
-     line that lifts the hero passes from one phone straight into the
-     other. On desktop the hero holds still for the glide (its pin is
-     sticky); on phones it scrolls, and the glide is measured against
-     where the phone actually is, so the same sum serves both. All from
-     layout, never from the moving rig; re-measured on resize. */
+  /* The match cut. As the page starts to scroll, the side phones fold in
+     (everywhere) and, where the hero is pinned (desktop), the lit phone
+     glides to exactly where the opening card's phone waits below — same
+     centre, same width — so the scan line that lifts the hero passes from
+     one phone straight into the other. On phones the hero is not pinned,
+     and gliding the phone there meant moving it against the scroll from
+     script, which shakes on iPhone; it scrolls away with the hero instead.
+     Measured from layout, never from the moving rig. */
   const travelling = matchMedia('(prefers-reduced-motion: no-preference)');
   const rig = hero && hero.querySelector('.rig');
   const fan = hero && hero.querySelector('.rig__fan');
@@ -261,6 +255,7 @@
     cut = null;
     if (!rig || !cardPhone || !travelling.matches) return;
     const pinned = getComputedStyle(pin).position === 'sticky';
+    if (!pinned) { queue(); return; }
     const held = rig.style.transform;
     rig.style.transform = 'none';
     const r = rig.getBoundingClientRect();
@@ -284,32 +279,34 @@
 
   function travel(heroR, boxTop, heroH, vh) {
     if (!hero) return;
-    if (!cut) {
+    if (!travelling.matches) {                  // reduced motion: still
       put(rig, 'transform', null);
       put(hero, '--hp', null);
       setFlag(hero, 'is-travelling', false);
       setFlag(hero, 'is-cleared', false);
       return;
     }
-    /* the glide runs over the hold, or a third of a screen where the hero
-       has little to hold */
+    /* the glide runs over the pinned hold, or a third of a screen where
+       the hero is not pinned (the side phones fold over it) */
     const hold = Math.max(heroH - vh, vh * 0.3);
     const hp = clamp(-heroR.top / hold);
-    const e = ease(hp);
     const moving = hp > 0.005;
-    const y = boxTop + cut.cy;                  // where the phone is now, untouched
     put(hero, '--hp', hp.toFixed(4));
     setFlag(hero, 'is-travelling', moving);
+    if (moving) restScan();     // the cut lands on the estimate, as the card shows it
+    if (!cut) { put(rig, 'transform', null); setFlag(hero, 'is-cleared', false); return; }
+    const e = ease(hp);
+    const y = boxTop + cut.cy;                  // where the phone is now, untouched
     setFlag(hero, 'is-cleared', hp > 0.56);     // copy fully faded: out of reach too
     put(rig, 'transform', moving
       ? `translate3d(${((cut.tx - cut.cx) * e).toFixed(1)}px, ${((cut.ty - y) * e).toFixed(1)}px, 0) scale(${(1 + (cut.k - 1) * e).toFixed(4)})`
       : null);
-    if (moving) restScan();     // the cut lands on the estimate, as the card shows it
   }
 
   if (hero) {
     measureCut();
-    addEventListener('resize', () => { if (widthChanged()) measureCut(); }, { passive:true });
+    const cutWidthChanged = widthWatch();
+    addEventListener('resize', () => { if (cutWidthChanged()) measureCut(); }, { passive:true });
     travelling.addEventListener('change', measureCut);
     addEventListener('load', measureCut);
     if (document.fonts) document.fonts.ready.then(measureCut);

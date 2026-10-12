@@ -124,9 +124,6 @@ html { scroll-padding-top: 90px; }
  .spot-hero.is-paused .rig__fan, .spot-hero.is-paused .rig__side { animation-play-state:paused; }
  .spot-hero.is-travelling .rig__fan, .spot-hero.is-travelling .rig__side { animation:none; transition:none; }
  .rig::before, .rig__floor { opacity:clamp(0, calc(1 - var(--hp, 0) * 1.5), 1); }
- /* the copy clears as the phone travels — on phones it rises over it */
- .spot-hero__copy { opacity:clamp(0, calc(1 - var(--hp, 0) * 1.8), 1); translate:0 calc(var(--hp, 0) * -40px); }
- .spot-hero.is-cleared .spot-hero__copy { visibility:hidden; }
 }
 @keyframes hero-rise { from { opacity:0; transform:translateY(26px); } }
 @keyframes phone-arrive { from { opacity:0; transform:translateY(90px) rotateX(16deg) scale(.92); } }
@@ -144,6 +141,9 @@ html { scroll-padding-top: 90px; }
  .spot-hero { display:block; height:160svh; min-height:0; padding:0; }
  .spot-hero__pin { position:sticky; top:0; height:100svh; min-height:640px; display:flex; flex-direction:column; justify-content:center; padding:118px 0 84px; overflow:hidden; }
  .spot-hero__next { opacity:clamp(0, calc(1 - var(--hp, 0) * 3), 1); }
+ /* the copy clears while the lit phone glides over its column */
+ .spot-hero__copy { opacity:clamp(0, calc(1 - var(--hp, 0) * 1.8), 1); translate:0 calc(var(--hp, 0) * -40px); }
+ .spot-hero.is-cleared .spot-hero__copy { visibility:hidden; }
  .rig__fan { transform:rotateX(calc(var(--ty, 0) * -4deg * (1 - var(--hp, 0)))) rotateY(calc((-8deg + var(--tx, 0) * 7deg) * (1 - var(--hp, 0)))); }
 }
 
@@ -305,11 +305,15 @@ html { scroll-padding-top: 90px; }
 
 /* ══════════ SECTION HAND-OFFS ══════════
    Every seam is the curtain lift from the opening card. A
-   [data-curtain] section lifts away with the scan line riding its
-   bottom edge, and the section after it waits underneath — held in
-   place by cinematic.js while the edge crosses the screen — and fades
-   up as it is uncovered. Earlier sections sit above later ones.     */
-.curtain-edge, .veil { display:none; }
+   [data-curtain] section lifts away with the scan line riding its bottom
+   edge, and the section after it waits underneath. That section slides
+   in under the last screen of the one before (a negative top margin) and
+   its content is sticky for exactly that screen, so it is the browser
+   that holds it still — on the scrolling thread. Holding it from script
+   (translating it against the scroll) shook on iPhone, where the script
+   runs a frame behind the scroll. Earlier sections sit above later ones;
+   cinematic.js only lights the edge line.                              */
+.curtain-edge { display:none; }
 @media (prefers-reduced-motion:no-preference) {
  .spot-hero { z-index:9; }
  .expand { z-index:8; }
@@ -317,15 +321,24 @@ html { scroll-padding-top: 90px; }
  #booking { z-index:6; }
  #shops { z-index:5; }
  #faq { z-index:4; background:var(--canvas); }
- /* a section held under a curtain has to fill the screen it is held on */
- #booking, #faq { min-height:100svh; display:flex; flex-direction:column; justify-content:center; }
- #booking > .wrap, #faq > .wrap { width:100%; }
  #get { z-index:3; }
  .foot { position:relative; z-index:2; }
+
+ /* slid in under the screen before; links land where the content starts */
+ #tour, #booking, #shops, #faq, #get { margin-top:-100svh; scroll-margin-top:calc(-100svh - 90px); }
+ /* the two pinned stages grow by the screen they are held under */
+ #tour { height:calc(190svh + 100svh); }
+ #shops { height:calc(290svh + 100svh); }
+ /* the rest hold their content with sticky, starting where it already
+    sits (below the section's top padding), for one screen of scroll */
+ #booking > .wrap, #faq > .wrap, #get > .wrap { position:sticky; top:var(--sec-y); }
+ #booking::after, #faq::after, #get::after { content:""; display:block; height:100svh; }
+ /* clip, not hidden: hidden makes a scroll container and sticky stops */
+ #booking, #get { overflow:clip; }
+
  .curtain-edge { display:block; position:absolute; z-index:80; left:0; right:0; bottom:0; height:2px; pointer-events:none; opacity:0; transition:opacity .3s;
   background:linear-gradient(90deg,transparent,#22C55E 15%,#4ADE80 50%,#22C55E 85%,transparent); box-shadow:0 0 22px 3px rgba(34,197,94,.45); }
  .is-lifting > .curtain-edge { opacity:1; }
- .veil { display:block; position:absolute; z-index:60; left:0; right:0; top:0; height:100svh; background:inherit; opacity:0; pointer-events:none; }
 }
 /* the lights come up as a dark section arrives, not on page load */
 .spotlight { animation-play-state:paused; }
@@ -401,7 +414,6 @@ html { scroll-padding-top: 90px; }
    phones those effects go; the layout, the motion tied to scrolling and the
    arrival animation stay. Where a blur sat on a gradient that already fades
    out, nothing visible is lost. */
-.is-near { will-change:transform; }
 @media (max-width:860px) {
  /* the walkthrough's backdrop is a 5000px-tall masked, animated layer */
  .experience__bg { display:none; }
