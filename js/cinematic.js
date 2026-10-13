@@ -97,12 +97,15 @@
 
   function update() {
     frame = 0;
-    const sy = scrollY, vh = innerHeight;
+    const sy = scrollY;
+    /* Mobile stages use svh. Safari's toolbar changes innerHeight while
+       scrolling, so it must not change the animation's progress. */
+    const vh = innerWidth <= 960 && cardStage ? cardStage.offsetHeight : innerHeight;
     const still = reduced.matches;
 
     /* ── read: every measurement, before the first write ── */
     const heroR = hero ? hero.getBoundingClientRect() : null;
-    const boxTop = hero && cut ? (cut.pinned ? pin.getBoundingClientRect().top : heroR.top) : 0;
+    const boxTop = hero && cut && !cut.native ? (cut.pinned ? pin.getBoundingClientRect().top : heroR.top) : 0;
     const heroH = hero ? hero.offsetHeight : 0;
     const expandR = expand && !staticCard.matches ? expand.getBoundingClientRect() : null;
     const expandH = expand ? expand.offsetHeight : 0;
@@ -269,6 +272,7 @@
 
   function measureCut() {
     cut = null;
+    setFlag(hero, 'has-native-cut', false);
     if (!rig || !cardPhone || !travelling.matches) return;
     const pinned = getComputedStyle(pin).position === 'sticky';
     if (!pinned) { queue(); return; }
@@ -291,7 +295,24 @@
       cx, cy,                                   // the phone's centre, in its frame
       tx: cardStage.offsetWidth / 2, ty: cardY, // where the card's phone will be
       k: cardPhone.offsetWidth / heroPhone.offsetWidth,
+      native: timeline && innerWidth <= 960,
     };
+    if (cut.native) {
+      /* Measure once; CSS handles the moving phone on the scroll timeline,
+         including the compensation while its parent lifts away. */
+      const vh = cardStage.offsetHeight;
+      const top = hero.getBoundingClientRect().top + scrollY;
+      const pinTop = Math.min(0, vh - cut.height);
+      put(rig, 'transform', null);
+      put(hero, '--hero-from', `${top + Math.max(0, cut.height - vh)}px`);
+      put(hero, '--hero-held', `${top + hero.offsetHeight - vh}px`);
+      put(hero, '--hero-to', `${top + hero.offsetHeight}px`);
+      put(hero, '--hero-cut-x', `${cut.tx - cut.cx}px`);
+      put(hero, '--hero-cut-y', `${cut.ty - pinTop - cut.cy}px`);
+      put(hero, '--hero-cut-scale', String(cut.k));
+      put(hero, '--hero-lift-distance', `${vh}px`);
+      setFlag(hero, 'has-native-cut', true);
+    }
     queue();
   }
 
@@ -314,9 +335,10 @@
     setFlag(hero, 'is-travelling', moving);
     if (moving) restScan();     // the cut lands on the estimate, as the card shows it
     if (!cut) { put(rig, 'transform', null); setFlag(hero, 'is-cleared', false); return; }
+    setFlag(hero, 'is-cleared', hp > 0.56);     // copy fully faded: out of reach too
+    if (cut.native) return;                    // no JS counter-scroll on mobile
     const e = ease(hp);
     const y = boxTop + cut.cy;                  // where the phone is now, untouched
-    setFlag(hero, 'is-cleared', hp > 0.56);     // copy fully faded: out of reach too
     put(rig, 'transform', moving
       ? `translate3d(${((cut.tx - cut.cx) * e).toFixed(1)}px, ${((cut.ty - y) * e).toFixed(1)}px, 0) scale(${(1 + (cut.k - 1) * e).toFixed(4)})`
       : null);
