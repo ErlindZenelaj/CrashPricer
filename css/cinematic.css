@@ -290,6 +290,53 @@ html { scroll-padding-top: 90px; }
 /* pinned, the gallery is placed by the scroll every frame; easing on top
    of that would only make it trail the finger */
 @media (prefers-reduced-motion:no-preference) { .shop-scroll .showcase-phone { transition:none; } }
+/* The gallery runs on the browser's scroll timeline where it can: the
+   phones move on the scrolling thread, in step with the finger. Placed
+   from script instead, they trail the scroll by a frame on iPhone and
+   judder. The keyframes are placeGallery() in cinematic.js, written out:
+   each phone's place runs (its index - f), f = 0 → 2 across the pinned
+   stretch, wrapping round the back while invisible. The stretch is set
+   in page scroll offsets by cinematic.js (--shop-from / --shop-to): a
+   view timeline would measure it against Safari's large viewport, not
+   the small one the pinned stage is sized to. The phone nearer than half
+   a place to the front is drawn on top, as in placeGallery(). */
+.shop-scroll { --spread:280px; }
+@media (max-width:599px) { .shop-scroll { --spread:145px; } }
+@supports (animation-timeline: scroll()) {
+ @media (prefers-reduced-motion:no-preference) {
+  .shop-scroll .showcase-phone { animation:linear both; animation-timeline:scroll(root); animation-range:var(--shop-from, 0px) var(--shop-to, 1px); }
+  .shop-scroll .showcase-phone[data-device="0"] { animation-name:shop-0; }
+  .shop-scroll .showcase-phone[data-device="1"] { animation-name:shop-1; }
+  .shop-scroll .showcase-phone[data-device="2"] { animation-name:shop-2; }
+ }
+}
+@keyframes shop-0 {
+ 0% { transform:translateX(0) translateY(0) rotate(0deg) scale(1); opacity:1; z-index:3; }
+ 25% { transform:translateX(calc(var(--spread) * -.5)) translateY(30px) rotate(-6deg) scale(.92); opacity:.75; z-index:3; }
+ 25.01% { z-index:1; }
+ 50% { transform:translateX(calc(var(--spread) * -1)) translateY(60px) rotate(-12deg) scale(.84); opacity:.5; z-index:1; }
+ 75% { transform:translateX(calc(var(--spread) * -1.5)) translateY(60px) rotate(-18deg) scale(.84); opacity:0; z-index:1; }
+ 75.01% { transform:translateX(calc(var(--spread) * 1.5)) translateY(60px) rotate(18deg) scale(.84); opacity:0; z-index:1; }
+ 100% { transform:translateX(var(--spread)) translateY(60px) rotate(12deg) scale(.84); opacity:.5; z-index:1; }
+}
+@keyframes shop-1 {
+ 0% { transform:translateX(var(--spread)) translateY(60px) rotate(12deg) scale(.84); opacity:.5; z-index:1; }
+ 25% { transform:translateX(calc(var(--spread) * .5)) translateY(30px) rotate(6deg) scale(.92); opacity:.75; z-index:1; }
+ 25.01% { z-index:3; }
+ 50% { transform:translateX(0) translateY(0) rotate(0deg) scale(1); opacity:1; z-index:3; }
+ 75% { transform:translateX(calc(var(--spread) * -.5)) translateY(30px) rotate(-6deg) scale(.92); opacity:.75; z-index:3; }
+ 75.01% { z-index:1; }
+ 100% { transform:translateX(calc(var(--spread) * -1)) translateY(60px) rotate(-12deg) scale(.84); opacity:.5; z-index:1; }
+}
+@keyframes shop-2 {
+ 0% { transform:translateX(calc(var(--spread) * -1)) translateY(60px) rotate(-12deg) scale(.84); opacity:.5; z-index:1; }
+ 25% { transform:translateX(calc(var(--spread) * -1.5)) translateY(60px) rotate(-18deg) scale(.84); opacity:0; z-index:1; }
+ 25.01% { transform:translateX(calc(var(--spread) * 1.5)) translateY(60px) rotate(18deg) scale(.84); opacity:0; z-index:1; }
+ 50% { transform:translateX(var(--spread)) translateY(60px) rotate(12deg) scale(.84); opacity:.5; z-index:1; }
+ 75% { transform:translateX(calc(var(--spread) * .5)) translateY(30px) rotate(6deg) scale(.92); opacity:.75; z-index:1; }
+ 75.01% { z-index:3; }
+ 100% { transform:translateX(0) translateY(0) rotate(0deg) scale(1); opacity:1; z-index:3; }
+}
 .showcase-caption { text-align:center; color:#bfcdcf; font-size:13px; }
 /* the shop side shares the hero's ground and light */
 .sec--charcoal { background:var(--charcoal); }

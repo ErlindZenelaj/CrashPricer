@@ -20,6 +20,8 @@
   const expand = document.querySelector('.expand');
   const walkthrough = document.getElementById('experience');
   const shop = document.querySelector('.shop-scroll');
+  /* the scroll-driven gallery in cinematic.css, when the browser has it */
+  const timeline = CSS.supports('animation-timeline: scroll()');
   const progress = document.querySelector('.reading-progress');
   const main = document.getElementById('top');
   const curtains = [...document.querySelectorAll('[data-curtain]')];
@@ -61,8 +63,20 @@
      Read once per width — 100svh does not change with the phone toolbar. */
   const lead = (el) => (el ? Math.max(0, -parseFloat(getComputedStyle(el).marginTop) || 0) : 0);
   let cardLead = 0, shopLead = 0;
-  function measureLeads() { cardLead = lead(expand); shopLead = lead(shop); }
+  function measureLeads() {
+    cardLead = lead(expand); shopLead = lead(shop);
+    /* the gallery's scroll timeline (see the CSS) runs over the page's own
+       scroll offsets: from where the shop section's held screen ends to
+       where its pinned stage lets go, the same stretch placeGallery uses */
+    if (timeline && shop) {
+      const top = shop.getBoundingClientRect().top + scrollY;
+      put(shop, '--shop-from', `${Math.round(top + shopLead)}px`);
+      put(shop, '--shop-to', `${Math.round(top + shop.offsetHeight - shopLead)}px`);
+    }
+  }
   measureLeads();
+  /* anything above that changes height (fonts, the language) moves it */
+  if (window.ResizeObserver) new ResizeObserver(() => measureLeads()).observe(main);
 
   /* The card opens over the first 80% of its stage and holds open for
      the rest, so the walkthrough arrives already settled. r is the card's
@@ -133,7 +147,10 @@
     /* the shop gallery follows the scroll the whole way through its pinned
        stretch (see placeGallery) */
     if (shopR.bottom > 0 && shopR.top < vh) {
-      placeGallery(clamp((-shopR.top - shopLead) / Math.max(1, shopH - vh - shopLead)) * 2);
+      const f = clamp((-shopR.top - shopLead) / Math.max(1, shopH - 2 * shopLead)) * 2;
+      /* where the CSS scroll timeline moves the phones, only the tabs follow */
+      if (timeline) setActive(Math.round(f) % 3);
+      else placeGallery(f);
     }
   }
   function queue() { if (!frame) frame = requestAnimationFrame(update); }
@@ -378,7 +395,7 @@
      shows that phone. */
   buttons.forEach((button, index) => button.addEventListener('click', () => {
     if (!reduced.matches && showcase && getComputedStyle(showcase).position === 'sticky') {
-      const span = shop.offsetHeight - innerHeight - shopLead;
+      const span = shop.offsetHeight - 2 * shopLead;
       scrollTo({ top: shop.offsetTop + shopLead + span * (index / 2) + (index ? 1 : 0), behavior: 'smooth' });
     } else {
       placeGallery(index);
