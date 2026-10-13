@@ -297,15 +297,6 @@ html { scroll-padding-top: 90px; }
 .sec--charcoal .showcase-word { color:#141D27; }
 .spotlight--shop { left:-40vw; top:-30vw; }
 .app-showcase > :not(.spotlight) { position:relative; z-index:1; }
-.connected-journey { background:#dcecdf; overflow:hidden; }
-.connected-layout { display:grid; grid-template-columns:1fr 1fr; align-items:center; gap:50px; }
-.connected-copy h2 { font-size:clamp(46px,5vw,76px); line-height:1.04; letter-spacing:-.065em; margin:25px 0; }
-.connected-copy em { font-style:normal;color:#159749; }
-.connected-copy>p:not(.kicker) { max-width:350px; color:var(--text-2); line-height:1.8; margin-bottom:30px; }
-.connected-phones { height:660px; position:relative; perspective:1400px; }
-.connected-first { left:0; top:15px; transform:rotate(-11deg) translateY(calc(var(--s,.5) * -55px)); }
-.connected-second { left:210px; top:85px; transform:rotate(10deg) translateY(calc(var(--s,.5) * 55px)); }
-.connected-label { position:absolute; bottom:-25px; left:70px; font-weight:700; font-size:12px; }
 .card,.stepr,.faq details { transition:transform .4s,box-shadow .4s; }
 .card:hover { transform:translateY(-6px); box-shadow:0 20px 60px #0e1a2b14; }
 
@@ -344,23 +335,22 @@ html { scroll-padding-top: 90px; }
  .spot-hero { z-index:9; }
  .expand { z-index:8; }
  .experience { z-index:7; }
- #booking { z-index:6; }
  #shops { z-index:5; }
  #faq { z-index:4; background:var(--canvas); }
  #get { z-index:3; }
  .foot { position:relative; z-index:2; }
 
  /* slid in under the screen before; links land where the content starts */
- #tour, #booking, #shops, #faq, #get { margin-top:-100svh; scroll-margin-top:calc(-100svh - 90px); }
+ #tour, #shops, #faq, #get { margin-top:-100svh; scroll-margin-top:calc(-100svh - 90px); }
  /* the two pinned stages grow by the screen they are held under */
  #tour { height:calc(190svh + 100svh); }
  #shops { height:calc(290svh + 100svh); }
  /* the rest hold their content with sticky, starting where it already
     sits (below the section's top padding), for one screen of scroll */
- #booking > .wrap, #faq > .wrap, #get > .wrap { position:sticky; top:var(--sec-y); }
- #booking::after, #faq::after, #get::after { content:""; display:block; height:100svh; }
+ #faq > .wrap, #get > .wrap { position:sticky; top:var(--sec-y); }
+ #faq::after, #get::after { content:""; display:block; height:100svh; }
  /* clip, not hidden: hidden makes a scroll container and sticky stops */
- #booking, #get { overflow:clip; }
+ #get { overflow:clip; }
 
  .curtain-edge { display:block; position:absolute; z-index:80; left:0; right:0; bottom:0; height:2px; pointer-events:none; opacity:0; transition:opacity .3s;
   background:linear-gradient(90deg,transparent,#22C55E 15%,#4ADE80 50%,#22C55E 85%,transparent); box-shadow:0 0 22px 3px rgba(34,197,94,.45); }
@@ -371,10 +361,6 @@ html { scroll-padding-top: 90px; }
 .is-lit .spotlight { animation-play-state:running; }
 
 /* ══════════ RESPONSIVE ══════════ */
-@media (max-width:1000px) {
- .connected-layout { grid-template-columns:minmax(0,1fr); gap:30px; }
- .connected-phones { width:490px; max-width:100%; margin:auto; }
-}
 @media (max-width:960px) {
  .spot-hero { min-height:0; padding:108px 0 64px; }
  .spot-hero__inner { grid-template-columns:minmax(0,1fr); gap:20px; }
@@ -416,17 +402,10 @@ html { scroll-padding-top: 90px; }
  .shop-scroll .showcase-heading h2 { font-size:36px; }
  .shop-scroll .app-showcase { min-height:760px; }
 }
-@media (max-width:560px) {
- .connected-phones { height:540px; }
- .connected-phones .capture-device { width:210px; }
- .connected-second { left:135px; top:75px; }
- .connected-label { left:10px; bottom:-15px; }
-}
 @media (prefers-reduced-motion:reduce) {
  .shop-scroll { height:auto; }
  .shop-scroll .app-showcase { position:relative; height:auto; }
  .experience { height:auto; }
- .connected-first,.connected-second { transform:none; }
  .spotlight { animation:none; opacity:1; }
  .rig__fan { transform:rotateY(-8deg); }
  .spot-hero__title > span { opacity:1 !important; }
