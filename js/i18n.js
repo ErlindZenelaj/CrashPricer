@@ -291,6 +291,9 @@
       'Në të 22 komunat e Kosovës në nisje, me vlerësime në euro. Rajone të tjera vijnë më pas.',
 
     /* — closing — */
+    'Coming soon': 'Së shpejti',
+    'CrashPricer is coming soon to the App Store and Google Play. Downloads are not available yet.':
+      'CrashPricer vjen së shpejti në App Store dhe Google Play. Shkarkimet nuk janë ende të disponueshme.',
     'Your repair': 'Riparimi yt',
     'Download CrashPricer, photograph the damage, and know what you’re dealing with before anyone quotes you a number.':
       'Shkarko CrashPricer, fotografo dëmtimin dhe mëso me çfarë ke të bësh para se dikush të të japë një shifër.',

@@ -232,21 +232,12 @@ html { scroll-padding-top: 90px; }
  .expand__side p { display:none; }
 }
 
-/* phones: the same opening, re-proportioned. There is no room beside
-   the card, so the glyph halves sit above and below it and part
-   vertically as it opens. */
+/* Phones keep the desktop's horizontal price reveal at a smaller scale. */
 @media (max-width:600px) and (prefers-reduced-motion:no-preference) {
  .expand__stage { min-height:0; --pw:clamp(140px, calc((100svh - 400px) / 2.3), 210px); }
  .expand__head { top:calc(50% + 36px - var(--ph) / 2 - 124px); }
  .expand__head h2 { font-size:1.6rem; }
- .portal__half { width:min(56vw, 250px); left:50%; right:auto; translate:-50% 0; }
- .portal__half--l { top:auto; bottom:calc(50% + var(--ch) / 2 + 10px); transform:translateY(calc(var(--x) * -12svh)); }
- .portal__half--r { top:calc(50% + var(--ch) / 2 + 10px); transform:translateY(calc(var(--x) * 12svh)); }
- /* the text is drawn at the box edge nearest the card (x 636 / 4 of 640);
-    re-anchor it on the middle of the box */
- .portal__half text { text-anchor:middle; }
- .portal__half--l text { transform:translateX(-316px); }
- .portal__half--r text { transform:translateX(316px); }
+ .portal__half { width:max(0px, calc((100vw - var(--cw)) / 2 - 4vw)); }
 }
 
 /* reduced motion: no sticky stage — the glyph sits above an open panel
@@ -458,6 +449,19 @@ html { scroll-padding-top: 90px; }
  .spot-hero__title > span { opacity:1 !important; }
  .capture-device,.showcase-phone,.card { transition:none; }
  .reading-progress { display:none; }
+}
+
+/* A tall mobile hero scrolls first, then pins its bottom edge for the
+   same phone-to-card handoff as desktop. */
+@media (max-width:960px) and (prefers-reduced-motion:no-preference) {
+ .spot-hero { display:block; padding:0; }
+ .spot-hero::after { position:static; display:block; height:60svh; background:none; }
+ .spot-hero__pin { position:sticky; top:min(0px, calc(100svh - var(--hero-pin-height, 100svh))); display:block; min-height:100svh; padding:108px 0 64px; overflow:hidden; }
+ .spot-hero__copy { opacity:clamp(0, calc(1 - var(--hp, 0) * 1.8), 1); translate:0 calc(var(--hp, 0) * -40px); }
+ .spot-hero.is-cleared .spot-hero__copy { visibility:hidden; }
+}
+@media (max-width:560px) and (prefers-reduced-motion:no-preference) {
+ .spot-hero__pin { padding-top:96px; }
 }
 
 /* ══════════ PHONES: KEEP THE SCROLL LIGHT ══════════

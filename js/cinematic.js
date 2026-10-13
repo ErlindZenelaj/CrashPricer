@@ -252,12 +252,11 @@
   }
 
   /* The match cut. As the page starts to scroll, the side phones fold in
-     (everywhere) and, where the hero is pinned (desktop), the lit phone
+     (everywhere) and, where the hero is pinned, the lit phone
      glides to exactly where the opening card's phone waits below — same
      centre, same width — so the scan line that lifts the hero passes from
-     one phone straight into the other. On phones the hero is not pinned,
-     and gliding the phone there meant moving it against the scroll from
-     script, which shakes on iPhone; it scrolls away with the hero instead.
+     one phone straight into the other. Mobile pins the bottom of its
+     taller hero with native sticky positioning before the glide starts.
      Measured from layout, never from the moving rig. */
   const travelling = matchMedia('(prefers-reduced-motion: no-preference)');
   const rig = hero && hero.querySelector('.rig');
@@ -273,6 +272,7 @@
     if (!rig || !cardPhone || !travelling.matches) return;
     const pinned = getComputedStyle(pin).position === 'sticky';
     if (!pinned) { queue(); return; }
+    put(hero, '--hero-pin-height', `${pin.offsetHeight}px`);
     const held = rig.style.transform;
     rig.style.transform = 'none';
     const r = rig.getBoundingClientRect();
@@ -287,6 +287,7 @@
     for (let el = cardPhone; el && el !== cardStage; el = el.offsetParent) cardY += el.offsetTop;
     cut = {
       pinned,
+      height: pin.offsetHeight,
       cx, cy,                                   // the phone's centre, in its frame
       tx: cardStage.offsetWidth / 2, ty: cardY, // where the card's phone will be
       k: cardPhone.offsetWidth / heroPhone.offsetWidth,
@@ -303,10 +304,11 @@
       setFlag(hero, 'is-cleared', false);
       return;
     }
-    /* the glide runs over the pinned hold, or a third of a screen where
-       the hero is not pinned (the side phones fold over it) */
-    const hold = Math.max(heroH - vh, vh * 0.3);
-    const hp = clamp(-heroR.top / hold);
+    /* A tall mobile hero scrolls normally until its bottom is visible;
+       only then does the pinned hold drive the glide. */
+    const pinH = cut ? cut.height : vh;
+    const hold = Math.max(heroH - pinH, vh * 0.3);
+    const hp = clamp((-heroR.top - Math.max(0, pinH - vh)) / hold);
     const moving = hp > 0.005;
     put(hero, '--hp', hp.toFixed(4));
     setFlag(hero, 'is-travelling', moving);
