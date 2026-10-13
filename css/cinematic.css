@@ -5,8 +5,28 @@ html { scroll-padding-top: 90px; }
 .nav { background:rgba(237,240,234,.92); }
 .nav.is-stuck { background:rgba(237,240,234,.94); }
 .reading-progress { position:fixed; top:0; left:0; height:3px; width:100%; transform:scaleX(0); transform-origin:left; background:#22c55e; z-index:110; }
-.capture-device { position:absolute; width:270px; padding:7px; border-radius:42px; background:#111923; border:2px solid #5a626c; box-shadow:0 35px 65px -25px #08152570, inset 0 0 0 1px #e4e9f255; overflow:hidden; }
-.capture-device img { display:block; width:100%; height:auto; aspect-ratio:1179/2556; border-radius:33px; }
+/* ── the phone ───────────────────────────────────────────────
+   Every screenshot sits in the same iPhone as the walkthrough's device
+   (.phone in phone.css): its #0A0A0B metal body, 12/414 rail, 56/414
+   corners, 46/414 screen corners and three side buttons. Here it is
+   sized by its own width, so the frame stays in proportion at any size:
+   the device is a size container and the rail, screen and corners are
+   fractions of it (cqi). Each context only sets a width. */
+.capture-device {
+ --shell: inset 0 0 0 1px rgba(255,255,255,.14), inset 0 1px 1px rgba(255,255,255,.38), inset 0 -1px 2px rgba(0,0,0,.65);
+ position:absolute; width:270px; container-type:inline-size;
+ border-radius:13.5% / 6.3%;
+ background:linear-gradient(150deg, #3A414C 0%, #14181F 16%, #0A0A0B 44%, #0A0A0B 66%, #1C222B 86%, #454C58 100%);
+ box-shadow:0 35px 65px -25px #08152570, var(--shell);
+}
+.capture-device > img { display:block; width:calc(100% - 5.8cqi); height:auto; margin:2.9cqi; aspect-ratio:1179/2556; border-radius:11.1cqi; }
+/* power on the right, volume up and down on the left — drawn as three
+   strips on one layer just outside the body */
+.capture-device::before { content:""; position:absolute; top:0; bottom:0; left:-3px; right:-3px; pointer-events:none;
+ background:
+  linear-gradient(180deg, #5A6270, #23282F) left 0 top 18% / 3px 6% no-repeat,
+  linear-gradient(180deg, #5A6270, #23282F) left 0 top 27% / 3px 6% no-repeat,
+  linear-gradient(180deg, #5A6270, #23282F) right 0 top 25% / 3px 9% no-repeat; }
 
 /* ── the nav over a dark section ─────────────────────────────
    cinematic.js sets .is-dark while a [data-dark] section sits
@@ -81,19 +101,19 @@ html { scroll-padding-top: 90px; }
 .rig { position:relative; display:grid; place-items:center; min-height:min(640px, 72svh); perspective:1700px; --pw:clamp(210px, 17vw, 270px); }
 .rig::before { content:""; position:absolute; width:120%; aspect-ratio:1; border-radius:50%; background:radial-gradient(closest-side, rgba(255,255,255,.075), transparent 70%); pointer-events:none; }
 .rig__fan { position:relative; width:var(--pw); transform-style:preserve-3d; transform:rotateX(calc(var(--ty,0) * -4deg)) rotateY(calc(-8deg + var(--tx,0) * 7deg)); transition:transform 1s var(--e-out); }
-.rig .capture-device { width:var(--pw); border-radius:calc(var(--pw) * .155); }
-.rig .capture-device img { border-radius:calc(var(--pw) * .125); }
-.rig__main { position:relative; z-index:3; box-shadow:0 60px 90px -40px rgba(0,0,0,.9), 0 0 0 1px rgba(255,255,255,.06); }
+.rig .capture-device { width:var(--pw); }
+.rig__main { position:relative; z-index:3; box-shadow:0 60px 90px -40px rgba(0,0,0,.9), var(--shell); }
 /* the side phones are dealt out from behind the lit one (--deal, on
    load) and folded back in as the hero travels (--hp, on scroll) */
 @property --deal { syntax:'<number>'; inherits:true; initial-value:1; }
 .rig__side { top:6%; left:0; z-index:1; --spread:58%; --tilt:7deg; --depth:-120px; --size:.88;
  transform:translateX(calc(var(--side) * var(--spread) * var(--deal) * (1 - var(--hp, 0)))) translateZ(var(--depth)) rotate(calc(var(--side) * var(--tilt) * var(--deal) * (1 - var(--hp, 0)))) scale(var(--size));
  opacity:clamp(0, calc(1 - var(--hp, 0) * 1.6), 1); }
-.rig__side::after { content:""; position:absolute; inset:0; z-index:5; background:rgba(5,8,12,.66); pointer-events:none; }
+.rig__side::after { content:""; position:absolute; inset:0; z-index:5; border-radius:inherit; background:rgba(5,8,12,.66); pointer-events:none; }
+.rig__side::before { opacity:.4; }
 .rig__side--l { --side:-1; }
 .rig__side--r { --side:1; }
-.rig__screen { position:absolute; inset:7px; container-type:size; overflow:hidden; border-radius:calc(var(--pw) * .125); }
+.rig__screen { position:absolute; inset:2.9cqi; container-type:size; overflow:hidden; border-radius:11.1cqi; }
 .rig__next { position:absolute; inset:0; width:100%; height:100%; clip-path:inset(0 0 100% 0); transition:clip-path 1.2s var(--e-soft); }
 .rig__beam { position:absolute; left:-4%; right:-4%; top:0; height:2px; background:linear-gradient(90deg,transparent,#4ADE80 18%,#4ADE80 82%,transparent); box-shadow:0 0 18px 2px rgba(74,222,128,.55); opacity:0; transition:transform 1.2s var(--e-soft), opacity .3s; }
 .spot-hero[data-state="price"] .rig__next { clip-path:inset(0); }
@@ -164,12 +184,13 @@ html { scroll-padding-top: 90px; }
 .expand__head h2 { margin-top:10px; font-size:clamp(1.75rem, 1rem + 2vw, 2.9rem); letter-spacing:-.045em; }
 /* centred on the middle screen even when the strip is wider than the stage */
 .expand__phones { display:flex; align-items:flex-start; gap:clamp(28px, 5vw, 84px); width:max-content; justify-self:start; margin-left:50%; translate:-50% 0; }
-.expand__phones li { flex:none; }
-.expand .capture-device { position:relative; width:var(--pw); border-radius:calc(var(--pw) * .155); }
-.expand .capture-device img { border-radius:calc(var(--pw) * .125); }
+.expand__phones li { flex:none; position:relative; }
+.expand .capture-device { position:relative; width:var(--pw); }
 .expand__side:first-child { transform:translateX(calc((1 - var(--x)) * 70px)); }
 .expand__side:last-child { transform:translateX(calc((1 - var(--x)) * -70px)); }
-.expand__phones p { margin-top:16px; text-align:center; font-size:.75rem; font-weight:800; letter-spacing:.14em; text-transform:uppercase; color:var(--text-3); opacity:clamp(0, calc(var(--x) * 2.4 - 1.4), 1); }
+/* the step label hangs below the phone rather than taking layout space,
+   so the phone alone is centred where the closed card is cut */
+.expand__phones p { position:absolute; left:0; right:0; top:100%; margin-top:16px; white-space:nowrap; text-align:center; font-size:.75rem; font-weight:800; letter-spacing:.14em; text-transform:uppercase; color:var(--text-3); opacity:clamp(0, calc(var(--x) * 2.4 - 1.4), 1); }
 .expand__phones p b { margin-right:6px; color:var(--green-deep); }
 
 /* — the hand-off: once open, the card lifts like a curtain off the
@@ -207,7 +228,7 @@ html { scroll-padding-top: 90px; }
  .expand__side { position:relative; z-index:1; }
  .expand__side:first-child { transform:translateX(calc(var(--x) * (var(--pw) * .52 + 34px))) rotate(calc(var(--x) * -6deg)) scale(calc(1 - var(--x) * .22)); }
  .expand__side:last-child { transform:translateX(calc(var(--x) * (var(--pw) * -.52 - 34px))) rotate(calc(var(--x) * 6deg)) scale(calc(1 - var(--x) * .22)); }
- .expand__side .capture-device { box-shadow:0 24px 40px -24px rgba(8,21,37,.5); }
+ .expand__side .capture-device { box-shadow:0 24px 40px -24px rgba(8,21,37,.5), var(--shell); }
  .expand__side p { display:none; }
 }
 
@@ -221,6 +242,11 @@ html { scroll-padding-top: 90px; }
  .portal__half { width:min(56vw, 250px); left:50%; right:auto; translate:-50% 0; }
  .portal__half--l { top:auto; bottom:calc(50% + var(--ch) / 2 + 10px); transform:translateY(calc(var(--x) * -12svh)); }
  .portal__half--r { top:calc(50% + var(--ch) / 2 + 10px); transform:translateY(calc(var(--x) * 12svh)); }
+ /* the text is drawn at the box edge nearest the card (x 636 / 4 of 640);
+    re-anchor it on the middle of the box */
+ .portal__half text { text-anchor:middle; }
+ .portal__half--l text { transform:translateX(-316px); }
+ .portal__half--r text { transform:translateX(316px); }
 }
 
 /* reduced motion: no sticky stage — the glyph sits above an open panel
@@ -239,7 +265,7 @@ html { scroll-padding-top: 90px; }
  .expand__phones li:first-child { margin-left:auto; }
  .expand__phones li:last-child { margin-right:auto; }
  .expand__side:first-child, .expand__side:last-child { transform:none; }
- .expand__phones p { opacity:1; }
+ .expand__phones p { opacity:1; position:static; }
 }
 
 /* ══════════ EXPERIENCE · BOOKING · SHOPS ══════════ */
@@ -392,7 +418,7 @@ html { scroll-padding-top: 90px; }
 }
 @media (max-width:560px) {
  .connected-phones { height:540px; }
- .connected-phones .capture-device { width:210px; border-radius:35px; }
+ .connected-phones .capture-device { width:210px; }
  .connected-second { left:135px; top:75px; }
  .connected-label { left:10px; bottom:-15px; }
 }
@@ -428,7 +454,7 @@ html { scroll-padding-top: 90px; }
  /* the walkthrough phone: a 50px / 18px blur and a blend mode on a 3D layer */
  .phone__aura, .phone__floor, .phone__glare { display:none; }
  /* a gentler shadow is cheaper to paint under every moving phone */
- .capture-device { box-shadow:0 18px 30px -18px #08152570, inset 0 0 0 1px #e4e9f255; }
+ .capture-device { box-shadow:0 18px 30px -18px #08152570, var(--shell); }
 }
 @media (max-width:860px) and (prefers-reduced-motion:no-preference) {
  /* arrival only; no looping drift once it has landed */
