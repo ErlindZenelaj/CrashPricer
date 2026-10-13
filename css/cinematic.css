@@ -441,4 +441,9 @@ html { scroll-padding-top: 90px; }
  .rig__side, .rig__side--r { animation:side-in .5s ease-out .75s backwards; }
  .portal__scan { animation:none; transform:translateY(110px); }
  .scene__beam::before, .motion-ribbon > div { animation:none; }
+ /* a flick on a phone travels screens, not lines: the scroll-driven
+    stages get a longer runway so each step doesn't fly past */
+ #tour { height:calc(270svh + 100svh); }
+ .experience { height:calc(900vh + 100svh); }   /* ~2 screens per chapter */
+ #shops { height:calc(420svh + 100svh); }
 }

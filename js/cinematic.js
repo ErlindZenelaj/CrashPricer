@@ -378,8 +378,8 @@
      shows that phone. */
   buttons.forEach((button, index) => button.addEventListener('click', () => {
     if (!reduced.matches && showcase && getComputedStyle(showcase).position === 'sticky') {
-      const span = shop.offsetHeight - innerHeight;
-      scrollTo({ top: shop.offsetTop + span * (index / 2) + (index ? 1 : 0), behavior: 'smooth' });
+      const span = shop.offsetHeight - innerHeight - shopLead;
+      scrollTo({ top: shop.offsetTop + shopLead + span * (index / 2) + (index ? 1 : 0), behavior: 'smooth' });
     } else {
       placeGallery(index);
     }
