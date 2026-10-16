@@ -49,6 +49,17 @@ run — the Vercel Analytics and Speed Insights tags were added there once and h
 to be moved into `index.template.html` to survive. Put page-level scripts and
 tags in the template.
 
+**The landing page's CSS is built in too.** The stylesheets linked from the
+template (`css/fonts.css` … `css/cinematic.css`) are written into a single
+`<style>` in `index.html`, so the first paint doesn't wait on separate CSS
+requests. The files in `css/` are still the source, but **after editing any of
+them, run `python3 tools/embed-screens.py` again** — otherwise the live page
+keeps the old styles. The legal pages still link the files directly.
+
+The font, Plus Jakarta Sans, is served from `assets/fonts/` (SIL Open Font
+License, `assets/fonts/OFL.txt`), declared in `css/fonts.css`, rather than
+from Google Fonts.
+
 ### Unbound artboards
 
 Some artboards in the canvases are templates, not rendered screens: they still

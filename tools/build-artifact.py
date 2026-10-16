@@ -68,7 +68,14 @@ def main():
 
     # ── collect the stylesheets, in link order ────────────────────────────
     sheets = re.findall(r'<link rel="stylesheet" href="(css/[^"]+)"\s*/?>', page)
-    css = ascii_fold("\n\n".join("/* ===== %s ===== */\n%s" % (s, read(s)) for s in sheets))
+    css = "\n\n".join("/* ===== %s ===== */\n%s" % (s, read(s)) for s in sheets)
+    # embed-screens.py writes the page's own stylesheets into the head already
+    head_src = page[:page.index("</head>")]
+    css += "\n\n".join(re.findall(r"<style>(.*?)</style>", head_src, flags=re.S))
+    # the self-hosted font files ride along as data URIs
+    css = re.sub(r"url\((?:\.\./)?(assets/fonts/[^)]+)\)",
+                 lambda m: "url(%s)" % data_uri(m.group(1)), css)
+    css = ascii_fold(css)
 
     # ── collect the scripts, in load order ────────────────────────────────
     scripts = re.findall(r'<script src="(js/[^"]+)" defer></script>', page)
@@ -101,6 +108,8 @@ def main():
             return m.group(0)
         return m.group(0).replace(src, data_uri(src))
 
+    # the 480 px copies are for the hosted page; one inlined size is enough
+    body = re.sub(r'\s(?:srcset|sizes)="[^"]*"', "", body)
     body = re.sub(r'src="([^"]+)"', inline_img, body)
     body = entities(body)
 

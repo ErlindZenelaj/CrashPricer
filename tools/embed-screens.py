@@ -33,6 +33,37 @@ CAPTURE = re.compile(r'<img\b([^>]*?)\bsrc="(assets/app/web/([a-z-]+))\.jpg"([^>
 SIZES = '(max-width: 860px) 260px, 390px'
 
 
+# The page's own stylesheets go into index.html itself, in one <style>: as
+# separate files they held up the first paint for a round trip on a phone
+# connection. The files in css/ stay the source (and the legal pages still
+# link them), so after editing any of them, run this script again.
+STYLESHEET = re.compile(r'<link rel="stylesheet" href="(css/[a-z-]+\.css)" />\n?')
+
+
+def inline_stylesheets(page):
+    sources = STYLESHEET.findall(page)
+    if not sources:
+        return page
+    parts = []
+    for href in sources:
+        with open(os.path.join(ROOT, href), encoding='utf-8') as fh:
+            css = fh.read()
+        css = re.sub(r'/\*.*?\*/', '', css, flags=re.S)        # comments
+        css = re.sub(r'url\(\.\./', 'url(', css)                # css/ → page root
+        css = '\n'.join(line.strip() for line in css.splitlines() if line.strip())
+        parts.append('/* %s */\n%s' % (href, css))
+    style = '<style>\n%s\n</style>\n' % '\n'.join(parts)
+    first = True
+
+    def swap(m):
+        nonlocal first
+        if first:
+            first = False
+            return style
+        return ''
+    return STYLESHEET.sub(swap, page)
+
+
 def responsive_captures(page):
     def tag(m):
         before, stem, name, after = m.group(1), m.group(2), m.group(3), m.group(4)
@@ -236,6 +267,7 @@ def main():
         if '<!--SCREEN ' in page:
             raise SystemExit('Unmapped app capture')
         page = responsive_captures(page)
+        page = inline_stylesheets(page)
         with open(os.path.join(ROOT, 'index.html'), 'w', encoding='utf-8') as fh:
             fh.write(page)
         print('Built index.html from local app captures.')
