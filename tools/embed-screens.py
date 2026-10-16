@@ -22,6 +22,30 @@ import re
 import shutil
 import sys
 
+
+# Every app capture also ships 480 px wide (<name>-480.jpg) for phones and
+# 1x screens; one sizes value everywhere, so a screenshot used in several
+# places is fetched once. The phones are never shown wider than ~390 CSS px.
+# Captures the hero doesn't show at first load are fetched at low priority,
+# behind the stylesheets, fonts and the hero's own phones; the hero's mark
+# themselves with an explicit fetchpriority in the template.
+CAPTURE = re.compile(r'<img\b([^>]*?)\bsrc="(assets/app/web/([a-z-]+))\.jpg"([^>]*?)/?>')
+SIZES = '(max-width: 860px) 260px, 390px'
+
+
+def responsive_captures(page):
+    def tag(m):
+        before, stem, name, after = m.group(1), m.group(2), m.group(3), m.group(4)
+        if not os.path.isfile(os.path.join(ROOT, stem + '-480.jpg')):
+            raise SystemExit('Missing 480 px capture: %s-480.jpg (sips --resampleWidth 480)' % stem)
+        attrs = before + after
+        extra = ' srcset="%s-480.jpg 480w, %s.jpg 780w" sizes="%s"' % (stem, stem, SIZES)
+        if 'fetchpriority=' not in attrs:
+            extra += ' fetchpriority="low"'
+        return '<img%ssrc="%s.jpg"%s%s />' % (before, stem, extra, after.rstrip())
+    return CAPTURE.sub(tag, page)
+
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DL = os.path.expanduser("~/Downloads")
 
@@ -211,6 +235,7 @@ def main():
                                 '<img class="app-capture" src="%s" alt="" width="780" height="1691" decoding="async" />' % relative)
         if '<!--SCREEN ' in page:
             raise SystemExit('Unmapped app capture')
+        page = responsive_captures(page)
         with open(os.path.join(ROOT, 'index.html'), 'w', encoding='utf-8') as fh:
             fh.write(page)
         print('Built index.html from local app captures.')

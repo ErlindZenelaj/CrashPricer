@@ -33,6 +33,15 @@ the matching artboard, and writes `index.html`. **Edit the template, never the
 generated screen markup in `index.html`.** Pass canvas paths as arguments to read
 different files.
 
+Each app capture in `assets/app/web/` ships twice: `<name>.jpg` (780 px) and
+`<name>-480.jpg` for phones and 1x screens. The build adds the `srcset` and
+sets screenshots outside the hero to low fetch priority. After replacing a
+capture, regenerate its small copy:
+
+```bash
+sips -s formatOptions 78 --resampleWidth 480 assets/app/web/<name>.jpg --out assets/app/web/<name>-480.jpg
+```
+
 ### Editing the generated page
 
 `index.html` is generated. Anything added straight to it is lost on the next

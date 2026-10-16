@@ -219,6 +219,10 @@ html { scroll-padding-top: 90px; }
 /* — the glyph window (after the Glyph Portal reference): the estimate
      set as a clip onto a green scan field, either side of the card. It
      parts and fades as the card opens; it is decoration only. — */
+/* The glyphs sit under the hero until it lifts, and being the largest text
+   on the page they would otherwise be what the browser times as the
+   page's main paint. cinematic.js shows them as the hero's edge nears. */
+@media (prefers-reduced-motion:no-preference) { .expand:not(.is-uncovered) .portal { visibility:hidden; } }
 .portal { position:absolute; inset:0; z-index:1; transform:translateY(36px); pointer-events:none; }
 .portal__half { position:absolute; top:50%; width:min(calc((100vw - var(--cw)) / 2 - 5vw), 560px); height:auto; aspect-ratio:640/240; translate:0 -50%; opacity:clamp(0, calc(1 - var(--x) * 1.7), 1); }
 .portal__half--l { right:calc(50% + var(--cw) / 2 + 2vw); transform:translateX(calc(var(--x) * -16vw)); }
@@ -302,43 +306,61 @@ html { scroll-padding-top: 90px; }
    in page scroll offsets by cinematic.js (--shop-from / --shop-to): a
    view timeline would measure it against Safari's large viewport, not
    the small one the pinned stage is sized to. The phone nearer than half
-   a place to the front is drawn on top, as in placeGallery(). */
+   a place to the front is drawn on top, as in placeGallery(); that steps
+   in keyframes of its own, since z-index in the same animation would keep
+   the movement off the compositor. */
 .shop-scroll { --spread:280px; }
 @media (max-width:599px) { .shop-scroll { --spread:145px; } }
 @supports (animation-timeline: scroll()) {
  @media (prefers-reduced-motion:no-preference) {
   .shop-scroll .showcase-phone { animation:linear both; animation-timeline:scroll(root); animation-range:var(--shop-from, 0px) var(--shop-to, 1px); }
-  .shop-scroll .showcase-phone[data-device="0"] { animation-name:shop-0; }
-  .shop-scroll .showcase-phone[data-device="1"] { animation-name:shop-1; }
-  .shop-scroll .showcase-phone[data-device="2"] { animation-name:shop-2; }
+  .shop-scroll .showcase-phone[data-device="0"] { animation-name:shop-0, shop-0-z; }
+  .shop-scroll .showcase-phone[data-device="1"] { animation-name:shop-1, shop-1-z; }
+  .shop-scroll .showcase-phone[data-device="2"] { animation-name:shop-2, shop-2-z; }
  }
 }
 @keyframes shop-0 {
- 0% { transform:translateX(0) translateY(0) rotate(0deg) scale(1); opacity:1; z-index:3; }
- 25% { transform:translateX(calc(var(--spread) * -.5)) translateY(30px) rotate(-6deg) scale(.92); opacity:.75; z-index:3; }
+ 0% { transform:translateX(0) translateY(0) rotate(0deg) scale(1); opacity:1; }
+ 25% { transform:translateX(calc(var(--spread) * -.5)) translateY(30px) rotate(-6deg) scale(.92); opacity:.75; }
+ 50% { transform:translateX(calc(var(--spread) * -1)) translateY(60px) rotate(-12deg) scale(.84); opacity:.5; }
+ 75% { transform:translateX(calc(var(--spread) * -1.5)) translateY(60px) rotate(-18deg) scale(.84); opacity:0; }
+ 75.01% { transform:translateX(calc(var(--spread) * 1.5)) translateY(60px) rotate(18deg) scale(.84); opacity:0; }
+ 100% { transform:translateX(var(--spread)) translateY(60px) rotate(12deg) scale(.84); opacity:.5; }
+}
+@keyframes shop-0-z {
+ 0% { z-index:3; }
+ 25% { z-index:3; }
  25.01% { z-index:1; }
- 50% { transform:translateX(calc(var(--spread) * -1)) translateY(60px) rotate(-12deg) scale(.84); opacity:.5; z-index:1; }
- 75% { transform:translateX(calc(var(--spread) * -1.5)) translateY(60px) rotate(-18deg) scale(.84); opacity:0; z-index:1; }
- 75.01% { transform:translateX(calc(var(--spread) * 1.5)) translateY(60px) rotate(18deg) scale(.84); opacity:0; z-index:1; }
- 100% { transform:translateX(var(--spread)) translateY(60px) rotate(12deg) scale(.84); opacity:.5; z-index:1; }
+ 100% { z-index:1; }
 }
 @keyframes shop-1 {
- 0% { transform:translateX(var(--spread)) translateY(60px) rotate(12deg) scale(.84); opacity:.5; z-index:1; }
- 25% { transform:translateX(calc(var(--spread) * .5)) translateY(30px) rotate(6deg) scale(.92); opacity:.75; z-index:1; }
+ 0% { transform:translateX(var(--spread)) translateY(60px) rotate(12deg) scale(.84); opacity:.5; }
+ 25% { transform:translateX(calc(var(--spread) * .5)) translateY(30px) rotate(6deg) scale(.92); opacity:.75; }
+ 50% { transform:translateX(0) translateY(0) rotate(0deg) scale(1); opacity:1; }
+ 75% { transform:translateX(calc(var(--spread) * -.5)) translateY(30px) rotate(-6deg) scale(.92); opacity:.75; }
+ 100% { transform:translateX(calc(var(--spread) * -1)) translateY(60px) rotate(-12deg) scale(.84); opacity:.5; }
+}
+@keyframes shop-1-z {
+ 0% { z-index:1; }
+ 25% { z-index:1; }
  25.01% { z-index:3; }
- 50% { transform:translateX(0) translateY(0) rotate(0deg) scale(1); opacity:1; z-index:3; }
- 75% { transform:translateX(calc(var(--spread) * -.5)) translateY(30px) rotate(-6deg) scale(.92); opacity:.75; z-index:3; }
+ 75% { z-index:3; }
  75.01% { z-index:1; }
- 100% { transform:translateX(calc(var(--spread) * -1)) translateY(60px) rotate(-12deg) scale(.84); opacity:.5; z-index:1; }
+ 100% { z-index:1; }
 }
 @keyframes shop-2 {
- 0% { transform:translateX(calc(var(--spread) * -1)) translateY(60px) rotate(-12deg) scale(.84); opacity:.5; z-index:1; }
- 25% { transform:translateX(calc(var(--spread) * -1.5)) translateY(60px) rotate(-18deg) scale(.84); opacity:0; z-index:1; }
- 25.01% { transform:translateX(calc(var(--spread) * 1.5)) translateY(60px) rotate(18deg) scale(.84); opacity:0; z-index:1; }
- 50% { transform:translateX(var(--spread)) translateY(60px) rotate(12deg) scale(.84); opacity:.5; z-index:1; }
- 75% { transform:translateX(calc(var(--spread) * .5)) translateY(30px) rotate(6deg) scale(.92); opacity:.75; z-index:1; }
+ 0% { transform:translateX(calc(var(--spread) * -1)) translateY(60px) rotate(-12deg) scale(.84); opacity:.5; }
+ 25% { transform:translateX(calc(var(--spread) * -1.5)) translateY(60px) rotate(-18deg) scale(.84); opacity:0; }
+ 25.01% { transform:translateX(calc(var(--spread) * 1.5)) translateY(60px) rotate(18deg) scale(.84); opacity:0; }
+ 50% { transform:translateX(var(--spread)) translateY(60px) rotate(12deg) scale(.84); opacity:.5; }
+ 75% { transform:translateX(calc(var(--spread) * .5)) translateY(30px) rotate(6deg) scale(.92); opacity:.75; }
+ 100% { transform:translateX(0) translateY(0) rotate(0deg) scale(1); opacity:1; }
+}
+@keyframes shop-2-z {
+ 0% { z-index:1; }
+ 75% { z-index:1; }
  75.01% { z-index:3; }
- 100% { transform:translateX(0) translateY(0) rotate(0deg) scale(1); opacity:1; z-index:3; }
+ 100% { z-index:3; }
 }
 .showcase-caption { text-align:center; color:#bfcdcf; font-size:13px; }
 /* the shop side shares the hero's ground and light */

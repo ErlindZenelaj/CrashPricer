@@ -121,6 +121,10 @@
     /* ── write ── */
     travel(heroR, boxTop, heroH, vh);
     const x = opening(expandR, expandH, vh);
+    /* the card's price glyphs stay unrendered while the hero still covers
+       the whole screen (see the CSS); a quarter screen early, so they are
+       there before the hero's edge comes up */
+    if (expand) setFlag(expand, 'is-uncovered', !heroR || still || heroR.bottom < vh * 1.25);
 
     /* light-on-dark chrome while a dark section is under the bar — the
        opening card counts as light once it has nearly filled the screen */
