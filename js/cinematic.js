@@ -322,7 +322,9 @@
 
   function travel(heroR, boxTop, heroH, vh) {
     if (!hero) return;
-    if (!travelling.matches) {                  // reduced motion: still
+    // An unpinned hero scrolls with the page. Keep the fan open so it is
+    // still visible when the phones enter a short WebView viewport.
+    if (!travelling.matches || !cut) {
       put(rig, 'transform', null);
       put(hero, '--hp', null);
       setFlag(hero, 'is-travelling', false);
@@ -331,14 +333,13 @@
     }
     /* A tall mobile hero scrolls normally until its bottom is visible;
        only then does the pinned hold drive the glide. */
-    const pinH = cut ? cut.height : vh;
+    const pinH = cut.height;
     const hold = Math.max(heroH - pinH, vh * 0.3);
     const hp = clamp((-heroR.top - Math.max(0, pinH - vh)) / hold);
     const moving = hp > 0.005;
     put(hero, '--hp', hp.toFixed(4));
     setFlag(hero, 'is-travelling', moving);
     if (moving) restScan();     // the cut lands on the estimate, as the card shows it
-    if (!cut) { put(rig, 'transform', null); setFlag(hero, 'is-cleared', false); return; }
     setFlag(hero, 'is-cleared', hp > 0.56);     // copy fully faded: out of reach too
     if (cut.native) return;                    // no JS counter-scroll on mobile
     const e = ease(hp);

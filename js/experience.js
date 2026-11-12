@@ -21,7 +21,8 @@
   const phone      = document.getElementById('phone');
   const rail       = document.getElementById('rail');
   const orbs       = [...document.querySelectorAll('#orbs .orb')];
-  const steps      = [...document.querySelectorAll('#steps .step')];
+  const stepList   = document.getElementById('steps');
+  const steps      = stepList ? [...stepList.querySelectorAll('.step')] : [];
   const railItems  = [...document.querySelectorAll('#rail li')];
   const screens    = [...document.querySelectorAll('#screens .scr')];
 
@@ -98,6 +99,7 @@
     steps.forEach((s) => s.classList.toggle('is-on', Number(s.dataset.ch) === next));
     railItems.forEach((r) => r.classList.toggle('is-on', Number(r.dataset.ch) === next));
 
+    stepList?.classList.toggle('is-live', next > 0);
     rail.classList.toggle('is-live', next > 0);
     hero.style.pointerEvents = next > 0 ? 'none' : '';
     hero.setAttribute('aria-hidden', next > 0 ? 'true' : 'false');

@@ -162,6 +162,7 @@
 .stage {
   position: sticky;
   top: 0;
+  height: 100vh;
   height: 100svh;
   width: 100%;
   max-width: calc(var(--wrap) + var(--gutter) * 2);
@@ -1069,7 +1070,7 @@
   }
   /* the scrim only exists once step copy is on screen — during the hero the
      device rises out of a clean canvas instead of a wash */
-  .steps:has(.step.is-on) {
+  .steps.is-live {
     background: linear-gradient(to top, var(--canvas) 46%, rgba(231,229,223,.92) 72%, transparent);
   }
   .step { inset: 60px var(--gutter) 28px; justify-content: flex-end; }

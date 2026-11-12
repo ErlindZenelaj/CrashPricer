@@ -1,5 +1,8 @@
 /* Screenshot-led presentation. Product screens retain their original pixels. */
-:root { --canvas: #edf0ea; --canvas-2: #f4f6f1; --line: #d8ddd5; }
+:root { --canvas: #edf0ea; --canvas-2: #f4f6f1; --line: #d8ddd5; --scene-height:100vh; }
+@supports (height:100svh) {
+ :root { --scene-height:100svh; }
+}
 html { scroll-padding-top: 90px; }
 .app-capture { display:block; width:390px; height:844px; object-fit:contain; }
 .nav { background:rgba(237,240,234,.92); }
@@ -19,7 +22,11 @@ html { scroll-padding-top: 90px; }
  background:linear-gradient(150deg, #3A414C 0%, #14181F 16%, #0A0A0B 44%, #0A0A0B 66%, #1C222B 86%, #454C58 100%);
  box-shadow:0 35px 65px -25px #08152570, var(--shell);
 }
-.capture-device > img { display:block; width:calc(100% - 5.8cqi); height:auto; margin:2.9cqi; aspect-ratio:1179/2556; border-radius:11.1cqi; }
+.capture-device > img { display:block; width:94.2%; width:calc(100% - 5.8cqi); height:auto;
+ margin:2.9%; margin:2.9cqi; aspect-ratio:1179/2556; border-radius:11.8% / 5.4%; border-radius:11.1cqi; }
+@supports not (width:1cqi) {
+ .capture-device { display:flow-root; } /* keep the screenshot margins inside the frame */
+}
 /* power on the right, volume up and down on the left — drawn as three
    strips on one layer just outside the body */
 .capture-device::before { content:""; position:absolute; top:0; bottom:0; left:-3px; right:-3px; pointer-events:none;
@@ -65,14 +72,14 @@ html { scroll-padding-top: 90px; }
 /* ══════════ HERO ══════════ */
 .spot-hero { position:relative; isolation:isolate; overflow:clip;   /* clip, not hidden: hidden would stop the pin sticking */
   display:flex; flex-direction:column; justify-content:center;
- min-height:min(100svh, 980px); padding:118px 0 84px; background:var(--charcoal); color:#fff; }
+ min-height:min(var(--scene-height), 980px); padding:118px 0 84px; background:var(--charcoal); color:#fff; }
 .spot-hero::after { content:""; position:absolute; inset:auto 0 0; height:140px; z-index:1; pointer-events:none; background:linear-gradient(to bottom, transparent, var(--charcoal)); }
 .spot-hero__inner { position:relative; z-index:2; display:grid; grid-template-columns:minmax(0,7fr) minmax(0,5fr); align-items:center; gap:clamp(24px,3vw,48px); max-width:1400px; }
 /* the headline is sized by its column: each line holds on one row */
 .spot-hero__copy { container-type:inline-size; }
 .spot-hero__eyebrow { display:inline-flex; align-items:center; gap:10px; font-size:.75rem; font-weight:800; letter-spacing:.16em; color:rgba(255,255,255,.66); }
 .spot-hero__eyebrow span { width:7px; height:7px; border-radius:50%; background:var(--green-bright); box-shadow:0 0 0 4px rgba(34,197,94,.18); }
-.spot-hero__title { margin-top:22px; font-size:min(12cqi, 6.75rem); line-height:.98; letter-spacing:-.055em; }
+.spot-hero__title { margin-top:22px; font-size:var(--hero-title-fallback, clamp(2.25rem, 6.2vw, 6.75rem)); font-size:min(12cqi, 6.75rem); line-height:.98; letter-spacing:-.055em; }
 .spot-hero__title span { display:block; }
 /* the reference's neutral-50 → neutral-400 text gradient; the padding
    keeps the descenders inside the painted box */
@@ -98,7 +105,7 @@ html { scroll-padding-top: 90px; }
      the booking recede into the dark either side. The pointer turns
      the fan a few degrees — the interactive-3D half of the Spline
      reference, applied to the product rather than a stand-in. — */
-.rig { position:relative; display:grid; place-items:center; min-height:min(640px, 72svh); perspective:1700px; --pw:clamp(210px, 17vw, 270px); }
+.rig { position:relative; display:grid; place-items:center; min-height:min(640px, calc(.72 * var(--scene-height))); perspective:1700px; --pw:clamp(210px, 17vw, 270px); }
 .rig::before { content:""; position:absolute; width:120%; aspect-ratio:1; border-radius:50%; background:radial-gradient(closest-side, rgba(255,255,255,.075), transparent 70%); pointer-events:none; }
 .rig__fan { position:relative; width:var(--pw); transform-style:preserve-3d; transform:rotateX(calc(var(--ty,0) * -4deg)) rotateY(calc(-8deg + var(--tx,0) * 7deg)); transition:transform 1s var(--e-out); }
 .rig .capture-device { width:var(--pw); }
@@ -113,13 +120,17 @@ html { scroll-padding-top: 90px; }
 .rig__side::before { opacity:.4; }
 .rig__side--l { --side:-1; }
 .rig__side--r { --side:1; }
-.rig__screen { position:absolute; inset:2.9cqi; container-type:size; overflow:hidden; border-radius:11.1cqi; }
+.rig__screen { position:absolute; inset:calc(var(--pw) * .029); inset:2.9cqi; container-type:size; overflow:hidden; border-radius:11.8% / 5.4%; border-radius:11.1cqi; }
 /* held to a hairline, not clipped away entirely: an element first drawn
    seconds in (by the wipe) would be timed as the page's main paint */
 .rig__next { position:absolute; inset:0; width:100%; height:100%; clip-path:inset(0 0 99.8% 0); transition:clip-path 1.2s var(--e-soft); }
 .rig__beam { position:absolute; left:-4%; right:-4%; top:0; height:2px; background:linear-gradient(90deg,transparent,#4ADE80 18%,#4ADE80 82%,transparent); box-shadow:0 0 18px 2px rgba(74,222,128,.55); opacity:0; transition:transform 1.2s var(--e-soft), opacity .3s; }
 .spot-hero[data-state="price"] .rig__next { clip-path:inset(0); }
 .spot-hero[data-state="price"] .rig__beam { transform:translateY(calc(100cqh - 2px)); }
+@supports not (height:1cqh) {
+ .rig__beam { transition:top 1.2s var(--e-soft), opacity .3s; }
+ .spot-hero[data-state="price"] .rig__beam { top:calc(100% - 2px); }
+}
 .spot-hero.is-wiping .rig__beam { opacity:1; }
 /* One band of light: it sweeps across the lit phone's glass and on past
    it, the full height of the stage, and comes to rest to the right of the
@@ -176,8 +187,8 @@ html { scroll-padding-top: 90px; }
      cinematic.js measures the glide and writes --hp. On desktop the hero
      also holds for a short beat while the copy clears. — */
 @media (min-width:961px) and (prefers-reduced-motion:no-preference) {
- .spot-hero { display:block; height:160svh; min-height:0; padding:0; }
- .spot-hero__pin { position:sticky; top:0; height:100svh; min-height:640px; display:flex; flex-direction:column; justify-content:center; padding:118px 0 84px; overflow:hidden; }
+ .spot-hero { display:block; height:calc(1.8 * var(--scene-height)); min-height:0; padding:0; }
+ .spot-hero__pin { position:sticky; top:0; height:var(--scene-height); min-height:640px; display:flex; flex-direction:column; justify-content:center; padding:118px 0 84px; overflow:hidden; }
  .spot-hero__next { opacity:clamp(0, calc(1 - var(--hp, 0) * 3), 1); }
  /* the copy clears while the lit phone glides over its column */
  .spot-hero__copy { opacity:clamp(0, calc(1 - var(--hp, 0) * 1.8), 1); translate:0 calc(var(--hp, 0) * -40px); }
@@ -190,9 +201,9 @@ html { scroll-padding-top: 90px; }
    full walkthrough. Native scroll drives --x (0 → 1) across a short
    sticky stage; nothing captures the wheel. The card is the panel
    clipped down, so the screenshots inside never resize.          */
-.expand { position:relative; height:190svh; background:var(--charcoal); --x:0; }
-.expand__stage { position:sticky; top:0; height:100svh; min-height:640px; overflow:hidden;
- --pw:clamp(150px, calc((100svh - 300px) / 2.3), 250px);
+.expand { position:relative; height:calc(1.9 * var(--scene-height)); background:var(--charcoal); --x:0; }
+.expand__stage { position:sticky; top:0; height:var(--scene-height); min-height:640px; overflow:hidden;
+ --pw:clamp(150px, calc((var(--scene-height) - 300px) / 2.3), 250px);
  --ph:calc(var(--pw) * 2.168 - 21px);
  --cw:calc(var(--pw) + 56px);
  --ch:calc(var(--ph) + 56px); }
@@ -201,7 +212,7 @@ html { scroll-padding-top: 90px; }
 .expand__head { position:absolute; left:var(--gutter); right:var(--gutter); top:calc(50% + 36px - var(--ph) / 2 - 104px); text-align:center; opacity:clamp(0, calc(var(--x) * 2.4 - 1.4), 1); transform:translateY(calc((1 - var(--x)) * 24px)); }
 .expand__head h2 { margin-top:10px; font-size:clamp(1.75rem, 1rem + 2vw, 2.9rem); letter-spacing:-.045em; }
 /* centred on the middle screen even when the strip is wider than the stage */
-.expand__phones { display:flex; align-items:flex-start; gap:clamp(28px, 5vw, 84px); width:max-content; justify-self:start; margin-left:50%; translate:-50% 0; }
+.expand__phones { display:flex; align-items:flex-start; gap:clamp(28px, 5vw, 84px); width:max-content; justify-self:start; margin-left:50%; transform:translateX(-50%); }
 .expand__phones li { flex:none; position:relative; }
 .expand .capture-device { position:relative; width:var(--pw); }
 .expand__side:first-child { transform:translateX(calc((1 - var(--x)) * 70px)); }
@@ -218,7 +229,7 @@ html { scroll-padding-top: 90px; }
      is uncovered. — */
 .expand__panel::after { content:""; position:absolute; left:0; right:0; bottom:0; height:2px; background:linear-gradient(90deg,transparent,#22C55E 15%,#4ADE80 50%,#22C55E 85%,transparent); box-shadow:0 0 22px 3px rgba(34,197,94,.45); opacity:clamp(0, calc((var(--x) - .92) * 12.5), 1); }
 @media (prefers-reduced-motion:no-preference) {
- .experience { height:calc(640vh + 100svh); margin-top:-100svh; scroll-margin-top:calc(-100svh - 90px); }
+ .experience { height:calc(640vh + var(--scene-height)); margin-top:calc(-1 * var(--scene-height)); scroll-margin-top:calc(-1 * var(--scene-height) - 90px); }
  .experience .stage { transform:scale(calc(.94 + var(--lift,1) * .06)); opacity:calc(.55 + var(--lift,1) * .45); transform-origin:50% 40%; }
 }
 
@@ -230,9 +241,9 @@ html { scroll-padding-top: 90px; }
    page's main paint. cinematic.js shows them as the hero's edge nears. */
 @media (prefers-reduced-motion:no-preference) { .expand:not(.is-uncovered) .portal { visibility:hidden; } }
 .portal { position:absolute; inset:0; z-index:1; transform:translateY(36px); pointer-events:none; }
-.portal__half { position:absolute; top:50%; width:min(calc((100vw - var(--cw)) / 2 - 5vw), 560px); height:auto; aspect-ratio:640/240; translate:0 -50%; opacity:clamp(0, calc(1 - var(--x) * 1.7), 1); }
-.portal__half--l { right:calc(50% + var(--cw) / 2 + 2vw); transform:translateX(calc(var(--x) * -16vw)); }
-.portal__half--r { left:calc(50% + var(--cw) / 2 + 2vw); transform:translateX(calc(var(--x) * 16vw)); }
+.portal__half { position:absolute; top:50%; width:min(calc((100vw - var(--cw)) / 2 - 5vw), 560px); height:auto; aspect-ratio:640/240; opacity:clamp(0, calc(1 - var(--x) * 1.7), 1); }
+.portal__half--l { right:calc(50% + var(--cw) / 2 + 2vw); transform:translate(calc(var(--x) * -16vw), -50%); }
+.portal__half--r { left:calc(50% + var(--cw) / 2 + 2vw); transform:translate(calc(var(--x) * 16vw), -50%); }
 .portal text { font-family:var(--sans); font-size:230px; font-weight:800; letter-spacing:-.06em; }
 .portal__scan { fill:#DCFCE7; opacity:.7; animation:portal-scan 3.4s linear infinite; }
 @keyframes portal-scan { from { transform:translateY(0); } to { transform:translateY(240px); } }
@@ -256,7 +267,7 @@ html { scroll-padding-top: 90px; }
 
 /* Phones keep the desktop's horizontal price reveal at a smaller scale. */
 @media (max-width:600px) and (prefers-reduced-motion:no-preference) {
- .expand__stage { min-height:0; --pw:clamp(140px, calc((100svh - 400px) / 2.3), 210px); }
+ .expand__stage { min-height:0; --pw:clamp(140px, calc((var(--scene-height) - 400px) / 2.3), 210px); }
  .expand__head { top:calc(50% + 36px - var(--ph) / 2 - 124px); }
  .expand__head h2 { font-size:1.6rem; }
  .portal__half { width:max(0px, calc((100vw - var(--cw)) / 2 - 4vw)); }
@@ -268,11 +279,11 @@ html { scroll-padding-top: 90px; }
  .expand { height:auto; --x:1; padding-top:clamp(40px, 10vw, 120px); }
  .expand__stage { position:relative; height:auto; min-height:0; overflow:visible; --pw:min(230px, 58vw); }
  .portal { position:relative; inset:auto; transform:none; display:flex; justify-content:center; gap:3vw; padding-inline:var(--gutter); }
- .portal__half { position:relative; top:auto; left:auto; right:auto; translate:none; transform:none; opacity:1; width:min(42vw, 380px); }
+ .portal__half { position:relative; top:auto; left:auto; right:auto; transform:none; opacity:1; width:min(42vw, 380px); }
  .portal__scan { animation:none; transform:translateY(130px); }
  .expand__panel { position:relative; inset:auto; display:block; place-items:normal; clip-path:none; margin-top:clamp(28px, 6vw, 56px); padding:clamp(48px, 8vw, 80px) 0 clamp(56px, 8vw, 88px); border-radius:28px 28px 0 0; }
  .expand__head { position:relative; top:auto; left:auto; right:auto; padding-inline:var(--gutter); opacity:1; transform:none; }
- .expand__phones { width:100%; margin-left:0; translate:none; margin-top:32px; gap:20px; overflow-x:auto; scroll-snap-type:x mandatory; padding:4px var(--gutter) 12px; scrollbar-width:none; }
+ .expand__phones { width:100%; margin-left:0; transform:none; margin-top:32px; gap:20px; overflow-x:auto; scroll-snap-type:x mandatory; padding:4px var(--gutter) 12px; scrollbar-width:none; }
  .expand__phones::-webkit-scrollbar { display:none; }
  .expand__phones li { scroll-snap-align:center; }
  .expand__phones li:first-child { margin-left:auto; }
@@ -391,8 +402,8 @@ html { scroll-padding-top: 90px; }
 .foot { background:var(--charcoal); }
 
 /* ══════════ SHOP SCROLL ══════════ */
-.shop-scroll { height:290svh; padding-top:0; padding-bottom:0; overflow:clip; }
-.shop-scroll .app-showcase { position:sticky; top:0; height:100svh; min-height:850px; padding-top:105px; padding-bottom:20px; overflow:hidden; }
+.shop-scroll { height:calc(2.9 * var(--scene-height)); padding-top:0; padding-bottom:0; overflow:clip; }
+.shop-scroll .app-showcase { position:sticky; top:0; height:var(--scene-height); min-height:850px; padding-top:105px; padding-bottom:20px; overflow:hidden; }
 .shop-scroll .showcase-heading h2 { font-size:clamp(38px,4vw,62px); }
 .shop-scroll .showcase-stage { height:570px; margin-top:10px; }
 .shop-scroll .showcase-phone { width:230px; left:calc(50% - 115px); }
@@ -419,20 +430,20 @@ html { scroll-padding-top: 90px; }
  .foot { position:relative; z-index:2; }
 
  /* slid in under the screen before; links land where the content starts */
- #tour, #shops, #faq, #get { margin-top:-100svh; scroll-margin-top:calc(-100svh - 90px); }
+ #tour, #shops, #faq, #get { margin-top:calc(-1 * var(--scene-height)); scroll-margin-top:calc(-1 * var(--scene-height) - 90px); }
  /* the two pinned stages grow by the screen they are held under */
- #tour { height:calc(190svh + 100svh); }
- #shops { height:calc(290svh + 100svh); }
+ #tour { height:calc(3.2 * var(--scene-height)); }
+ #shops { height:calc(3.9 * var(--scene-height)); }
  /* the rest hold their content with sticky, starting where it already
     sits (below the section's top padding), for one screen of scroll */
  #faq > .wrap, #get > .wrap { position:sticky; top:var(--sec-y); }
- #faq::after, #get::after { content:""; display:block; height:100svh; }
+ #faq::after, #get::after { content:""; display:block; height:var(--scene-height); }
  /* The FAQ is a screen of its own: it fills the view, and is held still
     for a beat once the shop section has lifted clear, before it lifts off
     the final screen in turn. Shorter than that, the two curtains crossed
     it at once and it was never on screen whole. */
- #faq > .wrap { min-height:calc(100svh - 2 * var(--sec-y)); align-content:center; }
- #faq::after { height:calc(100svh + 60svh); }
+ #faq > .wrap { min-height:calc(var(--scene-height) - 2 * var(--sec-y)); align-content:center; }
+ #faq::after { height:calc(1.6 * var(--scene-height)); }
  /* clip, not hidden: hidden makes a scroll container and sticky stops */
  #get { overflow:clip; }
 
@@ -448,7 +459,7 @@ html { scroll-padding-top: 90px; }
 @media (max-width:960px) {
  .spot-hero { min-height:0; padding:108px 0 64px; }
  .spot-hero__inner { grid-template-columns:minmax(0,1fr); gap:20px; }
- .spot-hero__copy { max-width:640px; }
+ .spot-hero__copy { max-width:640px; --hero-title-fallback:min(calc((100vw - 2 * var(--gutter)) * .12), 4.8rem); }
  .rig { min-height:0; padding:12px 0 16px; --pw:min(230px, 52vw); }
  .spot-hero__next { display:none; }
 }
@@ -502,8 +513,8 @@ html { scroll-padding-top: 90px; }
 @supports (animation-timeline:scroll()) {
  @media (max-width:960px) and (prefers-reduced-motion:no-preference) {
  .spot-hero { display:block; padding:0; }
- .spot-hero::after { position:static; display:block; height:60svh; background:none; }
- .spot-hero__pin { position:sticky; top:min(0px, calc(100svh - var(--hero-pin-height, 100svh))); display:block; min-height:100svh; padding:108px 0 64px; overflow:hidden; }
+ .spot-hero::after { position:static; display:block; height:calc(.6 * var(--scene-height)); background:none; }
+ .spot-hero__pin { position:sticky; top:min(0px, calc(var(--scene-height) - var(--hero-pin-height, var(--scene-height)))); display:block; min-height:var(--scene-height); padding:108px 0 64px; overflow:hidden; }
  .spot-hero__copy { opacity:clamp(0, calc(1 - var(--hp, 0) * 1.8), 1); translate:0 calc(var(--hp, 0) * -40px); }
  .spot-hero.is-cleared .spot-hero__copy { visibility:hidden; }
  .spot-hero.has-native-cut .rig {
@@ -555,7 +566,9 @@ html { scroll-padding-top: 90px; }
  .scene__beam::before, .motion-ribbon > div { animation:none; }
  /* a flick on a phone travels screens, not lines: the scroll-driven
     stages get a longer runway so each step doesn't fly past */
- #tour { height:calc(270svh + 100svh); }
- .experience { height:calc(900vh + 100svh); }   /* ~2 screens per chapter */
- #shops { height:calc(420svh + 100svh); }
+ /* every beat takes about the same scroll: ~1.3 screens for the card to
+    open, per walkthrough chapter and per shop phone */
+ #tour { height:calc(3.6 * var(--scene-height)); }
+ .experience { height:calc(680vh + var(--scene-height)); }
+ #shops { height:calc(4.6 * var(--scene-height)); }
 }
